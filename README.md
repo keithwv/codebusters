@@ -1,3 +1,14 @@
+#CodeBusters
+Contributors:
+Prince egbukwu
+Ali Ollaik
+Sammmy ebinne
+Keith Vickery
+
+# Project Structure Overview
+App has separated both the client and server folder. Will need to run both in order to fully run app.
+Backend is connected to Mongo Cloud Database
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
