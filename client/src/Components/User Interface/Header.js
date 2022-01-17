@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Typography from "@mui/material/Typography";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { makeStyles } from "@material-ui/styles";
+import { Link } from "react-router-dom";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -23,26 +24,47 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   tabContainer: {
-      marginLeft: 'auto',
-  }
+    marginLeft: "auto",
+  },
+  tab: {
+    ...theme.typography.tab,
+    minWdith: 10,
+    marginLeft: "25px",
+  },
 }));
 
 const Header = (props) => {
   const classes = useStyles();
+  const [value, setValue] = useState(0);
+
+  const handleChange = (e, value) => {
+    //e.prevent.default()
+    setValue(value);
+  };
+
   return (
     <>
       <ElevationScroll>
-        <AppBar position="fixed"  color="primary">
+        <AppBar position="fixed" color="primary">
           <Toolbar>
-        <Typography variant="h3">Book Me!</Typography>
-              <Tabs className={classes.tabContainer} textColor="white">
-                  <Tab label="Home"/>
-                  <Tab label="Register" />
-                  <Tab label="Login" />
-                  <Tab label="About Us" />
-                  <Tab label="Contact Us" />
-              </Tabs>
-            
+            <Typography variant="h3">Book Me!</Typography>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              className={classes.tabContainer}
+              textColor="inherit" 
+            >
+              <Tab className={classes.tab} component={Link} to="/" label="Home" />
+              <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
+              <Tab className={classes.tab} component={Link} to= "/Login" label="Login" />
+              <Tab className={classes.tab} component={Link} to= "/AboutUs" label="About Us" />
+              <Tab
+                className={classes.tab}
+                component={Link}
+                to="/ContactUs"
+                label="Contact Us"
+              />
+            </Tabs>
           </Toolbar>
         </AppBar>
       </ElevationScroll>
