@@ -2,7 +2,7 @@
 Contributors:
 Prince egbukwu
 Ali Ollaik
-Sammmy ebinne
+Sammy ebinne
 Keith Vickery
 
 # Project Structure Overview
