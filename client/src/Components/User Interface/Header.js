@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -41,6 +41,20 @@ const Header = (props) => {
     //e.prevent.default()
     setValue(value);
   };
+
+  useEffect(() => {
+    if (window.location.pathname === "/" && value !== 0) {
+      setValue(0)
+    } else if (window.location.pathname === "/Register" && value !==1) {
+      setValue(1)
+    } else if (window.location.pathname === "/Login" && value !==2) {
+      setValue(2)
+    } else if (window.location.pathname === "/AboutUs" && value !==3) {
+      setValue(3)
+    } else if (window.location.pathname === "/ContactUs" && value !==4) {
+      setValue(4)
+    }
+  }, [value]);
 
   return (
     <>
