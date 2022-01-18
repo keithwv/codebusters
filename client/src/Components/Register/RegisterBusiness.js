@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function Copyright(props) {
   return (
@@ -28,11 +32,16 @@ function Copyright(props) {
 
 const theme = createTheme();
 const register = function () {
-  console.log ("Registration completed")
-
+  console.log("Registration completed")
 }
 
+
 export default function RegisterBusiness() {
+  const [selectBusiness, setSelectBusiness] = React.useState('');
+
+  const handleChange = (event) =>
+    setSelectBusiness(event.target.value);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -105,6 +114,33 @@ export default function RegisterBusiness() {
                   autoComplete="new-password"
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password2"
+                  label="Confirm Your Password"
+                  type="password"
+                  id="password2"
+                  autoComplete="password2"
+                />
+              </Grid>
+
+              <FormControl fullWidth>
+                <Grid id="select-business" xs={12}>Select Business Category</Grid>
+                <Select
+                  labelId="select-business"
+                  id="deop-down-menu"
+                  value={selectBusiness}
+                  label="select-business"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>General</MenuItem>
+                  <MenuItem value={20}>Car Repairs</MenuItem>
+                  <MenuItem value={30}>Cleaning Services</MenuItem>
+                </Select>
+              </FormControl>
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
