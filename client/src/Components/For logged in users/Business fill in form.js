@@ -30,7 +30,7 @@ export default function AddressForm() {
                             required
                             id="firstName"
                             name="firstName"
-                            label="First name"
+                            label="Owner's first name"
                             fullWidth
                             autoComplete="given-name"
                             variant="standard"
@@ -41,9 +41,20 @@ export default function AddressForm() {
                             required
                             id="lastName"
                             name="lastName"
-                            label="Last name"
+                            label="Owner's last name"
                             fullWidth
                             autoComplete="family-name"
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            id="company name"
+                            name="company name"
+                            label="Company name"
+                            fullWidth
+                            autoComplete="company-name"
                             variant="standard"
                         />
                     </Grid>
@@ -128,7 +139,7 @@ export default function AddressForm() {
                         type="submit"
                         // fullWidth
                         variant="contained"
-                        sx={{ mx: 'auto', mt: 5, mb: 5 }}
+                        sx={{ mx: 'auto', mt: 3, mb: 5 }}
                     >
                         Submit Form
                     </Button>
