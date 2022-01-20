@@ -5,9 +5,11 @@ import theme from "./Components/User Interface/Theme";
 import { Route, Routes } from "react-router-dom";
 // import UserType from "./Components/User Type/UserType";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
+import { AuthProvider } from "../contexts/AuthContext"
 
 function App(props) {
   return (
+    <AuthProvider>
     <ThemeProvider theme={theme}>
       <Header />
       {/* <UserType /> */}
@@ -19,6 +21,7 @@ function App(props) {
         <Route path='/ContactUs' element={<div>Contact us</div>} />
       </Routes>
     </ThemeProvider>
+    </AuthProvider>
   );
 }
 
