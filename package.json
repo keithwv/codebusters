@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/keithwv/codebusters/issues"
   },
-  "homepage": "https://github.com/keithwv/codebusters#readme"
+  "homepage": "https://github.com/keithwv/codebusters#readme",
+  "dependencies": {
+    "react-hook-form": "^7.24.2"
+  }
 }
