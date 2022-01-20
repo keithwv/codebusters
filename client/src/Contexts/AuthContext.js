@@ -7,7 +7,7 @@ export function useAuth() {
     return useContext(AuthContext)
 }
 
-export default function AuthProvider(props) {
+const AuthProvider = (props) => {
     const [currentUser, setCurrentUser] = useState()
 
     const register = (email, password) => {
@@ -28,5 +28,7 @@ export default function AuthProvider(props) {
   return (
       <AuthContext.Provider value={value}>
           {props.children}
-      </AuthContext.Provider>
+      </AuthContext.Provider>)
 }
+
+export default AuthProvider
