@@ -125,20 +125,21 @@ export default function RegisterBusiness() {
                 />
               </Grid>
 
-              <FormControl fullWidth>
-                <Grid id="select-business" xs={12}>Select Business Category</Grid>
-                <Select
-                  labelId="select-business"
-                  id="deop-down-menu"
-                  value={selectBusiness}
-                  label="select-business"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>General</MenuItem>
-                  <MenuItem value={20}>Car Repairs</MenuItem>
-                  <MenuItem value={30}>Cleaning Services</MenuItem>
-                </Select>
-              </FormControl>
+              <Grid id="select-business" item xs={12}>Select Business Category
+                <FormControl xs={12} fullWidth>
+                  <Select
+                    labelId="select-business"
+                    id="deop-down-menu"
+                    value={selectBusiness}
+                    label="select-business"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>General</MenuItem>
+                    <MenuItem value={20}>Car Repairs</MenuItem>
+                    <MenuItem value={30}>Cleaning Services</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
 
               <Grid item xs={12}>
                 <FormControlLabel
