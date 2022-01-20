@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import AuthProvider from "./Contexts/AuthContext";
 import SignIn from "./Components/Log In/loginBusiness";
+import AddressForm from "./Components/For logged in users/Business fill in form";
 
 function App(props) {
   return (
@@ -20,6 +21,8 @@ function App(props) {
         <Route path='/Login' element={<SignIn />} />
         <Route path='/AboutUs' element={<div>About Us</div>} />
         <Route path='/ContactUs' element={<div>Contact us</div>} />
+
+        <Route path='/Login-Business/Fill-form' element={<AddressForm />} />
       </Routes>
     </ThemeProvider>
     </AuthProvider>
