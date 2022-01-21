@@ -4,7 +4,7 @@ import Header from "./Components/User Interface/Header";
 import theme from "./Components/User Interface/Theme";
 import { Route, Routes } from "react-router-dom";
 // import UserType from "./Components/User Type/UserType";
-import RegisterBusiness from "./Components/RegisterBusiness";
+import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
 import SignIn from "./Components/Log In/loginBusiness";
 import AddressForm from "./Components/For logged in users/Business fill in form";
