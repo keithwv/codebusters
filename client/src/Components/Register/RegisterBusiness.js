@@ -43,11 +43,11 @@ export default function RegisterBusiness() {
   const { control, handleSubmit, reset } = useForm();
 
   const { register } = useAuth()
-  
+
 
   const onSubmit = (data) => {
-    register(data.email,data.password)
-    console.log(data);
+    register(data.email, data.password)
+    console.log(data, "submitted");
     reset();
   };
 
@@ -198,9 +198,7 @@ export default function RegisterBusiness() {
                       >
                         <MenuItem value="General">General</MenuItem>
                         <MenuItem value="Car Repairs">Car Repairs</MenuItem>
-                        <MenuItem value="Cleaning Services">
-                          Cleaning Services
-                        </MenuItem>
+                        <MenuItem value="Cleaning Services">Cleaning Services</MenuItem>
                       </Select>
                     )}
                   />
