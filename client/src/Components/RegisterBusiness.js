@@ -16,6 +16,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
+import { useAuth } from '../contexts/AuthContext';
+
 
 function Copyright(props) {
   return (
@@ -36,14 +38,15 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-const register = function () {
-  console.log("Registration completed");
-};
 
 export default function RegisterBusiness() {
   const { control, handleSubmit, reset } = useForm();
 
+  const { register } = useAuth()
+  
+
   const onSubmit = (data) => {
+    register(data.email,data.password)
     console.log(data);
     reset();
   };
