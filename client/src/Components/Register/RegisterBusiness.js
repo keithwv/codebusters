@@ -22,6 +22,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 
 
+
 function Copyright(props) {
   return (
     <Typography
@@ -67,6 +68,7 @@ export default function RegisterBusiness() {
     register(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
+   
     reset();
   };
 
@@ -261,7 +263,6 @@ export default function RegisterBusiness() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={register}
             >
               Register
             </Button>
