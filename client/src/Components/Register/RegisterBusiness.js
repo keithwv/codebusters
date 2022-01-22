@@ -17,6 +17,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthContext';
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
+
 
 
 function Copyright(props) {
@@ -37,10 +40,25 @@ function Copyright(props) {
   );
 }
 
+// Schema for register form
+const schema = yup.object().shape({
+
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).max(24).required(),
+  password2: yup.string().oneOf([yup.ref("password"), null]),
+
+})
+
 const theme = createTheme();
 
 export default function RegisterBusiness() {
-  const { control, handleSubmit, reset } = useForm();
+
+  // registerForBusiness,and formstate: { errors } are for yup validation
+  const { handleSubmit, control, reset, registerForBusiness, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  })
 
   const { register } = useAuth()
 
@@ -48,8 +66,10 @@ export default function RegisterBusiness() {
   const onSubmit = (data) => {
     register(data.email, data.password)
     console.log(data, "submitted");
+    console.log(errors)
     reset();
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,6 +98,7 @@ export default function RegisterBusiness() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Controller
+                  ref={registerForBusiness}
                   name="firstName"
                   defaultValue=""
                   control={control}
@@ -86,6 +107,7 @@ export default function RegisterBusiness() {
                       onChange={onChange}
                       value={value}
                       onBlur={onBlur}
+                      // ref={registerBusiness}
                       autoComplete="given-name"
                       name="firstName"
                       required
@@ -96,7 +118,11 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
+
+                <p> {errors.firstName?.message} </p>
+
               </Grid>
+              {/* < p > {errors.firstName?.message} </p > */}
               <Grid item xs={12} sm={6}>
                 <Controller
                   name="lastName"
@@ -104,6 +130,7 @@ export default function RegisterBusiness() {
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextField
+                      ref={registerForBusiness}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -116,6 +143,9 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
+
+                <p> {errors.lastName?.message} </p>
+
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -124,6 +154,7 @@ export default function RegisterBusiness() {
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextField
+                      ref={registerForBusiness}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -136,6 +167,9 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
+
+                <p> {errors.email?.message} </p>
+
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -144,6 +178,7 @@ export default function RegisterBusiness() {
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextField
+                      ref={registerForBusiness}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -157,9 +192,13 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
+
+                <p> {errors.password?.message} </p>
+
               </Grid>
               <Grid item xs={12}>
                 <Controller
+                  ref={registerForBusiness}
                   name="password2"
                   defaultValue=""
                   control={control}
@@ -178,6 +217,9 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
+
+                <p> {errors.password2?.message} </p>
+
               </Grid>
 
               <Grid id="select-business" item xs={12}>
