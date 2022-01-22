@@ -17,6 +17,38 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthContext';
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
+  ;
+
+
+// Schema for register form
+const schema = yup.object().shape({
+
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).max(24).required(),
+  password2: yup.string().oneOf([yup.ref("password"), null]),
+
+})
+
+// connecting yup to react-hook-form
+function Form() {
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(schema)
+  })
+}
+const submitForm = (data) => {
+
+}
+
+<form onSubmit={handleSubmit(submitForm)}></form>
+
+ref={register}
+
+<p> {errors.firstName?.message} </p>
+
 
 
 function Copyright(props) {
@@ -40,7 +72,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function RegisterBusiness() {
-  const { control, handleSubmit, reset } = useForm();
+  const { register, errors, handleSubmit, control, reset } = useForm();
 
   const { register } = useAuth()
 

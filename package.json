@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/keithwv/codebusters#readme",
   "dependencies": {
-    "react-hook-form": "^7.24.2"
+    "@hookform/resolvers": "^2.8.8",
+    "react-hook-form": "^7.24.2",
+    "yup": "^0.32.11"
   }
 }
