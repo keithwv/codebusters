@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function Copyright(props) {
   return (
@@ -34,16 +36,28 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+// Schema for login form
+const schema = yup.object().shape({
+  email: yup.string().email().typeError("Invalid Email and/or Password").required(),
+  password: yup.string().typeError("Invalid Email and/or Password").min(6).max(24).required()
+})
+
 export default function SignIn() {
-  const { control, handleSubmit, reset} = useForm();
+  // login,and formstate: { errors } are for yup validation
+  const { login, control, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data, "submitted");
+    console.log(errors)
     reset()
   };
 
+
   return (
-    <ThemeProvider theme={theme}>
+
+    <ThemeProvider theme={theme} >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -66,10 +80,12 @@ export default function SignIn() {
             noValidate
             sx={{ mt: 1 }}
           >
+
             <Controller
               name="email"
               defaultValue=""
               control={control}
+              ref={login}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextField
                   onChange={onChange}
@@ -85,10 +101,15 @@ export default function SignIn() {
                 />
               )}
             />
+
+            <p> {errors.email?.message} </p>
+
             <Controller
               name="password"
               control={control}
               defaultValue=""
+              ref={login}
+              // {...login('password')}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextField
                   onChange={onChange}
@@ -104,6 +125,9 @@ export default function SignIn() {
                 />
               )}
             />
+            
+            <p> {errors.password?.message} </p>
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -132,6 +156,6 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
