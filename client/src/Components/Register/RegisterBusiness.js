@@ -21,8 +21,6 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 
 
-
-
 function Copyright(props) {
   return (
     <Typography
@@ -48,7 +46,7 @@ const schema = yup.object().shape({
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email().required(),
   password: yup.string().min(6).max(24).required(),
-  password2: yup.string().oneOf([yup.ref("password"), null]),
+  password2: yup.string().oneOf([yup.ref("password"),null],"passwords must match"),
 
 })
 
@@ -259,6 +257,7 @@ export default function RegisterBusiness() {
               </Grid>
             </Grid>
             <Button
+              href="/Login-Business/Fill-form" 
               type="submit"
               fullWidth
               variant="contained"
@@ -268,7 +267,7 @@ export default function RegisterBusiness() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/Login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
