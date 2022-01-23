@@ -9,9 +9,8 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
-    const [currentUser, setCurrentUser] = useState()
+    const [currentUser, setCurrentUser] = useState(null)
     const [loading, setLoading] = useState(true)
-   
 
     const register = async (email, password) => {
         try {
@@ -33,6 +32,18 @@ export function AuthProvider(props) {
         
     };
 
+    const logout = async () => {
+        try {
+         const user = await signOut(auth);
+         console.log(user);
+         return user
+            
+        } catch (error) {
+            console.log(error.message);
+            alert("Error!")
+        }
+    };
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
         setCurrentUser(user)
@@ -41,12 +52,14 @@ export function AuthProvider(props) {
         })
         return unsubscribe
     }, [])
-    if(loading){ return<>Loading...</>}
+     //if(currentUser){return<>currentUser</>}
+    //if(loading){ return<>Loading...</>}
 
     const value = {
         currentUser, 
         register, 
-        loginFirebase
+        loginFirebase,
+        logout
     }
   return (
       <AuthContext.Provider value={value}>

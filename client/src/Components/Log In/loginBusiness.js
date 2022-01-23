@@ -49,15 +49,16 @@ export default function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  const { loginFirebase } = useAuth()
+  const { loginFirebase, currentUser } = useAuth()
 
   const onSubmit = (data) => {
     loginFirebase(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
+  
     reset()
   };
-
+  console.log(currentUser?.email)
 
   return (
 
@@ -77,6 +78,9 @@ export default function SignIn() {
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
+          </Typography>
+          <Typography component="h4" variant="string">
+            {currentUser && `Current User is: ${currentUser?.email}`}
           </Typography>
           <Box
             component="form"

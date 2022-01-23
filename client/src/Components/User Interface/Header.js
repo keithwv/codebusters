@@ -7,6 +7,7 @@ import Tab from "@mui/material/Tab";
 import AppBar from "@mui/material/AppBar";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
+import { useAuth } from '../../contexts/AuthContext';
 
 
 function ElevationScroll(props) {
@@ -43,6 +44,14 @@ const Header = (props) => {
     setValue(value);
   };
 
+  const { logout } = useAuth();
+
+  const signOut = () => {
+    console.log(logout)
+    logout()
+    //alert("you loggged out");
+  };
+
   useEffect(() => {
     if (window.location.pathname === "/" && value !== 0) {
       setValue(0)
@@ -50,10 +59,13 @@ const Header = (props) => {
       setValue(1)
     } else if (window.location.pathname === "/Login" && value !==2) {
       setValue(2)
-    } else if (window.location.pathname === "/AboutUs" && value !==3) {
+    } else if (window.location.pathname ==="/Logout" && value !==3) {
       setValue(3)
-    } else if (window.location.pathname === "/ContactUs" && value !==4) {
+    } 
+      else if (window.location.pathname === "/AboutUs" && value !==4) {
       setValue(4)
+    } else if (window.location.pathname === "/ContactUs" && value !==4) {
+      setValue(5)
     }
   }, [value]);
 
@@ -72,6 +84,7 @@ const Header = (props) => {
               <Tab className={classes.tab} component={Link} to="/" label="Home" />
               <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
               <Tab className={classes.tab} component={Link} to= "/Login" label="Login" />
+              <Tab className={classes.tab} component={Link} to="/Login" label="Logout" onClick={signOut}/>
               <Tab className={classes.tab} component={Link} to= "/AboutUs" label="About Us" />
               <Tab
                 className={classes.tab}
