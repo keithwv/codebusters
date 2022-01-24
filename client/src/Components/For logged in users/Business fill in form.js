@@ -18,11 +18,11 @@ import addBusiness from "../../Firebase/CRUD_Functions";
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  company_name: yup.string().required("Company is required"),
-  address1: yup.string().required("Address required"),
+  company_name: yup.string().required("Company name is required"),
+  address1: yup.string().required("Address is required"),
   address2: yup.string().required(),
   city: yup.string().required("City is required"),
-  state:yup.string().required("State is required"),
+  state:yup.string().required("State or Province is required"),
   zip: yup.string().required("Zip or Postal Code is required"),
   country: yup.string().required("Country is required"),
 });
