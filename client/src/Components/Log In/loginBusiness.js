@@ -39,14 +39,15 @@ const theme = createTheme();
 
 // Schema for login form
 const schema = yup.object().shape({
-  email: yup.string().email().typeError("Invalid Email and/or Password").required(),
-  password: yup.string().typeError("Invalid Email and/or Password").min(6).max(24).required()
+  email: yup.string().email().required("Email is required"),
+  password: yup.string().min(6).max(24).required("Password is required")
 })
 
 export default function SignIn() {
   // login,and formstate: { errors } are for yup validation
   const { login, control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
+    mode: "all" 
   });
 
   const { loginFirebase, currentUser } = useAuth()
@@ -58,7 +59,7 @@ export default function SignIn() {
   
     reset()
   };
-  console.log(currentUser?.email)
+  
 
   return (
 
@@ -106,11 +107,11 @@ export default function SignIn() {
                   id="email"
                   autoFocus
                   autoComplete="email"
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                 />
               )}
             />
-
-            <p> {errors.email?.message} </p>
 
             <Controller
               name="password"
@@ -130,11 +131,11 @@ export default function SignIn() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                 />
               )}
             />
-            
-            <p> {errors.password?.message} </p>
 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -155,7 +156,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/Register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
