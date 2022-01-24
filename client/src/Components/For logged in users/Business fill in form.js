@@ -12,14 +12,15 @@ import Link from "@mui/material/Link";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import addBusiness from "../../Firebase/CRUD_Functions";
 
 // Schema for register form
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  company_name: yup.string().email().required("Company is required"),
+  company_name: yup.string().required("Company is required"),
   address1: yup.string().required("Address required"),
-  address2: yup.string(),
+  address2: yup.string().required(),
   city: yup.string().required("City is required"),
   zip: yup.string().required("Zip or Postal Code is required"),
   country: yup.string().required("Country is required")
@@ -35,15 +36,16 @@ export default function AddressForm() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema)},
-    {mode: "onBlur"})
+    resolver: yupResolver(schema),})
+    
 
-  const onSubmit = (data, errors) => {
-    console.log(errors)
-    console.log(data);
-    reset();
+  const onSubmit = (data) => {
+      console.log(data)
+      addBusiness(data)
+      alert("success")
+      reset();
   };
-  console.log(errors)
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -86,7 +88,6 @@ export default function AddressForm() {
                 />
               )}
             />
-            <p> Text {errors.firstName && errors.firstName.message} </p>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Controller
@@ -98,7 +99,6 @@ export default function AddressForm() {
                   onChange={onChange}
                   value={value}
                   onBlur={onBlur}
-                  error={errors}
                   required
                   id="lastName"
                   name="lastName"
@@ -109,7 +109,6 @@ export default function AddressForm() {
                 />
               )}
             />
-             <p> {errors.lastName?.message} </p>
           </Grid>
           <Grid item xs={12}> 
             <Controller
@@ -277,7 +276,6 @@ export default function AddressForm() {
             // fullWidth
             variant="contained"
             sx={{ mx: "auto", mt: 3, mb: 5 }}
-            //onClick={handleSubmit(onSubmit)}
           >
             Submit Form
           </Button>
