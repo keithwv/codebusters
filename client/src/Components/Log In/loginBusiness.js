@@ -47,7 +47,7 @@ export default function SignIn() {
   // login,and formstate: { errors } are for yup validation
   const { login, control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
-    mode: "all" 
+    mode: "all"
   });
 
   const { loginFirebase, currentUser } = useAuth()
@@ -56,10 +56,8 @@ export default function SignIn() {
     loginFirebase(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
-  
     reset()
   };
-  
 
   return (
 
