@@ -19,6 +19,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthContext';
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from 'react-router-dom';
 
 
 function Copyright(props) {
@@ -44,9 +45,9 @@ const schema = yup.object().shape({
 
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  email: yup.string().email().required(),
-  password: yup.string().min(6).max(24).required(),
-  password2: yup.string().oneOf([yup.ref("password"),null],"passwords must match"),
+  email: yup.string().email().required("Email is required"),
+  password: yup.string().min(6).max(24).required("Password is required"),
+  password2: yup.string().oneOf([yup.ref("password"), null], "Passwords must match"),
 
 })
 
@@ -57,16 +58,19 @@ export default function RegisterBusiness() {
   // registerForBusiness,and formstate: { errors } are for yup validation
   const { handleSubmit, control, reset, registerForBusiness, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
+    mode: "all"
   })
-
+  
+  const navigate = useNavigate();
   const { register } = useAuth()
 
 
   const onSubmit = (data) => {
+    navigate('/Login-Business/Fill-form');
     register(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
-   
+
     reset();
   };
 
@@ -115,14 +119,13 @@ export default function RegisterBusiness() {
                       id="firstName"
                       label="First Name"
                       autoFocus
+                      error={!!errors.firstName}
+                      helperText={errors.firstName?.message}
                     />
                   )}
                 />
 
-                <p> {errors.firstName?.message} </p>
-
               </Grid>
-              {/* < p > {errors.firstName?.message} </p > */}
               <Grid item xs={12} sm={6}>
                 <Controller
                   name="lastName"
@@ -140,11 +143,11 @@ export default function RegisterBusiness() {
                       label="Last Name"
                       name="lastName"
                       autoComplete="family-name"
+                      error={!!errors.lastName}
+                      helperText={errors.lastName?.message}
                     />
                   )}
                 />
-
-                <p> {errors.lastName?.message} </p>
 
               </Grid>
               <Grid item xs={12}>
@@ -164,11 +167,11 @@ export default function RegisterBusiness() {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
+                      error={!!errors.email}
+                      helperText={errors.email?.message}
                     />
                   )}
                 />
-
-                <p> {errors.email?.message} </p>
 
               </Grid>
               <Grid item xs={12}>
@@ -189,11 +192,11 @@ export default function RegisterBusiness() {
                       type="password"
                       id="password"
                       autoComplete="new-password"
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
                     />
                   )}
                 />
-
-                <p> {errors.password?.message} </p>
 
               </Grid>
               <Grid item xs={12}>
@@ -214,11 +217,11 @@ export default function RegisterBusiness() {
                       type="password"
                       id="password2"
                       autoComplete="password2"
+                      error={!!errors.password2}
+                      helperText={errors.password2?.message}
                     />
                   )}
                 />
-
-                <p> {errors.password2?.message} </p>
 
               </Grid>
 
@@ -257,7 +260,7 @@ export default function RegisterBusiness() {
               </Grid>
             </Grid>
             <Button
-              href="/Login-Business/Fill-form" 
+              // href="/Login-Business/Fill-form"
               type="submit"
               fullWidth
               variant="contained"
