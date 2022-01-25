@@ -46,7 +46,7 @@ const schema = yup.object().shape({
 
 export default function SignIn() {
   // login,and formstate: { errors } are for yup validation
-  const { login, control, handleSubmit, reset, formState: { errors } } = useForm({
+  const { login, control, handleSubmit, reset, formState: { errors }, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "all"
   });
@@ -147,6 +147,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!formState.isValid}
             >
               Sign In
             </Button>

@@ -56,7 +56,7 @@ const theme = createTheme();
 export default function RegisterBusiness() {
 
   // registerForBusiness,and formstate: { errors } are for yup validation
-  const { handleSubmit, control, reset, registerForBusiness, formState: { errors } } = useForm({
+  const { handleSubmit, control, reset, registerForBusiness, formState: { errors }, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "all"
   })
@@ -264,6 +264,7 @@ export default function RegisterBusiness() {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={!formState.isValid}
               sx={{ mt: 3, mb: 2 }}
             >
               Register
