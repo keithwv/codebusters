@@ -25,7 +25,7 @@ function App(props) {
         <Route path='/AboutUs' element={<div>About Us</div>} />
         <Route path='/ContactUs' element={<div>Contact us</div>} />
 
-        <Route path='/Login-Business/Fill-form' element={<AddressForm />} />
+        <Route path='/login-business/fill-form' element={<AddressForm />} />
       </Routes>
     </ThemeProvider>
     </AuthProvider>
