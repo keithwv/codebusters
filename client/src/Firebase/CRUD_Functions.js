@@ -21,16 +21,16 @@ import {
      };
 
      const updateBusiness = (id, updatedBusiness) => {
-         const businessDoc = doc(db, "books", id);
+         const businessDoc = doc(db, "business", id);
          return updateDoc(businessDoc, updatedBusiness);
      };
 
-    const deleteBook = (id) => {
+    const deleteBusiness = (id) => {
          const businessDoc = doc(db, "business", id);
          return deleteDoc(businessDoc);
      }
 
-    const getAllbusiness = () => {
+    const getAllBusiness = () => {
          return getDocs(businessProfileRef);
      }
 
