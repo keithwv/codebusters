@@ -13,6 +13,7 @@ import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import addBusiness from "../../Firebase/CRUD_Functions";
+import { useNavigate } from 'react-router-dom';
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -41,7 +42,10 @@ export default function AddressForm() {
     mode: "all"
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
+    navigate('#');
     console.log(data);
     addBusiness(data);
     alert("success");

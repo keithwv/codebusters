@@ -16,6 +16,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuth } from '../../contexts/AuthContext';
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -49,10 +50,12 @@ export default function SignIn() {
     resolver: yupResolver(schema),
     mode: "all"
   });
-
+  
+  const navigate = useNavigate();
   const { loginFirebase, currentUser } = useAuth()
 
   const onSubmit = (data) => {
+    navigate('#');
     loginFirebase(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)

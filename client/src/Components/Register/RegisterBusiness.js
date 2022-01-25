@@ -60,13 +60,13 @@ export default function RegisterBusiness() {
     resolver: yupResolver(schema),
     mode: "all"
   })
-  
+
   const navigate = useNavigate();
   const { register } = useAuth()
 
 
   const onSubmit = (data) => {
-    navigate('/Login-Business/Fill-form');
+    navigate('/login-business/fill-form');
     register(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
