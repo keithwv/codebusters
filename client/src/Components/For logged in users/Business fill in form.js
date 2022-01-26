@@ -14,6 +14,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import addBusiness from "../../Firebase/CRUD_Functions";
 import { useNavigate } from 'react-router-dom';
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../Firebase/firebase-config";
+import { useAuth } from '../../contexts/AuthContext';
+
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -23,14 +27,17 @@ const schema = yup.object().shape({
   address1: yup.string().required("Address is required"),
   address2: yup.string(),
   city: yup.string().required("City is required"),
-  state: yup.string().required("State or Province is required"),
-  zip: yup.string().required("Zip or Postal Code is required"),
+  province: yup.string().required("State or Province is required"),
+  postal_code: yup.string().required("Zip or Postal Code is required"),
   country: yup.string().required("Country is required"),
 });
 
 const theme = createTheme();
 
 export default function AddressForm() {
+
+  const { currentUser } = useAuth()
+
   // Business Profile,and formstate: { errors } are for yup validation
   const {
     handleSubmit,
@@ -45,10 +52,26 @@ export default function AddressForm() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     navigate('#');
     console.log(data);
-    addBusiness(data);
+    
+    try {
+      await addDoc(collection(db, 'business'), {
+       name: data.firstName,
+       last_name: data.lastName,
+       company_name: data.company_name,
+       address1: data.address1,
+       address2: data.address2,
+       city: data.city,
+       province: data.province,
+       postal_code: data.postal_code,
+       country: data.country,
+       uid: currentUser.uid
+     }) } catch(error) {
+       console.log(error)
+     }
+
     alert("success");
     reset();
   };
@@ -213,7 +236,7 @@ export default function AddressForm() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller
-                name="state"
+                name="province"
                 defaultValue=""
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -221,9 +244,9 @@ export default function AddressForm() {
                     onChange={onChange}
                     value={value}
                     onBlur={onBlur}
-                    id="state"
-                    name="state"
-                    label="State/Province/Region"
+                    id="province"
+                    name="province"
+                    label="Province"
                     fullWidth
                     variant="standard"
                     error={!!errors.state}
@@ -234,7 +257,7 @@ export default function AddressForm() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller
-                name="zip"
+                name="postal_code"
                 defaultValue=""
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -243,9 +266,9 @@ export default function AddressForm() {
                     value={value}
                     onBlur={onBlur}
                     required
-                    id="zip"
-                    name="zip"
-                    label="Zip / Postal code"
+                    id="postal_code"
+                    name="postal_code"
+                    label="Postal code"
                     fullWidth
                     autoComplete="shipping postal-code"
                     variant="standard"
