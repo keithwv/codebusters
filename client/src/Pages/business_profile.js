@@ -4,6 +4,7 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card"
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@material-ui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -31,7 +32,12 @@ const { currentUser } = useAuth()
       >
         <Typography variant="h5" gutterBottom>
           {`Welcome ${currentUser.email}`}
-        </Typography>   
+        </Typography>
+        <Grid item xs={6}>
+          <Card elevation={1}>
+            Hello World
+          </Card>
+          </Grid> 
       </Container>
     </ThemeProvider>
   );

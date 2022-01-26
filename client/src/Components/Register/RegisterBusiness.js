@@ -20,6 +20,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../Firebase/firebase-config";
 
 
 function Copyright(props) {
@@ -62,13 +64,28 @@ export default function RegisterBusiness() {
   })
 
   const navigate = useNavigate();
-  const { register } = useAuth()
+  const { register, currentUser } = useAuth()
 
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     navigate('/login-business/fill-form');
     register(data.email, data.password)
-    console.log(data, "submitted");
+
+    // Add new user to users database and set its uid to the same uid in firebase authentication
+    // May place the below function in a different file, specifically crud functions for users database. 
+    //Separation of concerns.
+    try {
+     await addDoc(collection(db, 'users'), {
+      name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      uid: currentUser.uid
+    }) } catch(error) {
+      console.log(error)
+    }
+
+
+    console.log(data, "submitted")
     console.log(errors)
 
     reset();
