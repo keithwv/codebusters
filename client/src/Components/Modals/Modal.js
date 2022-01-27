@@ -3,12 +3,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { useNavigate } from 'react-router-dom';
-
 
 const style = {
     position: 'absolute',
@@ -21,7 +15,6 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-
 
 export default function BasicModal() {
     // const navigate = useNavigate();
