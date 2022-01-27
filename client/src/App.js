@@ -10,8 +10,7 @@ import SignIn from "./Components/Log In/loginBusiness";
 import AddressForm from "./Components/For logged in users/Business fill in form";
 import { BusinessProfile } from "./Pages/business_profile";
 import BasicModal from "./Components/Modals/Modal";
-import Calendar from "./Components/Schedule/Calendar";
-
+import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 
  
 function App(props) {
@@ -29,7 +28,7 @@ function App(props) {
         <Route path='/ContactUs' element={<BusinessProfile />} />
         <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
-        <Route path='/calendar' element={<Calendar />} />
+        <Route path='/calendar' element={<CalendarWithSchedule />} />
       </Routes>
     </ThemeProvider>
     </AuthProvider>
