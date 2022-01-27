@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import SignIn from "./Components/Log In/loginBusiness";
 import AddressForm from "./Components/For logged in users/Business fill in form";
 import { BusinessProfile } from "./Pages/business_profile";
+import BasicModal from "./Components/Modals/Modal";
 
 
  
@@ -25,7 +26,7 @@ function App(props) {
         <Route path='/Login' element={<SignIn />} />
         <Route path='/AboutUs' element={<div>About Us</div>} />
         <Route path='/ContactUs' element={<BusinessProfile />} />
-
+        <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
       </Routes>
     </ThemeProvider>
