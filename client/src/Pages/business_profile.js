@@ -8,17 +8,22 @@ import Card from "@mui/material/Card"
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@material-ui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Businesslist from "../Components/For logged in users/businessList";
+import { CardContent } from "@mui/material";
 import { useAuth } from '../contexts/AuthContext';
-
+// import { useCollection } from '../Firebase/firebase_hooks'
+// // import { useState, useEffect} from 'react'
+// import { db } from "../Firebase/firebase-config"
+// import { collection, getDocs, query } from "firebase/firestore";
 
 
 const theme = createTheme();
 
 
 
-export const BusinessProfile = (props) => {    
-
-const { currentUser } = useAuth()
+export const BusinessProfile =  () => {  
+  const { currentUser} = useAuth()
+  console.log(currentUser)
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -31,13 +36,15 @@ const { currentUser } = useAuth()
         }}
       >
         <Typography variant="h5" gutterBottom>
-          {`Welcome ${currentUser.email}`}
+          {`Welcome ${currentUser.firstName}`}
         </Typography>
         <Grid item xs={6}>
-          <Card elevation={1}>
-            Hello World
+          <Card>
+            <CardContent>
+          <Businesslist/>
+            </CardContent>
           </Card>
-          </Grid> 
+        </Grid>
       </Container>
     </ThemeProvider>
   );

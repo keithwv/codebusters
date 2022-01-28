@@ -16,12 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
-import { useAuth } from '../../contexts/AuthContext';
-import * as yup from "yup"
+import { useAuth } from "../../contexts/AuthContext";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from 'react-router-dom';
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../Firebase/firebase-config";
+import { useNavigate } from "react-router-dom";
+
 
 
 function Copyright(props) {
@@ -44,53 +43,48 @@ function Copyright(props) {
 
 // Schema for register form
 const schema = yup.object().shape({
-
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email().required("Email is required"),
   password: yup.string().min(6).max(24).required("Password is required"),
-  password2: yup.string().oneOf([yup.ref("password"), null], "Passwords must match"),
-
-})
+  password2: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
 
 const theme = createTheme();
 
 export default function RegisterBusiness() {
-
   // registerForBusiness,and formstate: { errors } are for yup validation
-  const { handleSubmit, control, reset, registerForBusiness, formState: { errors }, formState } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    registerForBusiness,
+    formState: { errors },
+    formState,
+  } = useForm({
     resolver: yupResolver(schema),
-    mode: "all"
-  })
+    mode: "all",
+  });
 
   const navigate = useNavigate();
-  const { register, currentUser } = useAuth()
-
+  const { register } = useAuth();
 
   const onSubmit = async (data) => {
-    navigate('/login-business/fill-form');
-    register(data.email, data.password)
+    navigate("/login-business/fill-form");
+    await register(data.firstName, data.lastName, data.email, data.password);
 
     // Add new user to users database and set its uid to the same uid in firebase authentication
-    // May place the below function in a different file, specifically crud functions for users database. 
+    // May place the below function in a different file, specifically crud functions for users database.
     //Separation of concerns.
-    try {
-     await addDoc(collection(db, 'users'), {
-      name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      uid: currentUser.uid
-    }) } catch(error) {
-      console.log(error)
-    }
+    
 
-
-    console.log(data, "submitted")
-    console.log(errors)
+    console.log(data, "submitted");
+    console.log(errors);
 
     reset();
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -141,7 +135,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Controller
@@ -165,7 +158,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -189,7 +181,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -214,7 +205,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -239,7 +229,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
 
               <Grid id="select-business" item xs={12}>
@@ -260,7 +249,9 @@ export default function RegisterBusiness() {
                       >
                         <MenuItem value="General">General</MenuItem>
                         <MenuItem value="Car Repairs">Car Repairs</MenuItem>
-                        <MenuItem value="Cleaning Services">Cleaning Services</MenuItem>
+                        <MenuItem value="Cleaning Services">
+                          Cleaning Services
+                        </MenuItem>
                       </Select>
                     )}
                   />

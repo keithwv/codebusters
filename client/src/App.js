@@ -10,6 +10,7 @@ import SignIn from "./Components/Log In/loginBusiness";
 import AddressForm from "./Components/For logged in users/Business fill in form";
 import { BusinessProfile } from "./Pages/business_profile";
 import BasicModal from "./Components/Modals/Modal";
+import Businesslist from "./Components/For logged in users/businessList";
 
 
  
@@ -24,7 +25,7 @@ function App(props) {
         <Route path='/' element={<div>Home</div>} />
         <Route path='/Register' element={<RegisterBusiness />} />
         <Route path='/Login' element={<SignIn />} />
-        <Route path='/AboutUs' element={<div>About Us</div>} />
+        <Route path='/AboutUs' element={<Businesslist />} />
         <Route path='/ContactUs' element={<BusinessProfile />} />
         <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
