@@ -3,8 +3,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -102,7 +102,7 @@ export default function RegisterBusiness() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register your Business
+            Register your business
           </Typography>
           <Box
             component="form"
@@ -249,23 +249,21 @@ export default function RegisterBusiness() {
                       >
                         <MenuItem value="General">General</MenuItem>
                         <MenuItem value="Car Repairs">Car Repairs</MenuItem>
-                        <MenuItem value="Cleaning Services">
-                          Cleaning Services
-                        </MenuItem>
+                        <MenuItem value="Cleaning Services">Cleaning Services</MenuItem>
                       </Select>
                     )}
                   />
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               // href="/Login-Business/Fill-form"
