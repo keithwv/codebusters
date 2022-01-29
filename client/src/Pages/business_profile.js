@@ -36,7 +36,7 @@ export const BusinessProfile =  () => {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          {`Welcome ${currentUser.firstName}`}
+          {`Welcome ${currentUser.email}`}
         </Typography>
         <Grid item xs={6}>
           <Card>

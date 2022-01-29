@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { makeStyles } from "@material-ui/styles";
 import { ListItemButton, ListItemText } from "@mui/material";
+import shortid from 'shortid';
 
 const Businesslist = () => {
   const { currentUser } = useAuth();
@@ -29,20 +30,19 @@ const Businesslist = () => {
     } catch (ex) {
       console.log("FIRESTORE FAILURE!", ex.message);
     }
+    console.log(business)
   };
 
   return (
       <>
       <List>
-        <ListItemButton onClick={getbusiness}>Click Me</ListItemButton>
-          {business.map((b)=>(<><ListItemText primary={`Company Name: ${b.company_name}`}/>
-          <ListItemText primary={`First Name: ${b.name}`}/>
-          <ListItemText primary={`Last Name: ${b.last_name}`}/>
-          <ListItemText primary={`Address1: ${b.address1}`}/>
-          <ListItemText primary={`Address2: ${b.address2}`}/>
-          <ListItemText primary={`City: ${b.city}`}/>
-          <ListItemText primary={`Postal Code: ${b.postal_code}`}/>
-          <ListItemText primary={`Province: ${b.province}`}/></>))}
+        <ListItemButton onClick={getbusiness}>Business Info</ListItemButton>
+          {business.map((business, index)=>(<ListItemText key={index} primary={`Company Name: ${business.company_name}`}/>))}
+          {business.map((business, index)=>(<ListItemText key={index} primary={`Name: ${business.name} ${business.last_name}`}/>))}
+          {business.map((business, index)=>(<ListItemText key={index} primary={`Street Address: ${business.address1} ${business.address2}`}/>))}
+          {business.map((business, index)=>(<ListItemText key={index} primary={`City: ${business.city}`}/>))}
+          {business.map((business, index)=>(<ListItemText key={index} primary={`Postal Code: ${business.postal_code}`}/>))}
+          {business.map((business, index)=>(<ListItemText key={index} primary={`Province: ${business.province}`}/>))}
       </List>
       </>
     //   </CardContent>
