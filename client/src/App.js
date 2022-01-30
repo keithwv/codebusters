@@ -12,6 +12,7 @@ import { BusinessProfile } from "./Pages/business_profile";
 import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
+import AddServicesModal from "./Components/Modals/AddServicesModal";
 
  
 function App(props) {

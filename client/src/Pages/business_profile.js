@@ -4,46 +4,50 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
-import Card from "@mui/material/Card"
+import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import { makeStyles } from "@material-ui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Businesslist from "../Components/For logged in users/businessList";
 import { CardContent } from "@mui/material";
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from "../contexts/AuthContext";
+import AddServiceModal from "../Components/Modals/AddServicesModal";
 // import { useCollection } from '../Firebase/firebase_hooks'
 // // import { useState, useEffect} from 'react'
 // import { db } from "../Firebase/firebase-config"
 // import { collection, getDocs, query } from "firebase/firestore";
 
-
 const theme = createTheme();
 
-
-
-export const BusinessProfile =  () => {  
-  const { currentUser} = useAuth()
-  console.log(currentUser)
+export const BusinessProfile = () => {
+  const { currentUser } = useAuth();
+  console.log(currentUser);
   return (
     <ThemeProvider theme={theme}>
+      <Typography variant="h5" gutterBottom align="center">
+        {`Welcome ${currentUser.email}`}
+      </Typography>
       <Container
         maxWidth="sm"
+        spacing={4}
         sx={{
-          marginTop: 8,
+          marginTop: 6,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           alignItems: "center",
         }}
       >
-        <Typography variant="h5" gutterBottom>
-          {`Welcome ${currentUser.email}`}
-        </Typography>
+        <Grid container spacing={3}>
         <Grid item xs={6}>
           <Card>
-            <CardContent>
-          <Businesslist/>
-            </CardContent>
+            <Businesslist />
           </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card>
+          <AddServiceModal/>
+          </Card>
+        </Grid>
         </Grid>
       </Container>
     </ThemeProvider>
