@@ -45,15 +45,6 @@ const Businesslist = () => {
           {business.map((business, index)=>(<ListItemText key={index} primary={`Province: ${business.province}`}/>))}
       </List>
       </>
-    //   </CardContent>
-    // <div>
-    //   <button onClick={getbusiness}>Click Me</button>
-    //   {business.map((b) => (
-    //     <><div>{b.company_name}</div>
-    //     <div>{b.name}</div></>
-    //   ))}
-    // </div>
-    // </>
   );
 };
 

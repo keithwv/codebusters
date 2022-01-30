@@ -9,13 +9,10 @@ import Grid from "@mui/material/Grid";
 import { makeStyles } from "@material-ui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Businesslist from "../Components/For logged in users/businessList";
-import { CardContent } from "@mui/material";
+import { CardContent, CardHeader } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import AddServiceModal from "../Components/Modals/AddServicesModal";
-// import { useCollection } from '../Firebase/firebase_hooks'
-// // import { useState, useEffect} from 'react'
-// import { db } from "../Firebase/firebase-config"
-// import { collection, getDocs, query } from "firebase/firestore";
+import ServiceList from "../Components/For logged in users/serviceList";
 
 const theme = createTheme();
 
@@ -37,16 +34,17 @@ export const BusinessProfile = () => {
           alignItems: "center",
         }}
       >
-        <Grid container spacing={3}>
+        <AddServiceModal/>
+        <Grid container spacing={2}>
         <Grid item xs={6}>
-          <Card>
+          <Card variant='outlined'>
             <Businesslist />
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card>
-          <AddServiceModal/>
-          </Card>
+          <Card variant='outlined'>
+            <ServiceList/>
+          </Card> 
         </Grid>
         </Grid>
       </Container>

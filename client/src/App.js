@@ -12,7 +12,7 @@ import { BusinessProfile } from "./Pages/business_profile";
 import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
-import AddService from "./Components/For logged in users/AddServices";
+import ServiceList from "./Components/For logged in users/serviceList";
 
 
  
@@ -27,7 +27,7 @@ function App(props) {
         <Route path='/' element={<div>Home</div>} />
         <Route path='/Register' element={<RegisterBusiness />} />
         <Route path='/Login' element={<SignIn />} />
-        <Route path='/AboutUs' element={<AddService/>} />
+        <Route path='/AboutUs' element={<ServiceList/>} />
         <Route path='/ContactUs' element={<BusinessProfile />} />
         <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
