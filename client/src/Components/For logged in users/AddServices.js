@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -20,6 +18,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../Firebase/firebase-config";
+
 
 
 // Schema for register form
@@ -45,19 +46,21 @@ export default function AddService() {
   });
 
 //   const navigate = useNavigate();
-//   const { register } = useAuth();
+  const { currentUser } = useAuth()
 
-  const onSubmit = (data) => {
-    // navigate("/login-business/fill-form");
-    // await register(data.firstName, data.lastName, data.email, data.password);
-
-    // Add new user to users database and set its uid to the same uid in firebase authentication
-    // May place the below function in a different file, specifically crud functions for users database.
-    //Separation of concerns.
+  const onSubmit = async (data) => {
     
-
     console.log(data, "submitted");
-    // console.log(errors);
+    console.log(currentUser)
+    try {
+        await addDoc(collection(db, 'services'), {
+         service: data.service,
+         hourly_Cost: data.cost,
+         uid: currentUser.uid
+       }) } catch(error) {
+         console.log(error)
+       }
+       alert("success");
 
     reset();
   };
