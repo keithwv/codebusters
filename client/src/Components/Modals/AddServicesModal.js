@@ -3,8 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
-
+import AddService from '../For logged in users/AddServices';
 
 const style = {
     position: 'absolute',
@@ -18,7 +17,7 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal() {
+export default function AddServiceModal() {
     // const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -27,7 +26,7 @@ export default function BasicModal() {
 
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
+            <Button onClick={handleOpen}>Add Services</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -35,12 +34,7 @@ export default function BasicModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        YOUR PAGE
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Here will be a modal page
-                    </Typography>
+                    <AddService/>
                 </Box>
             </Modal>
         </div>
