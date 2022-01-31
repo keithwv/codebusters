@@ -5,10 +5,12 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './calendarUtilities'
 import { useAuth } from "../../contexts/AuthContext";
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore'
+import { db } from "../../Firebase/firebase-config";
 
 export default function CalendarWithSchedule() {
 
-
+  const { currentUser} = useAuth()
   const [currentEvents, setCurrentEvents] = useState([])
   const [weekendsVisible, setWeekendsVisible] = useState(true)
 
@@ -40,7 +42,7 @@ export default function CalendarWithSchedule() {
           </label>
         </div>
         <div className='demo-app-sidebar-section'>
-          <h2>All Events (currentEvents.length})</h2>
+          <h2>All Events ({currentEvents.length})</h2>
           <ul>
             {currentEvents.map(renderSidebarEvent)}
           </ul>
@@ -65,14 +67,23 @@ export default function CalendarWithSchedule() {
           title,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
-          allDay: selectInfo.allDay
+          allDay: selectInfo.allDay,
+          extendedProps: {
+            userId: currentUser.uid
+          }
         })
       }
     }
-
+  // Need to be able to delete doc from firebase
     const handleEventClick = (clickInfo) => {
       if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+        console.log(clickInfo)
+        console.log(clickInfo.event.extendedProps.userId)
         clickInfo.event.remove()
+        let userId = String(clickInfo.event.extendedProps.userId)
+        const eventDoc = doc(db, "events", userId );
+        console.log(eventDoc)
+        return deleteDoc(eventDoc);
       }
     }
 
@@ -80,14 +91,24 @@ export default function CalendarWithSchedule() {
       setCurrentEvents(events)
     }
 
-    const handleEventAdd = (e) => {
+    const handleEventAdd = async (e) => {
       //e.prevent.default()
-      console.log(e)
       console.log(e.event.title)
-      console.log(e.event.start)
       console.log(e.event.startStr)
       console.log(e.event.endStr)
-    }
+      console.log(e.event.extendedProps.userId)
+      // Add Event to Database
+
+      try {
+        await addDoc(collection(db, 'events'), {
+         title: e.event.title,
+         start_time: e.event.startStr,
+         end_time: e.event.endStr,
+         uid: currentUser.uid
+        }) } catch(error) {
+        console.log(error)
+       }
+     }
     
     function renderEventContent(eventInfo) {
       return (
