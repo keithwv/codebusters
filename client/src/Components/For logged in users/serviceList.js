@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../../Firebase/firebase-config";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
 import Card from "@mui/material/Card";
 import List from '@mui/material/List';
@@ -13,32 +13,37 @@ const ServiceList = () => {
   const { currentUser } = useAuth();
   const [service, setService] = useState([]);
 
-  const getServices = async () => {
-    try {
-      let collectionRef = collection(db, "services");
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-      let querySnap = await getDocs(queryRef);
+
+  useEffect(() => {
+    let collectionRef = collection(db, "services");
+    let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
         console.log("No docs found");
       } else {
-        let serviceData = querySnap.docs.map((doc) => ({
+        let serviceData = querySnap.docs.map((doc) => {
+          return {
           ...doc.data(),
           DOC_ID: doc.id,
-        }));
+        };
+      });
         setService(serviceData);
       }
-    } catch (ex) {
-      console.log("FIRESTORE FAILURE!", ex.message);
-    }
-    console.log(service)
-  };
-
+    });
+    return unsubscribe;
+  }, []);
+  
+  
   return (
       <>
-      <List>
-        <ListItemButton onClick={getServices}>Services Provided</ListItemButton>
-          {service.map((service, index)=>(<ListItemText key={index} primary={`Service: ${service.service} \n Cost: ${service.hourly_Cost}`}/>))}
-      </List>
+      {service.map((service) => {
+        return (
+          <List key={service.uid}>
+            <ListItemText primary={`Service: ${service.service}`}/>
+            <ListItemText primary={`Cost Per Hour: $${service.hourly_Cost}`}/>
+          </List>
+        )
+        })}
       </>
   );
 };
