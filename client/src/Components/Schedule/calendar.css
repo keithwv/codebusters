@@ -30,14 +30,15 @@ b { /* used for event dates/times */
 
 .demo-app {
   display: flex;
+  justify-content: space-around;
   min-height: 100%;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
 }
 
 .demo-app-sidebar {
-  padding-left: 20%;
-  width: 35%;
+  justify-content: space-around;
+  margin-left: 240px;
   line-height: 1.5;
   background: #eaf9ff;
   border-right: 1px solid #d3e2e8;
@@ -49,9 +50,14 @@ b { /* used for event dates/times */
 
 .demo-app-main {
   flex-grow: 1;
+  min-height: auto;
 }
 
 .fc { /* the calendar root */
-  max-width: 1100px;
-  margin: 0 auto;
+  justify-content: left;
+  margin-right: 3vh;
+  margin-left: 3vh;
+  min-width: 60vh;
+  min-height: 60vh;
+  
 }
