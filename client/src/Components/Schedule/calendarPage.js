@@ -19,13 +19,13 @@ import {
 import { db } from "../../Firebase/firebase-config";
 import CalendarForm from "./calendarform";
 import AddServiceModal from "../Modals/AddServicesModal";
+import "./calendar.css"
+
 
 export default function CalendarWithSchedule() {
   const { currentUser } = useAuth();
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
-
-
 
   const renderSidebar = () => {
     return (
