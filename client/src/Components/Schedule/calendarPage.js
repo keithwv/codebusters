@@ -23,10 +23,7 @@ export default function CalendarWithSchedule() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
 
-  // state = {
-  //   weekendsVisible: true,
-  //   currentEvents: []
-  // }
+
 
   const renderSidebar = () => {
     return (
@@ -88,7 +85,8 @@ export default function CalendarWithSchedule() {
       let collectionRef = collection(db, "events");
       let queryRef = query(
         collectionRef,
-        where("start_time", "==", clickInfo.event.startStr) //clickInfo.event.startStr denotes start time which should be unique
+        where("start_time", "==", clickInfo.event.startStr),
+        where("uid", "==", currentUser.uid) //clickInfo.event.startStr denotes start time which should be unique
       );
       let querySnap = await getDocs(queryRef);
       if (querySnap.empty) {
