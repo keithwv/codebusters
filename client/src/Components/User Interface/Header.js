@@ -165,6 +165,7 @@ const Header = (props) => {
 
   return (
     <>
+      <div className={classes.toolbarMargin} />
       <ElevationScroll>
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
