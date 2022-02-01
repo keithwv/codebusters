@@ -27,8 +27,8 @@ function App(props) {
         <Route path='/' element={<div>Home</div>} />
         <Route path='/Register' element={<RegisterBusiness />} />
         <Route path='/Login' element={<SignIn />} />
-        <Route path='/AboutUs' element={<ServiceList/>} />
-        <Route path='/ContactUs' element={<BusinessProfile />} />
+        <Route path='/services' element={<ServiceList/>} />
+        <Route path='/add-services' element={<BusinessProfile />} />
         <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
         <Route path='/calendar' element={<CalendarWithSchedule />} />
