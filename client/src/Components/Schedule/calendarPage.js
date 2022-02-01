@@ -17,6 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
+import "./calendar.css"
 
 export default function CalendarWithSchedule() {
   const { currentUser } = useAuth();
