@@ -8,11 +8,11 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 // import { makeStyles } from "@material-ui/styles";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Businesslist from "../Components/For logged in users/businessList";
+import Businesslist from "../Components/for_logged_in_users/businessList";
 // import { CardContent, CardHeader } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import AddServiceModal from "../Components/Modals/AddServicesModal";
-import ServiceList from "../Components/For logged in users/serviceList";
+import ServiceList from "../Components/for_logged_in_users/serviceList";
 
 const theme = createTheme();
 
