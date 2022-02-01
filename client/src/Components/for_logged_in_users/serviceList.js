@@ -7,11 +7,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { makeStyles } from "@material-ui/styles";
 import { ListItemButton, ListItemText } from "@mui/material";
-<<<<<<< HEAD:client/src/Components/For logged in users/serviceList.js
 
-=======
-// import shortid from 'shortid';
->>>>>>> 0cec43557121481adda1a63f1b058ec333f8b216:client/src/Components/for_logged_in_users/serviceList.js
 
 const ServiceList = () => {
   const { currentUser } = useAuth();
