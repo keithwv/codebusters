@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import AddService from '../For logged in users/AddServices';
+import AddService from '../for_logged_in_users/AddServices';
 
 const style = {
     position: 'absolute',
