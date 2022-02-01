@@ -6,13 +6,13 @@ import { Route, Routes } from "react-router-dom";
 // import UserType from "./Components/User Type/UserType";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
-import SignIn from "./Components/Log In/loginBusiness";
-import AddressForm from "./Components/For logged in users/Business fill in form";
+import SignIn from "./Components/log_in/loginBusiness";
+import AddressForm from "./Components/for_logged_in_users/Business fill in form";
 import { BusinessProfile } from "./Pages/business_profile";
 import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
-import ServiceList from "./Components/For logged in users/serviceList";
+import ServiceList from "./Components/for_logged_in_users/serviceList";
 
 
  
@@ -27,8 +27,8 @@ function App(props) {
         <Route path='/' element={<div>Home</div>} />
         <Route path='/Register' element={<RegisterBusiness />} />
         <Route path='/Login' element={<SignIn />} />
-        <Route path='/AboutUs' element={<ServiceList/>} />
-        <Route path='/ContactUs' element={<BusinessProfile />} />
+        <Route path='/services' element={<ServiceList/>} />
+        <Route path='/add-services' element={<BusinessProfile />} />
         <Route path='/modal' element={<BasicModal />} />
         <Route path='/login-business/fill-form' element={<AddressForm />} />
         <Route path='/calendar' element={<CalendarWithSchedule />} />
