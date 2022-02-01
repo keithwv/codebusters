@@ -17,14 +17,15 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
+import CalendarForm from "./calendarform";
+import AddServiceModal from "../Modals/AddServicesModal";
 import "./calendar.css"
+
 
 export default function CalendarWithSchedule() {
   const { currentUser } = useAuth();
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
-
-
 
   const renderSidebar = () => {
     return (
@@ -60,6 +61,8 @@ export default function CalendarWithSchedule() {
   };
 
   const handleDateSelect = (selectInfo) => {
+    
+    console.log(selectInfo)
     let title = prompt("Please enter a new title for your event");
     let calendarApi = selectInfo.view.calendar;
 
@@ -179,6 +182,7 @@ export default function CalendarWithSchedule() {
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
+        {/* { &&<CalendarForm/>} */}
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -199,6 +203,7 @@ export default function CalendarWithSchedule() {
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           eventAdd={handleEventAdd}
+          // eventContent={<CalendarForm/>}
           /* you can update a remote database when these fire:
         
             eventChange={function(){}}
