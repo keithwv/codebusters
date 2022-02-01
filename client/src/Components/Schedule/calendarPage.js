@@ -144,6 +144,7 @@ export default function CalendarWithSchedule() {
             selectable={true}
             selectMirror={true}
             dayMaxEvents={true}
+            businessHours={true}
             weekends={weekendsVisible}
             initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
             select={handleDateSelect}
