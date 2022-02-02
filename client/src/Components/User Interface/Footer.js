@@ -19,9 +19,16 @@ function Copyright() {
 
 const Footer = () => {
   return (
-    <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-      <Typography variant="h6" align="center" gutterBottom>
-        Footer
+    <Box
+      sx={{ bgcolor: 'background.paper', p: 10 }}
+      component="footer"
+    >
+      <Typography
+        variant="h6"
+        align="center"
+        gutterBottom
+      >
+        Footer will always be at the bottom, so add components with confidence!
       </Typography>
       <Typography
         variant="subtitle1"
