@@ -36,9 +36,9 @@ const ServiceList = () => {
   
   return (
       <>
-      {service.map((service) => {
+      {service.map((service, index) => {
         return (
-          <List key={service.uid}>
+          <List key={index}>
             <ListItemText primary={`Service: ${service.service}`}/>
             <ListItemText primary={`Cost Per Hour: $${service.hourly_Cost}`}/>
           </List>
