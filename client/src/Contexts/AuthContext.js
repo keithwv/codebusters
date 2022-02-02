@@ -65,6 +65,7 @@ export function AuthProvider(props) {
     }
   };
 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
