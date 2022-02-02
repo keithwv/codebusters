@@ -20,18 +20,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
-
-
+import { date } from "yup";
 
 // Schema for register form
 const schema = yup.object().shape({
   title: yup.string().required("title is required"),
-//   service: yup.string().required("service is required"),
+  //   service: yup.string().required("service is required"),
 });
 
 const theme = createTheme();
 
-export default function CalendarForm() {
+export default function CalendarForm(props) {
   // registerForBusiness,and formstate: { errors } are for yup validation
   const {
     handleSubmit,
@@ -44,13 +43,45 @@ export default function CalendarForm() {
     mode: "all",
   });
 
-//   const navigate = useNavigate();
-  const { currentUser } = useAuth()
+  //   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (e) => {
+    console.log(e)
     
-    console.log(data, "submitted")
-    reset();
+    
+    let calendarApi = props.data.data.view.calendar;
+    calendarApi.unselect(); // clear date selection
+
+    let title = e.title;
+
+    props.method();
+    console.log(props.data.data);
+    if (title) {
+      calendarApi.addEvent({
+        id: Date.now(),
+        title,
+        start: props.data.data.startStr,
+        end: props.data.data.endStr,
+        allDay: props.data.data.allDay,
+        extendedProps: {
+          userId: currentUser.uid,
+        },
+      });
+     
+      try {
+        const docRef = await addDoc(collection(db, "events"), {
+          title: title,
+          start_time: props.data.data.startStr,
+          end_time: props.data.data.endStr,
+          uid: currentUser.uid,
+        });
+      
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
   };
 
   return (
@@ -69,7 +100,7 @@ export default function CalendarForm() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-             Add Events
+            Add Events
           </Typography>
           <Box
             component="form"
@@ -140,4 +171,3 @@ export default function CalendarForm() {
     </ThemeProvider>
   );
 }
-

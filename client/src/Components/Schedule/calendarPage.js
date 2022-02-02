@@ -18,16 +18,20 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase-config";
 import CalendarForm from "./calendarform";
-import AddServiceModal from "../Modals/AddServicesModal";
 import "./calendar.css";
 import { async } from "@firebase/util";
+import CalendarModal from "../Modals/CalendarModal";
 
 export default function CalendarWithSchedule() {
   const { currentUser } = useAuth();
 
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
-  const [eventsData, setEventsData] = useState([]);
+  const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
+  const [openmodal, setOpenModal] = useState({
+    check: false,
+    data: ""
+  })
 
  
 
@@ -64,31 +68,26 @@ export default function CalendarWithSchedule() {
     setWeekendsVisible(!weekendsVisible);
   };
 
+  const method = () => {
+    setOpenModal({ check: false })
+    console.log("Setting check false")
+  }
+
+
   const handleDateSelect = (selectInfo) => {
-    console.log(selectInfo);
-    let title = prompt("Please enter a new title for your event");
-    let calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-        extendedProps: {
-          userId: currentUser.uid,
-        },
-      });
-    }
-  };
+    setOpenModal({
+      check: true,
+      data: selectInfo
+    })
+    
+  }
 
   
   useEffect(() => {
     let collectionRef = collection(db, "events");
-    let queryRef = query(collectionRef);
+    if(currentUser?.uid) {
+    let queryRef =  query(collectionRef, where("uid", "==", currentUser.uid))
+    console.log(currentUser.uid)
     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
         console.log("no docs found");
@@ -103,7 +102,10 @@ export default function CalendarWithSchedule() {
       }
     });
     return unsubscribe;
-  }, []);
+  }else {
+    console.log("User not logged in")
+  }}, [currentUser.uid]);
+
 
 
 
@@ -159,21 +161,22 @@ export default function CalendarWithSchedule() {
   };
 
   const handleEventAdd = async (e) => {
-    //e.prevent.default()
-    console.log(e.event);
+    e.prevent.default()
+    console.log(e.event)
 
     // Add Event to Database
 
-    try {
-      const docRef = await addDoc(collection(db, "events"), {
-        title: e.event.title,
-        start_time: e.event.startStr,
-        end_time: e.event.endStr,
-        uid: currentUser.uid,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const docRef = await addDoc(collection(db, "events"), {
+    //     title: e.event.title,
+    //     start_time: e.event.startStr,
+    //     end_time: e.event.endStr,
+    //     uid: currentUser.uid,
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
   };
 
   function renderEventContent(eventInfo) {
@@ -221,10 +224,10 @@ export default function CalendarWithSchedule() {
           events={eventsData}
           weekends={weekendsVisible}
           select={handleDateSelect}
-          eventContent={renderEventContent} // custom render function
+          // custom render function
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-          eventAdd={handleEventAdd}
+          //eventAdd={handleEventAdd}
           //eventContent= {test}
           /* you can update a remote database when these fire:
         
@@ -233,6 +236,7 @@ export default function CalendarWithSchedule() {
             */
         />
       </div>
+      {openmodal.check && <CalendarModal data={openmodal} method={method} />}
     </div>
   );
 }
