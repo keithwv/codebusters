@@ -324,6 +324,7 @@ export default function AddressForm() {
               variant="contained"
               sx={{ mx: "auto", mt: 3, mb: 5 }}
               disabled={!formState.isValid}
+              href='/business-landing'
             >
               Submit Form
             </Button>
