@@ -1,52 +1,39 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
-import AppBar from "@mui/material/AppBar";
-import Grid from "@mui/material/Grid";
-import { Toolbar } from "@mui/material";
-// import FacebookIcon from "@mui/icons-material/Facebook";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
-
-const useStyles = makeStyles((theme) => ({
-  footer: {
-    backgroundColor: theme.palette.common.blue,
-    width: "100%",
-  },
-  mainContainer: {
-    position: "absolute",
-  },
-  link: {
-    color: "white",
-    fontFamily: "Arial",
-    fontSize: "0.75rem",
-    fontWeight: "bold",
-  },
-}));
+//add proper info to this block after deployement
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="http://bookMe.com">
+        bookMe.com
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const Footer = () => {
-  const classes = useStyles();
-
   return (
-    <>
-      {/* <footer className={classes.footer}> */}
-        <AppBar
-          position="fixed"
-          color="primary"
-          sx={{ top: "auto", bottom: 0 }}
-        >
-          <Toolbar>
-            <Grid container justifyContent='center' className={classes.mainContainer} >
-              <Grid item>
-                <Grid container direction="column">
-                  <Grid item className={classes.link} > 
-                     Home
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </AppBar>
-      {/* </footer> */}
-    </>
-  );
-};
+    <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+      <Typography variant="h6" align="center" gutterBottom>
+        Footer
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        align="center"
+        color="text.secondary"
+        component="p"
+      >
+        Something here to give the footer a purpose!
+      </Typography>
+      <Copyright />
+    </Box>
+  )
+}
+
 export default Footer;
