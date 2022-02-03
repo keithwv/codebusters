@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useAuth } from "../../../contexts/AuthContext";
+
 
 
 
@@ -39,7 +41,10 @@ const cards = [
 const theme = createTheme();
 
 export default function BusinessLandingPage() {
+  const { currentUser } = useAuth();
+
   return (
+
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
@@ -67,7 +72,7 @@ export default function BusinessLandingPage() {
               color="text.primary"
               gutterBottom
             >
-              Welcome, Name
+              {`Welcome ${currentUser.email}`}
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
               What would you like to do today?
@@ -98,7 +103,7 @@ export default function BusinessLandingPage() {
                       pt: '10%',
                     }}
                     image={card.image}
-                    alt= {card.alt}
+                    alt={card.alt}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">

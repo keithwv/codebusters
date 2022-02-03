@@ -16,7 +16,7 @@ import ServiceList from "../Components/for_logged_in_users/serviceList";
 
 const theme = createTheme();
 
-export const BusinessProfile = () => {
+export const ServicesForBusiness = () => {
   const { currentUser } = useAuth();
   console.log(currentUser);
   return (
