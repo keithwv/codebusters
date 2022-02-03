@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 import { date } from "yup";
+import SelectInput from "@mui/material/Select/SelectInput";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -47,6 +48,7 @@ export default function CalendarForm(props) {
   const { currentUser } = useAuth();
 
   const onSubmit = async (e) => {
+    //e.prevent.default()
     console.log(e)
     
     
@@ -54,21 +56,8 @@ export default function CalendarForm(props) {
     calendarApi.unselect(); // clear date selection
 
     let title = e.title;
-
-    props.method();
-    console.log(props.data.data);
     if (title) {
-      calendarApi.addEvent({
-        id: Date.now(),
-        title,
-        start: props.data.data.startStr,
-        end: props.data.data.endStr,
-        allDay: props.data.data.allDay,
-        extendedProps: {
-          userId: currentUser.uid,
-        },
-      });
-     
+      props.method() // close modal
       try {
         const docRef = await addDoc(collection(db, "events"), {
           title: title,
@@ -76,13 +65,16 @@ export default function CalendarForm(props) {
           end_time: props.data.data.endStr,
           uid: currentUser.uid,
         });
-      
+       console.log("Event Submitted")
       } catch (error) {
         console.log(error);
       }
-
     }
   };
+
+  const handleCancel = () => {
+    props.method() // close modal
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -164,6 +156,15 @@ export default function CalendarForm(props) {
               sx={{ mt: 3, mb: 2 }}
             >
               Add Event
+            </Button>
+            <Button
+              fullWidth
+              color="error"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleCancel}
+            >
+              Cancel
             </Button>
           </Box>
         </Box>

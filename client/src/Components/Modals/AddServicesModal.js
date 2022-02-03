@@ -30,6 +30,7 @@ export default function AddServiceModal() {
             <Modal
                 open={open}
                 onClose={handleClose}
+                onBackdropClick={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

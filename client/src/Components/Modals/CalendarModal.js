@@ -20,23 +20,23 @@ const style = {
 };
 
 export default function CalendarModal(props) {
-    const {data, method }= props
-    console.log(data)
-    console.log(method)
-   
-    // const navigate = useNavigate();
-    // const [open, setOpen] = React.useState(true);
-    // const handleOpen = () => setOpen(true);
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    // navigate('/modal');
+    const { data, method }= props  
     
+
+    // const handleClose = () => {
+    //     data.check = false
+    //     console.log("closing modal")
+    // }
+    const [open, setOpen] = React.useState(true);
+    //const handleOpen = () => setOpen(true);
+     const handleClose = () => setOpen(false);
+
     return (
         <div>
             <Modal
-               open={true}
-               onClose={handleClose}
+               open={open}
+                onClose={method}
+                onBackdropClick={method}
                aria-labelledby="modal-modal-title"
                aria-describedby="modal-modal-description"
             >
@@ -44,8 +44,6 @@ export default function CalendarModal(props) {
                 <CalendarForm data={data} method={method} />
                 </Box>
             </Modal>
-
-
         </div>
     );
 }

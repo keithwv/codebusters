@@ -32,6 +32,7 @@ export default function CalendarWithSchedule() {
     check: false,
     data: ""
   })
+  console.log(openmodal.check)
 
  
 
@@ -160,24 +161,10 @@ export default function CalendarWithSchedule() {
     setCurrentEvents(events);
   };
 
-  const handleEventAdd = async (e) => {
-    e.prevent.default()
-    console.log(e.event)
+  // const handleEventAdd = async (e) => {
+  //   console.log(e.event)
 
-    // Add Event to Database
-
-    // try {
-    //   const docRef = await addDoc(collection(db, "events"), {
-    //     title: e.event.title,
-    //     start_time: e.event.startStr,
-    //     end_time: e.event.endStr,
-    //     uid: currentUser.uid,
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-  };
+  // }
 
   function renderEventContent(eventInfo) {
     return (
