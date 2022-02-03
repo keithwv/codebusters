@@ -24,6 +24,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import TodayIcon from '@mui/icons-material/Today';
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 const drawerWidth = 240;
 
@@ -147,7 +151,7 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    if (window.location.pathname === "/" && value !== 0) {
+    if (window.location.pathname === "/home" && value !== 0) {
       setValue(0)
     } else if (window.location.pathname === "/Register" && value !== 1) {
       setValue(1)
@@ -162,6 +166,26 @@ const Header = (props) => {
       setValue(5)
     }
   }, [value]);
+
+  const iconsInDrawer = [
+    {
+      'text': 'Dashboard',
+      'iconName': <DashboardIcon />,
+      'path': "/dashboard"
+    },
+    {
+      'text': 'Calendar/Schedule',
+      'iconName': <TodayIcon />,
+      'path': "/calendar"
+    },
+    {
+      'text': 'Your Services',
+      'iconName': <HomeRepairServiceIcon />,
+      'path': "/services"
+    },
+  ]
+  //  {'Calendar/Schedule', 'Your Services'}]
+
 
   return (
     <>
@@ -190,7 +214,7 @@ const Header = (props) => {
                 className={classes.tabContainer}
                 textColor="inherit"
               >
-                <Tab className={classes.tab} component={Link} to="/" label="Home" />
+                <Tab className={classes.tab} component={Link} to="/home" label="Home" />
                 <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
                 <Tab className={classes.tab} component={Link} to="/Login" label="Login" />
                 <Tab className={classes.tab} component={Link} to="/Login" label="Logout" onClick={signOut} />
@@ -207,21 +231,26 @@ const Header = (props) => {
             </DrawerHeader>
             <Divider />
             <List>
-              {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
+              {iconsInDrawer.map((item) => (
+                <ListItem button component={Link} to={item.path} key={item.text}>
+                  {/* <ListItem button component={Link} to="/dashboard" key={text}> */}
+
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {item.iconName}
+                    {/* <DashboardIcon index={"Dashboard"} />
+                    <TodayIcon index={"Calendar/Schedule"} />
+                    <HomeRepairServiceIcon index={"Your Services"} /> */}
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary={item.text} />
                 </ListItem>
               ))}
             </List>
             <Divider />
             <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              {['Settings'].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {index % 1 === 0 ? < MiscellaneousServicesIcon /> : <MiscellaneousServicesIcon />}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
