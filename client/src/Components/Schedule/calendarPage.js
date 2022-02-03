@@ -21,6 +21,8 @@ import CalendarForm from "./AddEventForm";
 import "./calendar.css";
 import { async } from "@firebase/util";
 import CalendarModal from "../Modals/CalendarModal";
+import EditDeleteEventForm  from "./Edit_Delete_EventForm";
+import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 
 export default function CalendarWithSchedule() {
   const { currentUser } = useAuth();
@@ -31,7 +33,12 @@ export default function CalendarWithSchedule() {
   const [openmodal, setOpenModal] = useState({
     check: false,
     data: ""
-  })
+  }) // State that determines the rendering of the Add Event Form
+
+  const [removeEvents, setRemoveEvents] = useState({
+    check: false,
+    data: ""
+  }) // State that determine the rendering of the Edit/Remove Event Form
 
  
 
@@ -71,6 +78,7 @@ export default function CalendarWithSchedule() {
   const method = () => {
     setOpenModal({ check: false })
     console.log("Setting check false")
+    setRemoveEvents({check: false, data: ""})
   }
 
 
@@ -143,18 +151,12 @@ export default function CalendarWithSchedule() {
   };
 
   // Need to be able to delete doc from firebase and the user interface
-  const handleEventClick = async (clickInfo) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      const data = await getselectedDoc(clickInfo);
-      const id = data[0].DOC_ID;
-      deleteEvent(id);
-      clickInfo.event.remove();
-    }
-  };
+  const handleEventClick = (clickInfo) => {
+    setRemoveEvents({
+      check:true,
+      data: clickInfo
+    })
+      }
 
   const handleEvents = (events) => {
     setCurrentEvents(events);
@@ -222,7 +224,9 @@ export default function CalendarWithSchedule() {
             */
         />
       </div>
+      {removeEvents.check && <EditDeleteCalendarModal data={removeEvents} method={method} />}
       {openmodal.check && <CalendarModal data={openmodal} method={method} />}
+   
     </div>
   );
 }
