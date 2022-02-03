@@ -14,7 +14,7 @@ import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
-import BusinessLandingPage from "./Components/User Interface/business/business-main-page";
+import BusinessDashboard from "./Components/User Interface/business/business_dashboard";
 
 
 
@@ -36,7 +36,7 @@ function App(props) {
           <Route path='/login-business/fill-form' element={<AddressForm />} />
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
-          <Route path='/dashboard' element={<BusinessLandingPage />} />
+          <Route path='/dashboard' element={<BusinessDashboard />} />
         </Routes>
         < Footer />
       </ThemeProvider>

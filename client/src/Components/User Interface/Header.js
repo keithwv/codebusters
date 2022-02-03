@@ -207,7 +207,7 @@ const Header = (props) => {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h3">Book Me!</Typography>
+              <Typography variant="h3">bookMe!</Typography>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -217,9 +217,9 @@ const Header = (props) => {
                 <Tab className={classes.tab} component={Link} to="/home" label="Home" />
                 <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
                 <Tab className={classes.tab} component={Link} to="/Login" label="Login" />
-                <Tab className={classes.tab} component={Link} to="/Login" label="Logout" onClick={signOut} />
-                <Tab className={classes.tab} component={Link} to="/services" label="Services" />
-                <Tab className={classes.tab} component={Link} to="/add-services" label="Add Services" />
+                <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />
+                {/* <Tab className={classes.tab} component={Link} to="/services" label="Services" />
+                <Tab className={classes.tab} component={Link} to="/add-services" label="Add Services" /> */}
               </Tabs>
             </Toolbar>
           </AppBar>
