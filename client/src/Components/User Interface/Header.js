@@ -8,6 +8,7 @@ import AppBar from "@mui/material/AppBar";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
+import { Avatar } from "@mui/material";
 
 
 function ElevationScroll(props) {
@@ -74,7 +75,8 @@ const Header = (props) => {
       <ElevationScroll>
         <AppBar position="fixed" color="primary">
           <Toolbar>
-            <Typography variant="h3">Book Me!</Typography>
+            <Avatar src="/BookmeLogo.png"/>
+            <Typography variant="h3"> Book Me!</Typography>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -82,7 +84,7 @@ const Header = (props) => {
               textColor="inherit" 
             >
               <Tab className={classes.tab} component={Link} to="/" label="Home" />
-              <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
+              <Tab className={classes.tab} component={Link} to="/Register" label="Register" />  
               <Tab className={classes.tab} component={Link} to= "/Login" label="Login" />
               <Tab className={classes.tab} component={Link} to="/Login" label="Logout" onClick={signOut}/>
               <Tab className={classes.tab} component={Link} to= "/AboutUs" label="About Us" />
