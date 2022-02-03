@@ -17,7 +17,7 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase-config";
-import CalendarForm from "./calendarform";
+import CalendarForm from "./AddEventForm";
 import "./calendar.css";
 import { async } from "@firebase/util";
 import CalendarModal from "../Modals/CalendarModal";
@@ -32,7 +32,6 @@ export default function CalendarWithSchedule() {
     check: false,
     data: ""
   })
-  console.log(openmodal.check)
 
  
 
@@ -83,11 +82,11 @@ export default function CalendarWithSchedule() {
     
   }
 
-  
+  // Initial fetch of all events from database for the logged in user
   useEffect(() => {
     let collectionRef = collection(db, "events");
     if(currentUser?.uid) {
-    let queryRef =  query(collectionRef, where("uid", "==", currentUser.uid))
+    let queryRef =  query(collectionRef, where("uid", "==", currentUser.uid)) // logged in user has unique uid linked to events
     console.log(currentUser.uid)
     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
@@ -118,8 +117,8 @@ export default function CalendarWithSchedule() {
       let collectionRef = collection(db, "events");
       let queryRef = query(
         collectionRef,
-        where("start_time", "==", clickInfo.event.startStr),
-        where("uid", "==", currentUser.uid) //clickInfo.event.startStr denotes start time which should be unique
+        where("start_time", "==", clickInfo.event.startStr),//clickInfo.event.startStr denotes start time which should be unique
+        where("uid", "==", currentUser.uid) 
       );
       let querySnap = await getDocs(queryRef);
       if (querySnap.empty) {
