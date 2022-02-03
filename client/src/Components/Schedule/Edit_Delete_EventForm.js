@@ -107,18 +107,18 @@ export default function EditDeleteEventForm(props) {
   //   const title = data[0].title
   // }
   
-  const updateDoc = async (e) => {
-    console.log(storeddata)
-    console.log(props.data.data)
-    const document = await getselectedDoc(props.data.data);
-    const id = document[0].DOC_ID;
-    const EventDoc = doc(db, "events", id);
-  
-    updateDoc(EventDoc ,{
-    title: storeddata
- })
+//   const updateDoc = async (e) => {
+//     console.log(storeddata)
+//     console.log(props.data.data)
+//     const document = await getselectedDoc(props.data.data);
+//     const id = document[0].DOC_ID;
+//     const EventDoc = doc(db, "events", id);
+//     console.log(EventDoc)
+//     updateDoc(EventDoc ,{
+//     title: storeddata
+//  })
  
-  }
+//   }
 
   const handleCancel = () => {
     props.method() // close modal
@@ -220,7 +220,7 @@ export default function EditDeleteEventForm(props) {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={updateDoc}
+              // onClick={updateDoc}
             >
               Update
             </Button>
