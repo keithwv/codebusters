@@ -31,7 +31,7 @@ const schema = yup.object().shape({
 
 const theme = createTheme();
 
-export default function CalendarForm(props) {
+export default function AddEventForm(props) {
   // registerForBusiness,and formstate: { errors } are for yup validation
   const {
     handleSubmit,

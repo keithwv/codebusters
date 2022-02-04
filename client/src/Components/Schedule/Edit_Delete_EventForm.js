@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,7 +18,18 @@ import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+  setDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 import { date } from "yup";
 import SelectInput from "@mui/material/Select/SelectInput";
@@ -34,10 +45,8 @@ const theme = createTheme();
 
 export default function EditDeleteEventForm(props) {
   const [disabled, setDisabled] = useState(true);
-  
   const [storeddata, setData] = useState(props.data.data.event.title);
-  console.log(storeddata)
-  
+  const [eventData, setEventData] = useState([]);
 
   const {
     handleSubmit,
@@ -53,31 +62,34 @@ export default function EditDeleteEventForm(props) {
   //   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-    // Function for query a selected document the corresponds with event that has been clicked on the calendar after it has been created
-  // Can be used for getting document to either delete or update
-  const getselectedDoc = async (clickInfo) => {
-    try {
-      let collectionRef = collection(db, "events");
-      let queryRef = query(
-        collectionRef,
-        where("start_time", "==", clickInfo.event.startStr), //clickInfo.event.startStr denotes start time which should be unique
-        where("uid", "==", currentUser.uid) 
-      );
-      let querySnap = await getDocs(queryRef);
+  useEffect(() => {
+    console.log("Getting documents")
+    let collectionRef = collection(db, "events");
+    let queryRef = query(
+      collectionRef,
+      where("uid", "==", currentUser.uid),
+      where("start_time", "==", props.data.data.event.startStr)
+    );
+    console.log("Getting Documents 2")
+    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
-        console.log("no docs found");
+        console.log("No docs found");
       } else {
-        let eventsData = querySnap.docs.map((doc) => ({
-          ...doc.data(),
-          DOC_ID: doc.id,
-        }));
-        console.log(eventsData);
-        return eventsData;
+        let EventsData = querySnap.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            DOC_ID: doc.id,
+          };
+        });
+        console.log("get documents")
+        setEventData(EventsData[0]);
       }
-    } catch (error) {
-      console.log("Firestore Failure!", error.message);
-    }
-  };
+    });
+    return unsubscribe;
+  }, [props.data.data.event]);
+
+
+ 
 
   // Function takes a unique id as input in order to delete selected event. Unique id is retrieved using getselectedDoc function
   const deleteEvent = (id) => {
@@ -85,44 +97,39 @@ export default function EditDeleteEventForm(props) {
     return deleteDoc(eventDoc);
   };
 
- const onSubmit = (data) => {
-   console.log(data)
- }
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
-  const eventDelete = async () => {
+  const eventDelete = () => {
     if (
       window.confirm(
         `Are you sure you want to delete the event '${props.data.data.event.title}'`
-      )) {
-      const data = await getselectedDoc(props.data.data);
-      const id = data[0].DOC_ID;
-      deleteEvent(id)
+      )
+    ) {
+      const id = eventData.DOC_ID;
+      deleteEvent(id);
       props.data.data.event.remove();
-      }
-      props.method()
-  }
+    }
+    props.method();
+  };
 
-  // const handleDateSelect = () => {
-  //   const data = await getselectedDoc(props.data.data);
-  //   const title = data[0].title
-  // }
-  
-//   const updateDoc = async (e) => {
-//     console.log(storeddata)
-//     console.log(props.data.data)
-//     const document = await getselectedDoc(props.data.data);
-//     const id = document[0].DOC_ID;
-//     const EventDoc = doc(db, "events", id);
-//     console.log(EventDoc)
-//     updateDoc(EventDoc ,{
-//     title: storeddata
-//  })
- 
-//   }
+  const updateHandler = async (e) => {
+      console.log(storeddata)
+      console.log(props.data.data)
+      const id = eventData.DOC_ID
+      const EventDoc = doc(db, "events", id);
+      console.log(EventDoc)
+      await updateDoc(EventDoc ,{
+      title: storeddata
+   })
+   props.method();
+
+    }
 
   const handleCancel = () => {
-    props.method() // close modal
-  }
+    props.method(); // close modal
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -206,7 +213,7 @@ export default function EditDeleteEventForm(props) {
             >
               Delete
             </Button>
-            <Button
+            <Button 
               fullWidth
               color="error"
               variant="contained"
@@ -220,7 +227,7 @@ export default function EditDeleteEventForm(props) {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              // onClick={updateDoc}
+              onClick={updateHandler}
             >
               Update
             </Button>
