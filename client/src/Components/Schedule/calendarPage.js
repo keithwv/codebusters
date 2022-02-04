@@ -21,26 +21,33 @@ import AddEventForm from "./AddEventForm";
 import "./calendar.css";
 import { async } from "@firebase/util";
 import CalendarModal from "../Modals/CalendarModal";
-import EditDeleteEventForm  from "./Edit_Delete_EventForm";
+import EditDeleteEventForm from "./Edit_Delete_EventForm";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 
 export default function CalendarWithSchedule() {
-  const { currentUser } = useAuth();
+  // Set business hours
+  const businessHours = {
+    // days of week. an array of zero-based day of week integers (0=Sunday)
+    daysOfWeek: [1, 2, 3, 4, 5, 6],
 
+    startTime: "09:00",
+    endTime: "17:00",
+  };
+
+  const { currentUser } = useAuth(); // currentUser refers to authenticated user
+  // All State declarations below
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
   const [openmodal, setOpenModal] = useState({
     check: false,
-    data: ""
-  }) // State that determines the rendering of the Add Event Form
+    data: "",
+  }); // State that determines the rendering of the Add Event Form
 
   const [removeEvents, setRemoveEvents] = useState({
     check: false,
-    data: ""
-  }) // State that determine the rendering of the Edit/Remove Event Form
-
- 
+    data: "",
+  }); // State that determine the rendering of the Edit/Remove Event Form
 
   const renderSidebar = () => {
     return (
@@ -68,96 +75,53 @@ export default function CalendarWithSchedule() {
   };
 
   const method = () => {
-    setOpenModal({ check: false })
-    console.log("Setting check false")
-    setRemoveEvents({check: false, data: ""})
-  }
-
-
-  const handleDateSelect = (selectInfo) => {
-    setOpenModal({
-      check: true,
-      data: selectInfo
-    })
-    
-  }
-
-  // Initial fetch of all events from database for the logged in user
-  useEffect(() => {
-    let collectionRef = collection(db, "events");
-    if(currentUser?.uid) {
-    let queryRef =  query(collectionRef, where("uid", "==", currentUser.uid)) // logged in user has unique uid linked to events
-    console.log(currentUser.uid)
-    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-      if (querySnap.empty) {
-        console.log("no docs found");
-      } else {
-        let eventsData = querySnap.docs.map((doc) => ({
-          start: doc.data().start_time,
-          end: doc.data().end_time,
-          title: doc.data().title,
-          id: doc.id,
-        }));
-        setEventsData(eventsData);
-      }
-    });
-    return unsubscribe;
-  }else {
-    console.log("User not logged in")
-  }}, [currentUser.uid]);
-
-
-
-
-
-  // Function for query a selected document the corresponds with event that has been clicked on the calendar after it has been created
-  // Can be used for getting document to either delete or update
-  const getselectedDoc = async (clickInfo) => {
-    try {
-      let collectionRef = collection(db, "events");
-      let queryRef = query(
-        collectionRef,
-        where("start_time", "==", clickInfo.event.startStr),//clickInfo.event.startStr denotes start time which should be unique
-        where("uid", "==", currentUser.uid) 
-      );
-      let querySnap = await getDocs(queryRef);
-      if (querySnap.empty) {
-        console.log("no docs found");
-      } else {
-        let eventsData = querySnap.docs.map((doc) => ({
-          ...doc.data(),
-          DOC_ID: doc.id,
-        }));
-        console.log(eventsData);
-        return eventsData;
-      }
-    } catch (error) {
-      console.log("Firestore Failure!", error.message);
-    }
-  };
-
-  // Function takes a unique id as input in order to delete selected event. Unique id is retrieved using getselectedDoc function
-  const deleteEvent = (id) => {
-    const eventDoc = doc(db, "events", id);
-    return deleteDoc(eventDoc);
+    setOpenModal({ check: false });
+    setRemoveEvents({ check: false, data: "" });
   };
 
   // Need to be able to delete doc from firebase and the user interface
   const handleEventClick = (clickInfo) => {
     setRemoveEvents({
-      check:true,
-      data: clickInfo
-    })
-      }
+      check: true,
+      data: clickInfo,
+    });
+  };
+
+  const handleDateSelect = (selectInfo) => {
+    setOpenModal({
+      check: true,
+      data: selectInfo,
+    });
+  };
+
+  // Initial fetch of all events from database for the logged in user
+  useEffect(() => {
+    let collectionRef = collection(db, "events");
+    if (currentUser?.uid) {
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid)); // logged in user has unique uid linked to events
+      console.log(currentUser.uid);
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("no docs found");
+        } else {
+          let eventsData = querySnap.docs.map((doc) => ({
+            start: doc.data().start_time,
+            end: doc.data().end_time,
+            title: doc.data().title,
+            id: doc.id,
+          }));
+          setEventsData(eventsData);
+        }
+      });
+      return unsubscribe;
+    } else {
+      console.log("User not logged in");
+    }
+  }, [currentUser.uid]); // triggers when new user logins
 
   const handleEvents = (events) => {
     setCurrentEvents(events);
   };
-
-  // const handleEventAdd = async (e) => {
-  //   console.log(e.event)
-
-  // }
 
   function renderEventContent(eventInfo) {
     return (
@@ -187,7 +151,6 @@ export default function CalendarWithSchedule() {
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
-        {/* { &&<CalendarForm/>} */}
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -204,21 +167,15 @@ export default function CalendarWithSchedule() {
           events={eventsData}
           weekends={weekendsVisible}
           select={handleDateSelect}
-          // custom render function
+          selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-          //eventAdd={handleEventAdd}
-          //eventContent= {test}
-          /* you can update a remote database when these fire:
-        
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
         />
       </div>
-      {removeEvents.check && <EditDeleteCalendarModal data={removeEvents} method={method} />}
+      {removeEvents.check && (
+        <EditDeleteCalendarModal data={removeEvents} method={method} />
+      )}
       {openmodal.check && <CalendarModal data={openmodal} method={method} />}
-   
     </div>
   );
 }
