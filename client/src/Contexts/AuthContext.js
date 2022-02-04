@@ -48,7 +48,7 @@ export function AuthProvider(props) {
         loginPassword
       );
       console.log(user);
-      alert("You logged in success!");
+      // alert("You logged in success!");
     } catch (error) {
       console.log(error.message);
     }

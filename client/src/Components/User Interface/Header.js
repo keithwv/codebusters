@@ -26,7 +26,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import TodayIcon from '@mui/icons-material/Today';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
-import BusinessAvatar from './business/business_profile';
+import BusinessAvatar from './business/business_avatar';
 import { Avatar } from '@mui/material';
 
 const drawerWidth = 240;
@@ -167,7 +167,7 @@ const Header = (props) => {
     }
   }, [value]);
 
-  const iconsInDrawer = [
+  const drawerElements = [
     {
       'text': 'Dashboard',
       'iconName': <DashboardIcon />,
@@ -184,8 +184,13 @@ const Header = (props) => {
       'path': "/services"
     },
   ]
-  //  {'Calendar/Schedule', 'Your Services'}]
 
+  const businessProfileDrawerElement = [
+    {
+      'text': 'Your Profile',
+      'path': "/business-profile"
+    },
+  ]
 
   return (
     <>
@@ -221,6 +226,7 @@ const Header = (props) => {
               </Tabs>
             </Toolbar>
           </AppBar>
+          {/* Drawer below */}
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
 
@@ -230,15 +236,24 @@ const Header = (props) => {
                   justifyContent: 'auto',
                   marginRight: 'auto',
                 }
-              } > {BusinessAvatar()} </Avatar>
+              } > {BusinessAvatar()}
+
+              </Avatar>
+              {businessProfileDrawerElement.map((item, key) => (
+                <ListItem button component={Link} to={item.path} key={item.text}>
+                  <ListItemText primary={item.text} />
+                </ListItem>
+              ))}
 
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
             </DrawerHeader>
+
             <Divider />
+
             <List>
-              {iconsInDrawer.map((item) => (
+              {drawerElements.map((item, key) => (
                 <ListItem button component={Link} to={item.path} key={item.text}>
                   <ListItemIcon>
                     {item.iconName}
@@ -247,7 +262,9 @@ const Header = (props) => {
                 </ListItem>
               ))}
             </List>
+
             <Divider />
+
             <List>
               {['Settings'].map((text, index) => (
                 <ListItem button key={text}>
@@ -258,6 +275,7 @@ const Header = (props) => {
                 </ListItem>
               ))}
             </List>
+
           </Drawer>
           <DrawerHeader />
         </Box>
