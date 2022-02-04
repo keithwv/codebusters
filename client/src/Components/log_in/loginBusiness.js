@@ -33,12 +33,12 @@ export default function SignIn() {
     resolver: yupResolver(schema),
     mode: "all"
   });
-  
+
   const navigate = useNavigate();
   const { loginFirebase, currentUser } = useAuth()
 
   const onSubmit = (data) => {
-    navigate('#');
+    navigate('/dashboard');
     loginFirebase(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
