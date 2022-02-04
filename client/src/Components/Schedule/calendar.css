@@ -38,14 +38,14 @@ b { /* used for event dates/times */
 
 .demo-app-sidebar {
   justify-content: space-around;
-  margin-left: 240px;
+  margin-left: 200px;
   line-height: 1.5;
   background: #eaf9ff;
   border-right: 1px solid #d3e2e8;
 }
 
 .demo-app-sidebar-section {
-  padding: 2em;
+  padding: 1em;
 }
 
 .demo-app-main {
