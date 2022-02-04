@@ -15,6 +15,7 @@ import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
 import BusinessDashboard from "./Components/User Interface/business/business_dashboard";
+import BusinessAvatar from "./Components/User Interface/business/business_profile";
 
 
 
@@ -37,6 +38,8 @@ function App(props) {
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
           <Route path='/dashboard' element={<BusinessDashboard />} />
+          {/* tests: */}
+          <Route path='/business-profile' element={<BusinessAvatar />} />
         </Routes>
         < Footer />
       </ThemeProvider>
