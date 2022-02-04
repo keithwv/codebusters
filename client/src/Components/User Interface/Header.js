@@ -22,12 +22,12 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TodayIcon from '@mui/icons-material/Today';
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import BusinessAvatar from './business/business_profile';
+import { Avatar } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -218,13 +218,20 @@ const Header = (props) => {
                 <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
                 <Tab className={classes.tab} component={Link} to="/Login" label="Login" />
                 <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />
-                {/* <Tab className={classes.tab} component={Link} to="/services" label="Services" />
-                <Tab className={classes.tab} component={Link} to="/add-services" label="Add Services" /> */}
               </Tabs>
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
+
+              <Avatar style={
+                {
+                  display: 'flex',
+                  justifyContent: 'auto',
+                  marginRight: 'auto',
+                }
+              } > {BusinessAvatar()} </Avatar>
+
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>
@@ -233,13 +240,8 @@ const Header = (props) => {
             <List>
               {iconsInDrawer.map((item) => (
                 <ListItem button component={Link} to={item.path} key={item.text}>
-                  {/* <ListItem button component={Link} to="/dashboard" key={text}> */}
-
                   <ListItemIcon>
                     {item.iconName}
-                    {/* <DashboardIcon index={"Dashboard"} />
-                    <TodayIcon index={"Calendar/Schedule"} />
-                    <HomeRepairServiceIcon index={"Your Services"} /> */}
                   </ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItem>
@@ -262,6 +264,6 @@ const Header = (props) => {
       </ElevationScroll>
     </>
   );
-};
+}
 
 export default Header;
