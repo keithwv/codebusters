@@ -52,7 +52,7 @@ export default function AddressForm() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    navigate('#');
+    navigate('/dashboard');
     console.log(data);
     
     try {
@@ -248,8 +248,8 @@ export default function AddressForm() {
                     label="Province"
                     fullWidth
                     variant="standard"
-                    error={!!errors.state}
-                    helperText={errors.state?.message}
+                    error={!!errors.province}
+                    helperText={errors.province?.message}
                   />
                 )}
               />
@@ -271,8 +271,8 @@ export default function AddressForm() {
                     fullWidth
                     autoComplete="shipping postal-code"
                     variant="standard"
-                    error={!!errors.zip}
-                    helperText={errors.zip?.message}
+                    error={!!errors.postal_code}
+                    helperText={errors.postal_code?.message}
                   />
                 )}
               />
@@ -319,11 +319,9 @@ export default function AddressForm() {
 
             <Button
               type="submit"
-              // fullWidth
               variant="contained"
               sx={{ mx: "auto", mt: 3, mb: 5 }}
               disabled={!formState.isValid}
-              href='/dashboard'
             >
               Submit Form
             </Button>
