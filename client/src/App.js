@@ -4,7 +4,6 @@ import Header from "./Components/User Interface/Header";
 import Footer from "./Components/User Interface/Footer"
 import theme from "./Components/User Interface/Theme";
 import { Route, Routes } from "react-router-dom";
-// import UserType from "./Components/User Type/UserType";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
 import SignIn from "./Components/log_in/loginBusiness";
@@ -16,6 +15,7 @@ import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
 import BusinessDashboard from "./Components/User Interface/business/business_dashboard";
 import BusinessProfile from "./Components/User Interface/business/business_profile";
+import Profile from "./Components/User Interface/user/profile";
 
 
 
@@ -26,7 +26,6 @@ function App(props) {
     <AuthProvider>
       <ThemeProvider theme={theme}>
         <Header />
-        {/* <UserType /> */}
         <Routes>
           <Route path='/home' element={<div>Home</div>} />
           <Route path='/Register' element={<RegisterBusiness />} />
@@ -39,6 +38,7 @@ function App(props) {
           <Route path='/register-client' element={<RegisterClient />} />
           <Route path='/dashboard' element={<BusinessDashboard />} />
           <Route path='/business-profile' element={<BusinessProfile />} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
         < Footer />
       </ThemeProvider>
