@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -27,9 +25,7 @@ const schema = yup.object().shape({
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email().required("Email is required"),
   password: yup.string().min(6).max(24).required("Password is required"),
-  password2: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+  password2: yup.string().oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 const theme = createTheme();
@@ -58,7 +54,7 @@ export default function RegisterBusiness() {
     // Add new user to users database and set its uid to the same uid in firebase authentication
     // May place the below function in a different file, specifically crud functions for users database.
     //Separation of concerns.
-    
+
 
     console.log(data, "submitted");
     console.log(errors);
@@ -235,15 +231,6 @@ export default function RegisterBusiness() {
                   />
                 </FormControl>
               </Grid>
-
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
             </Grid>
             <Button
               // href="/Login-Business/Fill-form"
