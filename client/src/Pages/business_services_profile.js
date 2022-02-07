@@ -13,6 +13,7 @@ import Businesslist from "../Components/for_logged_in_users/businessList";
 import { useAuth } from "../contexts/AuthContext";
 import AddServiceModal from "../Components/Modals/AddServicesModal";
 import ServiceList from "../Components/for_logged_in_users/serviceList";
+import ServicesTable from "../Components/User_Interface/user/ServicesTable";
 
 const theme = createTheme();
 
@@ -25,27 +26,17 @@ export const ServicesForBusiness = () => {
         {`Welcome ${currentUser.email}`}
       </Typography>
       <Container
-        maxWidth="sm"
-        spacing={4}
+        // maxWidth="xs"
+        //spacing={6}
         sx={{
-          marginTop: 6,
+          marginTop: 2,
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <AddServiceModal/>
-        <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Card variant='outlined'>
-            <Businesslist />
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card variant='outlined'>
-            <ServiceList/>
-          </Card> 
-        </Grid>
+        <Grid item>
+            <ServicesTable />
         </Grid>
       </Container>
     </ThemeProvider>

@@ -1,8 +1,8 @@
 import React from "react";
 import { ThemeProvider } from "@material-ui/styles";
-import Header from "./Components/User Interface/Header";
-import Footer from "./Components/User Interface/Footer"
-import theme from "./Components/User Interface/Theme";
+import Header from "./Components/User_Interface/Header";
+import Footer from "./Components/User_Interface/Footer"
+import theme from "./Components/User_Interface/Theme";
 import { Route, Routes } from "react-router-dom";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -13,9 +13,9 @@ import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
-import BusinessDashboard from "./Components/User Interface/business/business_dashboard";
-import BusinessProfile from "./Components/User Interface/business/business_profile";
-import Profile from "./Components/User Interface/user/profile";
+import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
+import BusinessProfile from "./Components/User_Interface/business/business_profile";
+import Profile from "./Components/User_Interface/user/profile";
 
 
 
