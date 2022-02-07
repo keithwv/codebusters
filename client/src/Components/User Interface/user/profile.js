@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { useAuth } from "../../../contexts/AuthContext";
 import * as yup from "yup";
@@ -17,8 +17,13 @@ import {
     updateDoc,
     // deleteDoc,
     doc,
+    onSnapshot,
+    query,
+    where,
 } from "firebase/firestore";
-import { Button } from '@mui/material';
+import { Button, Paper } from '@mui/material';
+import { rootShouldForwardProp } from '@mui/material/styles/styled';
+import Table2 from './table';
 // import SignIn from '../../log_in/loginBusiness';
 // import { useNavigate } from "react-router-dom";
 // import Avatar from "@mui/material/Avatar";
@@ -39,6 +44,10 @@ const schema = yup.object().shape({
     // password2: yup.string().oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
+function createData(company_name, address_1, address_2, city, country, postal_code, province) {
+    return { company_name, address_1, address_2, city, country, postal_code, province };
+  }
+  
 
 export default function Profile() {
 
@@ -58,6 +67,29 @@ export default function Profile() {
     // const navigate = useNavigate();
     // const { register } = useAuth();
     const { currentUser } = useAuth()
+
+    const [rows, setRows] = React.useState([createData("CodeBusters", "11418 101st", "N/A", "Edmonton", "CA", "T1Y 3P2", "AB")])
+
+   // Get Business Documents for Logged in User
+    React.useEffect(() => {
+        let collectionRef = collection(db, "business");
+        if (currentUser?.uid) {
+        let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+        const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+          if (querySnap.empty) {
+            console.log("No docs found");
+          } else {
+            let businessData = querySnap.docs.map((doc) => {
+              return {
+                ...doc.data(),
+                DOC_ID: doc.id,
+              };
+            });
+            setRows(businessData);
+          }
+        }); 
+        return unsubscribe;
+    }}, [currentUser.uid]);
 
     const onSubmit = async (data) => {
         // navigate('/dashboard');
@@ -86,10 +118,10 @@ export default function Profile() {
     // if (currentUser) {
     return (
         <>
-            <Container maxWidth="sm">
+            <Container maxWidth="lg">
                 <Typography
                     component="h1"
-                    variant="h2"
+                    variant="h5"
                     align="center"
                     color="text.primary"
                     gutterBottom
@@ -99,6 +131,9 @@ export default function Profile() {
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
                     What would you like to do today?
                 </Typography>
+                <Grid item style={{marginLeft: "5em", marginTop: "5em"}}>
+                    <Table2 />
+                </Grid>
                 <Box
                     component="form"
                     noValidate
