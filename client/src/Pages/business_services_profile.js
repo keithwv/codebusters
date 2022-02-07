@@ -26,11 +26,11 @@ export const ServicesForBusiness = () => {
         {`Welcome ${currentUser.email}`}
       </Typography>
       <Container
-        // maxWidth="xs"
-        //spacing={6}
+        width="auto"
+        spacing={6}
         sx={{
           marginTop: 2,
-          display: "flex",
+          display: "flex-wrap",
           flexDirection: "column",
           alignItems: "center",
         }}

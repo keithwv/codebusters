@@ -132,6 +132,8 @@ const Header = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+ 
+  const { currentUser } = useAuth()
 
   // Header constants
   const classes = useStyles();
@@ -221,8 +223,9 @@ const Header = (props) => {
               >
                 <Tab className={classes.tab} component={Link} to="/home" label="Home" />
                 <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
-                <Tab className={classes.tab} component={Link} to="/Login" label="Login" />
+                {!currentUser &&<Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
                 <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />
+                <Avatar>{BusinessAvatar()}</Avatar>
               </Tabs>
             </Toolbar>
           </AppBar>

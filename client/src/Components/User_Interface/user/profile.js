@@ -32,7 +32,7 @@ import ServicesTable from './ServicesTable';
 export default function Profile() {
 
     const { currentUser } = useAuth()
-    
+    console.log(currentUser)
     return (
     <React.Fragment>
         <Container maxWdith="sm">
@@ -51,9 +51,9 @@ export default function Profile() {
                 <Grid item style={{marginLeft: "5em", marginTop: "1em" , width:'80%'}}>
                     <BusinessTable />
                 </Grid>
-                <Grid item style={{marginLeft: "5em", marginTop: "5em" , width:'80%'}}>
+                {/* <Grid item style={{marginLeft: "5em", marginTop: "5em" , width:'80%'}}>
                     <ServicesTable />
-                </Grid>
+                </Grid> */}
         </Container>
     </React.Fragment>
         )

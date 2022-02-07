@@ -11,6 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import SignIn from '../../log_in/loginBusiness';
 
@@ -24,15 +25,17 @@ const cards = [
     'alt': "random",
     'headerText': "Your Services",
     'buttonText': "View Services",
+    'Link': "/services",
     'mainText': "Here you can view a list of your existing services"
   },
   {
     'id': 2,
     'image': "https://source.unsplash.com/random",
     'alt': "random",
-    'headerText': "Add/Remove Services",
-    'buttonText': "Change Services",
-    'mainText': "Here you can add or delete your existing services"
+    'headerText': "View Business Profile Page",
+    'Link': "/profile",
+    'buttonText': "Business Profile",
+    'mainText': "Here you can add or delete your Business Profile"
   }];
 
 const theme = createTheme();
@@ -95,7 +98,8 @@ export default function BusinessDashboard() {
                     </CardContent>
                     <CardActions>
                       <Button
-                        // href=""
+                        component={Link}
+                        to={card.Link}
                         type="submit"
                         fullWidth
                         variant="contained"
