@@ -36,26 +36,54 @@ const columns = [
   {
     title: "Company Name",
     field: "company_name",
+    width: '20%',
+    cellStyle: {
+        width: 100,
+        minWidth: 100
+  }
   },
   {
     title: "Address 1",
     field: "address1",
-  },
+    cellStyle: {
+        width: 150,
+        minWidth: 150
+  }
+},
   {
     title: "Address 2",
     field: "address2",
-  },
+    cellStyle: {
+        width: 100,
+        minWidth: 100
+  }
+},
   {
     title: "City",
     field: "city",
+    cellStyle: {
+        width: 100,
+        minWidth: 100
+  }
   },
   {
     title: "Postal Code",
     field: "postal_code",
+    width: '20%',
+    cellStyle: {
+        width: 100,
+        minWidth: 100
+  }
+    
   },
   {
     title: "Province",
     field: "province",
+    width: '20%',
+    cellStyle: {
+        width: 100,
+        minWidth: 100
+  }
   },
 ];
 
@@ -127,12 +155,9 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function Table2() {
+export default function BusinessTable() {
   const [rows, setRows] = useState([]);
   console.log(rows);
-
-
-  
 
   const { currentUser } = useAuth();
   console.log(currentUser)
