@@ -31,6 +31,7 @@ import { Avatar } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from "../../Firebase/firebase-config";
+import TextField from '@mui/material/TextField';
 
 
 const drawerWidth = 240;
@@ -205,26 +206,27 @@ const Header = (props) => {
 
   // Get User from the users database
   const [users, setUsers] = useState([])
-   
-  
-// Get the user information of the users database for current logged in user
+
+
+  // Get the user information of the users database for current logged in user
   useEffect(() => {
-      if (currentUser?.uid) {
-      let collectionRef=collection(db, 'users')
+    if (currentUser?.uid) {
+      let collectionRef = collection(db, 'users')
       let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-          if (querySnap.empty) {
-              console.log('No docs found')
-          } else {
-              let usersData = querySnap.docs.map((doc) => {
-                  return { ...doc.data(), DOC_ID: doc.id}
-              });
-              setUsers(usersData)
-          }
+        if (querySnap.empty) {
+          console.log('No docs found')
+        } else {
+          let usersData = querySnap.docs.map((doc) => {
+            return { ...doc.data(), DOC_ID: doc.id }
+          });
+          setUsers(usersData)
+        }
       });
       return unsubscribe;
-    }}, [currentUser?.uid]);
-  
+    }
+  }, [currentUser?.uid]);
+
   return (
     <>
       <div className={classes.toolbarMargin} />
@@ -246,6 +248,15 @@ const Header = (props) => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h3">bookMe!</Typography>
+              {/* Search bar component */}
+              <Box
+                sx={{
+                  width: 400,
+                  maxWidth: '100%',
+                }}
+              >
+                <TextField fullWidth label="Search..." />
+              </Box>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -256,7 +267,7 @@ const Header = (props) => {
                 {currentUser && <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Register" label="Register" />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
-                {currentUser && <Avatar alt="" src={users[0]?.imageUrl}/>}
+                {currentUser && <Avatar alt="" src={users[0]?.imageUrl} />}
               </Tabs>
             </Toolbar>
           </AppBar>
