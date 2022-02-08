@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -14,6 +14,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import SignIn from '../../log_in/loginBusiness';
+import UploadImage from './UploadImage';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from "../../../Firebase/firebase-config";
 
 
 
@@ -42,14 +45,42 @@ const theme = createTheme();
 
 export default function BusinessDashboard() {
   const { currentUser } = useAuth()
+
+   // Get User from the users database
+   const [users, setUsers] = useState([])
+   
+  
+   // Get the user information of the users database for current logged in user
+     useEffect(() => {
+         if (currentUser?.uid) {
+         let collectionRef=collection(db, 'users')
+         let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+         const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+             if (querySnap.empty) {
+                 console.log('No docs found')
+             } else {
+                 let usersData = querySnap.docs.map((doc) => {
+                     return { ...doc.data(), DOC_ID: doc.id}
+                 });
+                 setUsers(usersData)
+             }
+         });
+         return unsubscribe;
+       }}, [currentUser?.uid]);
+  
+       console.log(users)
   if (currentUser) {
 
     return (
-
+     
       <ThemeProvider theme={theme}>
+         
         <CssBaseline />
+       
         <main>
+        <UploadImage docId={users[0]?.DOC_ID} Name={users[0]?.name}/>
           {/* Hero unit */}
+       
           <Box
             sx={{
               bgcolor: 'background.paper',
@@ -68,10 +99,11 @@ export default function BusinessDashboard() {
                 {`Hello, ${currentUser.email}`}
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                What would you like to do today?
+                Upload an image for your user profile below!
               </Typography>
             </Container>
           </Box>
+         
           <Container sx={{ py: 3 }} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={12}>
@@ -115,6 +147,7 @@ export default function BusinessDashboard() {
             </Grid>
           </Container>
         </main>
+       
         {/* Footer */}
 
         {/* End footer */}

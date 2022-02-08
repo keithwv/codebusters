@@ -256,7 +256,7 @@ const Header = (props) => {
                 {currentUser && <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Register" label="Register" />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
-                {currentUser && <Avatar alt="code-busters" src={users[0]?.imageUrl}/>}
+                {currentUser && <Avatar alt="" src={users[0]?.imageUrl}/>}
               </Tabs>
             </Toolbar>
           </AppBar>
