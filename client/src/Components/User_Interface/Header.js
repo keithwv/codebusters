@@ -28,6 +28,7 @@ import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import BusinessAvatar from './business/business_avatar';
 import { Avatar } from '@mui/material';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 
 const drawerWidth = 240;
 
@@ -132,7 +133,7 @@ const Header = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
- 
+
   const { currentUser } = useAuth()
 
   // Header constants
@@ -185,6 +186,11 @@ const Header = (props) => {
       'iconName': <HomeRepairServiceIcon />,
       'path': "/services"
     },
+    {
+      'text': 'Add/Update Business',
+      'iconName': <AddBusinessIcon />,
+      'path': "/profile"
+    },
   ]
 
   const businessProfileDrawerElement = [
@@ -222,10 +228,10 @@ const Header = (props) => {
                 textColor="inherit"
               >
                 <Tab className={classes.tab} component={Link} to="/home" label="Home" />
-                <Tab className={classes.tab} component={Link} to="/Register" label="Register" />
-                {!currentUser &&<Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
-                <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />
-                <Avatar>{BusinessAvatar()}</Avatar>
+                {currentUser && <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />}
+                {!currentUser && <Tab className={classes.tab} component={Link} to="/Register" label="Register" />}
+                {!currentUser && <Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
+                {currentUser && <Avatar>{BusinessAvatar()}</Avatar>}
               </Tabs>
             </Toolbar>
           </AppBar>
@@ -233,21 +239,22 @@ const Header = (props) => {
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
 
-              <Avatar style={
+              {currentUser && <Avatar style={
                 {
                   display: 'flex',
                   justifyContent: 'auto',
                   marginRight: 'auto',
                 }
-              } > {BusinessAvatar()}
-
+              } >
+                {BusinessAvatar()}
               </Avatar>
+              }
+
               {businessProfileDrawerElement.map((item, key) => (
                 <ListItem button component={Link} to={item.path} key={item.text}>
                   <ListItemText primary={item.text} />
                 </ListItem>
               ))}
-
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </IconButton>

@@ -1,9 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-// import { Typography } from '@mui/material';
-// import { Container } from '@mui/material';
-// import { useAuth } from "../../../contexts/AuthContext";
-// import SignIn from '../../log_in/loginBusiness';
 
 // this function generates background color of avatar depending on the name
 function stringToColor(string) {
@@ -37,6 +33,6 @@ function stringToColor(string) {
 
 export default function BusinessAvatar() {
 return (
-    <Avatar {...stringAvatar('Kent Dodds')} />
+    <Avatar {...stringAvatar('code Busters')} />
 )
 }

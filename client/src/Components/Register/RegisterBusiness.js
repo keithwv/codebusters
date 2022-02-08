@@ -18,6 +18,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import StoreIcon from '@mui/icons-material/Store';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -208,10 +210,10 @@ export default function RegisterBusiness() {
               </Grid>
 
               <Grid id="select-business" item xs={12}>
-                Select Business Category
+                Are you owning a business or looking for services?
                 <FormControl xs={12} fullWidth>
                   <Controller
-                    name="select-business"
+                    name="select-user-type"
                     defaultValue=""
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -219,13 +221,13 @@ export default function RegisterBusiness() {
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
-                        labelId="select-business"
+                        labelId="select-user-type"
                         id="drop-down-menu"
-                        label="select-business"
+                        label="select-user-type"
                       >
-                        <MenuItem value="General">General</MenuItem>
-                        <MenuItem value="Car Repairs">Car Repairs</MenuItem>
-                        <MenuItem value="Cleaning Services">Cleaning Services</MenuItem>
+                        <MenuItem ><ShoppingCartIcon></ShoppingCartIcon>I am looking for services</MenuItem>
+                        <MenuItem ><StoreIcon ></StoreIcon>I am a business owner</MenuItem>
+                        {/* <MenuItem value="Cleaning Services">Cleaning Services</MenuItem> */}
                       </Select>
                     )}
                   />
