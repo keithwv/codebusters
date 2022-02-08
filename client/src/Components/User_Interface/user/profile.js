@@ -43,7 +43,7 @@ export default function Profile() {
                     color="text.primary"
                     gutterBottom
                 >
-                    {`Hello ${currentUser.email}`}
+                    {`Hello, ${currentUser.email}`}
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" paragraph>
                     What would you like to do today?
