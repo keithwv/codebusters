@@ -19,7 +19,7 @@ function stringToColor(string) {
     }
     /* eslint-enable no-bitwise */
   
-    return color;
+    return color;  
   }
   
   function stringAvatar(name) {

@@ -8,6 +8,7 @@ import {
 import { auth } from "../Firebase/firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
+import { store } from "../Firebase/firebase-config"
 
 const AuthContext = React.createContext();
 
@@ -78,6 +79,7 @@ export function AuthProvider(props) {
 
   const value = {
     currentUser,
+    store,
     register,
     loginFirebase,
     logout,
