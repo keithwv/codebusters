@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,81 +14,55 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
-import { useAuth } from '../../contexts/AuthContext';
-import * as yup from "yup"
+import { useAuth } from "../../contexts/AuthContext";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from 'react-router-dom';
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../Firebase/firebase-config";
-
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { useNavigate } from "react-router-dom";
+import StoreIcon from '@mui/icons-material/Store';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 // Schema for register form
 const schema = yup.object().shape({
-
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email().required("Email is required"),
   password: yup.string().min(6).max(24).required("Password is required"),
   password2: yup.string().oneOf([yup.ref("password"), null], "Passwords must match"),
-
-})
+});
 
 const theme = createTheme();
 
 export default function RegisterBusiness() {
-
   // registerForBusiness,and formstate: { errors } are for yup validation
-  const { handleSubmit, control, reset, registerForBusiness, formState: { errors }, formState } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    registerForBusiness,
+    formState: { errors },
+    formState,
+  } = useForm({
     resolver: yupResolver(schema),
-    mode: "all"
-  })
+    mode: "all",
+  });
 
   const navigate = useNavigate();
-  const { register, currentUser } = useAuth()
-
+  const { register } = useAuth();
 
   const onSubmit = async (data) => {
-    navigate('/login-business/fill-form');
-    register(data.email, data.password)
+    navigate("/login-business/fill-form");
+    await register(data.firstName, data.lastName, data.email, data.password);
 
     // Add new user to users database and set its uid to the same uid in firebase authentication
-    // May place the below function in a different file, specifically crud functions for users database. 
+    // May place the below function in a different file, specifically crud functions for users database.
     //Separation of concerns.
-    try {
-     await addDoc(collection(db, 'users'), {
-      name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      uid: currentUser.uid
-    }) } catch(error) {
-      console.log(error)
-    }
 
 
-    console.log(data, "submitted")
-    console.log(errors)
+    console.log(data, "submitted");
+    console.log(errors);
 
     reset();
   };
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -108,7 +80,7 @@ export default function RegisterBusiness() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Register your Business
+            Register your business
           </Typography>
           <Box
             component="form"
@@ -141,7 +113,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12} sm={6}>
                 <Controller
@@ -165,7 +136,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -189,7 +159,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -214,7 +183,6 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
               <Grid item xs={12}>
                 <Controller
@@ -239,14 +207,13 @@ export default function RegisterBusiness() {
                     />
                   )}
                 />
-
               </Grid>
 
               <Grid id="select-business" item xs={12}>
-                Select Business Category
+                Are you owning a business or looking for services?
                 <FormControl xs={12} fullWidth>
                   <Controller
-                    name="select-business"
+                    name="select-user-type"
                     defaultValue=""
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
@@ -254,26 +221,17 @@ export default function RegisterBusiness() {
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
-                        labelId="select-business"
+                        labelId="select-user-type"
                         id="drop-down-menu"
-                        label="select-business"
+                        label="select-user-type"
                       >
-                        <MenuItem value="General">General</MenuItem>
-                        <MenuItem value="Car Repairs">Car Repairs</MenuItem>
-                        <MenuItem value="Cleaning Services">Cleaning Services</MenuItem>
+                        <MenuItem ><ShoppingCartIcon></ShoppingCartIcon>I am looking for services</MenuItem>
+                        <MenuItem ><StoreIcon ></StoreIcon>I am a business owner</MenuItem>
+                        {/* <MenuItem value="Cleaning Services">Cleaning Services</MenuItem> */}
                       </Select>
                     )}
                   />
                 </FormControl>
-              </Grid>
-
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
               </Grid>
             </Grid>
             <Button
@@ -295,7 +253,6 @@ export default function RegisterBusiness() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

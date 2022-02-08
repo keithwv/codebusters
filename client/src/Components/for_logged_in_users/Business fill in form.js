@@ -5,14 +5,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { CardActions, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import addBusiness from "../../Firebase/CRUD_Functions";
 import { useNavigate } from 'react-router-dom';
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
@@ -53,7 +52,7 @@ export default function AddressForm() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    navigate('#');
+    navigate('/dashboard');
     console.log(data);
     
     try {
@@ -249,8 +248,8 @@ export default function AddressForm() {
                     label="Province"
                     fullWidth
                     variant="standard"
-                    error={!!errors.state}
-                    helperText={errors.state?.message}
+                    error={!!errors.province}
+                    helperText={errors.province?.message}
                   />
                 )}
               />
@@ -272,8 +271,8 @@ export default function AddressForm() {
                     fullWidth
                     autoComplete="shipping postal-code"
                     variant="standard"
-                    error={!!errors.zip}
-                    helperText={errors.zip?.message}
+                    error={!!errors.postal_code}
+                    helperText={errors.postal_code?.message}
                   />
                 )}
               />
@@ -320,7 +319,6 @@ export default function AddressForm() {
 
             <Button
               type="submit"
-              // fullWidth
               variant="contained"
               sx={{ mx: "auto", mt: 3, mb: 5 }}
               disabled={!formState.isValid}

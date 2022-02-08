@@ -18,23 +18,6 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
@@ -50,12 +33,12 @@ export default function SignIn() {
     resolver: yupResolver(schema),
     mode: "all"
   });
-  
+
   const navigate = useNavigate();
   const { loginFirebase, currentUser } = useAuth()
 
   const onSubmit = (data) => {
-    navigate('#');
+    navigate('/dashboard');
     loginFirebase(data.email, data.password)
     console.log(data, "submitted");
     console.log(errors)
@@ -165,7 +148,6 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider >
   );
