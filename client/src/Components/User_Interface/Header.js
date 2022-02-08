@@ -29,6 +29,9 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import BusinessAvatar from './business/business_avatar';
 import { Avatar } from '@mui/material';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { db } from "../../Firebase/firebase-config";
+
 
 const drawerWidth = 240;
 
@@ -200,6 +203,28 @@ const Header = (props) => {
     },
   ]
 
+  // Get User from the users database
+  const [users, setUsers] = useState([])
+   
+  
+// Get the user information of the users database for current logged in user
+  useEffect(() => {
+      if (currentUser?.uid) {
+      let collectionRef=collection(db, 'users')
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+          if (querySnap.empty) {
+              console.log('No docs found')
+          } else {
+              let usersData = querySnap.docs.map((doc) => {
+                  return { ...doc.data(), DOC_ID: doc.id}
+              });
+              setUsers(usersData)
+          }
+      });
+      return unsubscribe;
+    }}, [currentUser?.uid]);
+  
   return (
     <>
       <div className={classes.toolbarMargin} />
@@ -231,7 +256,7 @@ const Header = (props) => {
                 {currentUser && <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Register" label="Register" />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
-                {currentUser && <Avatar>{BusinessAvatar()}</Avatar>}
+                {currentUser && <Avatar alt="code-busters" src={users[0]?.imageUrl}/>}
               </Tabs>
             </Toolbar>
           </AppBar>
