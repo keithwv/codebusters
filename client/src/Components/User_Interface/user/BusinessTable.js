@@ -1,5 +1,5 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import MaterialTable from "material-table";
+import MaterialTable from "@material-table/core";
 import {
   addDoc,
   collection,
