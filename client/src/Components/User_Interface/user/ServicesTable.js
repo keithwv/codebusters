@@ -40,6 +40,10 @@ const columns = [
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
 },
+{
+    title: "Business",
+    field: "business",
+}
 ];
 
 const deleteBusiness = (id) => {
