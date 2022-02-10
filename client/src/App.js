@@ -16,6 +16,7 @@ import ServiceList from "./Components/for_logged_in_users/serviceList";
 import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
 import BusinessProfile from "./Components/User_Interface/business/business_profile";
 import Profile from "./Components/User_Interface/user/profile";
+import User_Profile from "./Pages/UsersProfile";
 
 
 
@@ -36,7 +37,7 @@ function App(props) {
           <Route path='/login-business/fill-form' element={<AddressForm />} />
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
-          <Route path='/dashboard' element={<BusinessDashboard />} />
+          <Route path='/dashboard' element={<User_Profile />} />
           <Route path='/business-profile' element={<BusinessProfile />} />
           <Route path='/profile' element={<Profile />} />
         </Routes>

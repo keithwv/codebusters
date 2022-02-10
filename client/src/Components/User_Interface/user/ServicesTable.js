@@ -47,7 +47,7 @@ const columns = [
     cellStyle: {
         width: 150,
         minWidth: 150
-  }
+  },
 },
 ];
 
@@ -55,7 +55,7 @@ const deleteBusiness = (id) => {
   const businessDoc = doc(db, "services", id);
   return deleteDoc(businessDoc);
 };
-const handleRowAdd = async (props,newData, resolve) => {
+const handleRowAdd = async (props, newData, resolve) => {
     const {currentUser} = props
     console.log(currentUser)
   if (currentUser?.uid) {
@@ -71,7 +71,9 @@ const handleRowAdd = async (props,newData, resolve) => {
   }
   console.log(newData);
 
-}};
+}
+  resolve();
+};
 
 const handleRowDelete = async (oldData, resolve) => {
   const id = oldData.DOC_ID;
@@ -83,10 +85,16 @@ const handleRowUpdate = async (newData, oldData, resolve) => {
   console.log(newData);
   console.log(oldData);
   const id = newData.DOC_ID;
-  const businessDoc = doc(db, "service", id);
-  await updateDoc(businessDoc, {
+  const serviceDoc = doc(db, "services", id);
+  console.log(serviceDoc)
+  try {
+  await updateDoc(serviceDoc, {
     ...newData,
-  });
+  }); 
+  console.log('Doc Updated')
+} catch(err) {
+  console.log(err.message)
+}
 
   resolve();
 };
