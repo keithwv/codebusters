@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, useTheme } from "@mui/styles";
-import { Container, Grid, Box } from "@mui/material";
+import { Container, Grid, Box, Stack } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button, Paper } from "@mui/material";
 import { TextField } from "@mui/material";
@@ -26,10 +26,10 @@ const schema = yup.object().shape({
 // }));c
 
 const User_Profile = () => {
-//   const classes = useStyles();
-// //   const theme = useTheme({
-// //     spacing: 2,
-// //   });
+  //   const classes = useStyles();
+  // //   const theme = useTheme({
+  // //     spacing: 2,
+  // //   });
 
   const [users, setUsers] = useState({
     name: "",
@@ -52,7 +52,7 @@ const User_Profile = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    reset()
+    reset();
   };
 
   const { currentUser } = useAuth();
@@ -82,133 +82,165 @@ const User_Profile = () => {
   }, [currentUser?.uid]);
 
   const handleUpdate = async () => {
-      const id = users.DOC_ID
-      const usersDoc = doc(db,"users", id)
-      try {
+    const id = users.DOC_ID;
+    const usersDoc = doc(db, "users", id);
+    try {
       await updateDoc(usersDoc, {
         name: users.name,
         last_name: users.last_name,
-        email: users.email
-      })
-      alert('User profile has been updated')
-    } catch(err) {
-      console.log(err.message)
+        email: users.email,
+      });
+      alert("User profile has been updated");
+    } catch (err) {
+      console.log(err.message);
     }
-    reset()
-  }
+    reset();
+  };
 
   return (
     <Box
-      height="100%"
-      display="flex"
-      flexDirection="column"
-      justifyContent="flex-start"
-      alignItems="center"
-      color="#fff"
-      spacing={2}
-      component="form"
-      noValidate
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Grid item>
-        <Typography color="blue" variant="h6" align="center">
-          {`Welcome ${users?.name} ${users?.last_name}`}
-        </Typography>
-      </Grid>
-      <Grid item>
-        <Avatar
-          alt=""
-          src={users?.imageUrl}
-          sx={{
-            mt: "2rem",
-            width: 250,
-            height: 250,
-          }}
-        />
-      </Grid>
-      <Typography color="blue" variant="h7" align="center" mt="1rem">
-        Upload image for Avatar or Overwrite Existing Avatar Below
+     onSubmit={handleSubmit(onSubmit)}
+     component="form"
+     noValidate
+     >
+      <Typography color="blue" variant="h6" align="center">
+        {`Welcome ${users?.name} ${users?.last_name}`}
       </Typography>
-      <Grid item mt="1rem">
-        <UploadButton docId={users?.DOC_ID} Name={users?.name} />
-      </Grid>
-      <Grid item mt="1rem">
-        <Controller
-          name="name"
-          defaultValue=""
-          control={control}
-          render={({ field: {onBlur, value } }) => (
-            <TextField
-              onChange={(e) =>
-                setUsers({
-                  name: e.target.value,
-                  last_name: users.last_name,
-                  email: users.email,
-                  imageUrl: users.imageUrl,
-                  DOC_ID: users.DOC_ID,
-                })
-              }
-              value={users.name}
-              onBlur={onBlur}
-              autoComplete="given-name"
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={4}
+      >
+        <Grid item xs="auto">
+          <Avatar
+            alt=""
+            src={users?.imageUrl}
+            sx={{
+              mt: "2rem",
+              width: 250,
+              height: 250,
+            }}
+          />
+        </Grid>
+        <Grid item xs="auto">
+          <Stack spacing={1}>
+            <Controller
               name="name"
-              label="first name"
-              id="name"
-              variant="standard"
-              autoFocus
-              error={!!errors.name}
-              helperText={errors.name?.message}
+              defaultValue=""
+              control={control}
+              render={({ field: { onBlur, value } }) => (
+                <TextField
+                  onChange={(e) =>
+                    setUsers({
+                      name: e.target.value,
+                      last_name: users.last_name,
+                      email: users.email,
+                      imageUrl: users.imageUrl,
+                      DOC_ID: users.DOC_ID,
+                    })
+                  }
+                  value={users.name}
+                  onBlur={onBlur}
+                  autoComplete="given-name"
+                  name="name"
+                  label="first name"
+                  id="name"
+                  variant="standard"
+                  autoFocus
+                  error={!!errors.name}
+                  helperText={errors.name?.message}
+                />
+              )}
             />
-          )}
-        />
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              render={({ field: { onBlur, value } }) => (
+                <TextField
+                  onChange={(e) =>
+                    setUsers({
+                      name: users.name,
+                      last_name: e.target.value,
+                      email: users.email,
+                      imageUrl: users.imageUrl,
+                      DOC_ID: users.DOC_ID,
+                    })
+                  }
+                  value={users.last_name}
+                  label="last name"
+                  id="last_name"
+                  variant="standard"
+                  autoFocus
+                  error={!!errors.last_name}
+                  helperText={errors.last_name?.message}
+                />
+              )}
+            />
+            <Controller
+              name="name"
+              defaultValue=""
+              control={control}
+              render={({ field: { onBlur, value } }) => (
+                <TextField
+                  onChange={(e) =>
+                    setUsers({
+                      name: users.name,
+                      last_name: users.last_name,
+                      email: e.target.value,
+                      imageUrl: users.imageUrl,
+                      DOC_ID: users.DOC_ID,
+                    })
+                  }
+                  value={users.email}
+                  label="email"
+                  id="email"
+                  variant="standard"
+                  autoFocus
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                />
+              )}
+            />
+          </Stack>
+        </Grid>
       </Grid>
-      <Grid item mt="1rem">
-        <TextField
-          onChange={(e) =>
-            setUsers({
-              name: users.name,
-              last_name: e.target.value,
-              email: users.email,
-              imageUrl: users.imageUrl,
-              DOC_ID: users.DOC_ID,
-            })
-          }
-          value={users.last_name}
-          label="last name"
-          id="last_name"
-          variant="standard"
-          autoFocus
-          error={!!errors.last_name}
-          helperText={errors.last_name?.message}
-        />
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={15}
+      >
+        <Grid item xs="auto" mt="1.5rem">
+          <UploadButton docId={users?.DOC_ID} Name={users?.name} />
+        </Grid>
+        <Grid item xs="auto" mt="1.5rem">
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            onClick={handleUpdate}
+          >
+            Edit Profile
+          </Button>
+        </Grid>
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={10}>
+          <Grid item xs="auto" ml="10rem" mt="5rem">
+          <Button variant="contained">
+            VIEW EXISTING BUSINESS
+          </Button>
+          </Grid>
+          <Grid item xs="auto" mt="5rem">
+          <Button variant="contained">
+            SEE AVAILABLE SERVICES
+          </Button>
       </Grid>
-      <Grid item mt="1rem">
-        <TextField
-          onChange={(e) =>
-            setUsers({
-              name: users.name,
-              last_name: users.last_name,
-              email: e.target.value,
-              imageUrl: users.imageUrl,
-              DOC_ID: users.DOC_ID,
-            })
-          }
-          value={users.email}
-          label="email"
-          id="email"
-          variant="standard"
-          autoFocus
-          error={!!errors.email}
-          helperText={errors.email?.message}
-        />
       </Grid>
-      <Grid item mt="1rem">
-        <Button type="submit" color="primary" variant="contained"
-        onClick={handleUpdate}>
-          Edit Profile
-        </Button>
       </Grid>
-    </Box>
+      </Box>
   );
 };
 
