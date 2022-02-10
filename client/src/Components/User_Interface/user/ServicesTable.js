@@ -35,19 +35,10 @@ const columns = [
   {
     title: "Service",
     field: "service",
-    width: '20%',
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
   },
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
-    cellStyle: {
-        width: 150,
-        minWidth: 150
-  },
 },
 ];
 
