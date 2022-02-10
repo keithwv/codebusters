@@ -8,8 +8,6 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import { useAuth } from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
-import { flexbox } from "@mui/system";
-import { ErrorSharp, Rowing } from "@mui/icons-material";
 import { UploadButton } from "../Components/for_logged_in_users/UploadButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
@@ -18,8 +16,9 @@ import { doc, updateDoc } from "firebase/firestore";
 
 // Schema for register form
 const schema = yup.object().shape({
-  title: yup.string().required("title is required"),
-  //   service: yup.string().required("service is required"),
+  name: yup.string().required("name is required"),
+  last_name: yup.string().required("Last name is required"),
+  email: yup.string().email().required("valid email is required"),
 });
 
 // onst useStyles = makeStyles((theme) => ({
@@ -53,6 +52,7 @@ const User_Profile = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    reset()
   };
 
   const { currentUser } = useAuth();
@@ -94,6 +94,7 @@ const User_Profile = () => {
     } catch(err) {
       console.log(err.message)
     }
+    reset()
   }
 
   return (
@@ -136,7 +137,7 @@ const User_Profile = () => {
           name="name"
           defaultValue=""
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: {onBlur, value } }) => (
             <TextField
               onChange={(e) =>
                 setUsers({
@@ -156,7 +157,7 @@ const User_Profile = () => {
               variant="standard"
               autoFocus
               error={!!errors.name}
-              helperText={errors.title?.message}
+              helperText={errors.name?.message}
             />
           )}
         />
@@ -177,8 +178,8 @@ const User_Profile = () => {
           id="last_name"
           variant="standard"
           autoFocus
-          error={!!errors.name}
-          helperText={errors.name?.message}
+          error={!!errors.last_name}
+          helperText={errors.last_name?.message}
         />
       </Grid>
       <Grid item mt="1rem">
@@ -197,8 +198,8 @@ const User_Profile = () => {
           id="email"
           variant="standard"
           autoFocus
-          error={!!errors.name}
-          helperText={errors.name?.message}
+          error={!!errors.email}
+          helperText={errors.email?.message}
         />
       </Grid>
       <Grid item mt="1rem">

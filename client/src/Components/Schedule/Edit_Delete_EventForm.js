@@ -56,7 +56,7 @@ export default function EditDeleteEventForm(props) {
     formState,
   } = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange",
+    mode: "all",
   });
 
   //   const navigate = useNavigate();
@@ -166,7 +166,7 @@ export default function EditDeleteEventForm(props) {
                       onChange={(e) => setData(e.target.value)}
                       value={storeddata}
                       onBlur={onBlur}
-                      autoComplete="given-name"
+                      //autoComplete="given-name"
                       name="title"
                       required
                       fullWidth
