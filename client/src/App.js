@@ -17,6 +17,7 @@ import BusinessDashboard from "./Components/User_Interface/business/business_das
 import BusinessProfile from "./Components/User_Interface/business/business_profile";
 import Profile from "./Components/User_Interface/user/profile";
 import User_Profile from "./Pages/UsersProfile";
+import HomePage from "./Pages/home_page";
 
 
 
@@ -28,7 +29,7 @@ function App(props) {
       <ThemeProvider theme={theme}>
         <Header />
         <Routes>
-          <Route path='/home' element={<div>Home</div>} />
+          <Route path='/home' element={<HomePage />}  />
           <Route path='/Register' element={<RegisterBusiness />} />
           <Route path='/Login' element={<SignIn />} />
           <Route path='/add-services' element={<ServiceList />} />
