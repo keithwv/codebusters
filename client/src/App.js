@@ -39,8 +39,8 @@ function App(props) {
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
           <Route path='/dashboard' element={<User_Profile />} />
-          <Route path='/business-profile' element={<BusinessLandingPage />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/business-profile' element={<Profile />} />
+          <Route path='/profile' element={<BusinessLandingPage />} />
         </Routes>
         < Footer />
       </ThemeProvider>
