@@ -30,6 +30,8 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
+import { Button, Grid, Menu, MenuItem } from "@material-ui/core";
+import { FormControl, InputLabel, Select } from "@mui/material";
 
 const columns = [
   {
@@ -121,10 +123,17 @@ const tableIcons = {
 
 export default function ServicesTable() {
   const [rows, setRows] = useState([]);
-  console.log(rows);
-
+  console.log(rows)
+  const [business, setBusiness] = useState([]);
+  const [selectedBusiness, setSelectedBusiness] = useState("");
+  
+  console.log(selectedBusiness.DOC_ID)
   const { currentUser } = useAuth();
   console.log(currentUser)
+
+  const handleChange = (event) => {
+    setSelectedBusiness(event.target.value)
+  }
 
   const handleRowAdd = async (newData, resolve) => {
    console.log(newData)
@@ -133,7 +142,10 @@ export default function ServicesTable() {
     await addDoc(collection(db, "services"), {
       service: newData.service,
       hourly_Cost: newData.hourly_Cost,
-      uid: currentUser.uid
+      business: selectedBusiness.company_name,
+      uid: currentUser.uid,
+      DOC_ID: selectedBusiness.DOC_ID
+
     });
     console.log("Service Submitted");
   } catch (error) {
@@ -144,10 +156,36 @@ export default function ServicesTable() {
 
 };
 
+
+
+useEffect(() => {
+  let collectionRef = collection(db, "business");
+   if (currentUser?.uid) {
+    let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+      if (querySnap.empty) {
+        console.log("No docs found");
+      } else {
+        let businessData = querySnap.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            DOC_ID: doc.id,
+          };
+        });
+        setBusiness(businessData);
+        
+      }
+    });
+    return unsubscribe;
+   }
+}, [currentUser.uid]);
+
+
   useEffect(() => {
     let collectionRef = collection(db, "services");
-     if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+     if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
+      where("DOC_ID", "==", selectedBusiness.DOC_ID ));
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");
@@ -164,10 +202,37 @@ export default function ServicesTable() {
       });
       return unsubscribe;
      }
-  }, [currentUser.uid]);
+  }, [currentUser.uid, selectedBusiness.DOC_ID]);
 
   return (
-    <div>
+    <>
+         <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <FormControl fullwidth="true">
+              <InputLabel id="business-menu-id">Business</InputLabel>
+            <Select
+              id="business-menu"
+              labelId="business-menu-id"
+              value={selectedBusiness}
+              label="Business"
+              onChange={handleChange}
+            >
+            {business.map((business) => {
+              return (
+                <MenuItem key={business.DOC_ID} value={business}>
+                  {business.company_name}
+                </MenuItem>
+              );
+            })}
+            </Select>
+          </FormControl>
+            </Grid>
+      <Grid item>
       <MaterialTable
         title="Services Provided"
         data={rows}
@@ -190,6 +255,8 @@ export default function ServicesTable() {
             }),
         }}
       />
-    </div>
+      </Grid>
+      </Grid>
+    </>
   );
 }
