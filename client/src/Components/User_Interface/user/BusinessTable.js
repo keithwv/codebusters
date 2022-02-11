@@ -1,14 +1,11 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import MaterialTable from "@material-table/core";
 import {
   addDoc,
   collection,
-  onSnapshot,
-  query,
   doc,
   deleteDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase-config";
 import {
@@ -24,7 +21,6 @@ import {
   FilterList,
   FirstPage,
   LastPage,
-  LocalConvenienceStoreOutlined,
   Remove,
   SaveAlt,
   Search,
@@ -84,13 +80,18 @@ const columns = [
         width: 100,
         minWidth: 100
   }
-  },
+},
+  {
+  title: "Category",
+  field: "Category",
+  }
 ];
 
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "business", id);
   return deleteDoc(businessDoc);
 };
+
 const handleRowAdd = async (props,newData, resolve) => {
     const {currentUser} = props
     console.log(currentUser)
@@ -155,12 +156,11 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function BusinessTable() {
-  const [rows, setRows] = useState([]);
-  console.log(rows);
-
+export default function BusinessTable(props) {
+  const {businessInfo} = props  // all business information from logged in user fetched from the business collection of firestore
+  
   const { currentUser } = useAuth();
-  console.log(currentUser)
+
 
   const handleRowAdd = async (newData, resolve) => {
    console.log(newData)
@@ -182,35 +182,13 @@ export default function BusinessTable() {
   console.log(newData);
   resolve()
 
-};
-
-  useEffect(() => {
-    let collectionRef = collection(db, "business");
-     if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-        if (querySnap.empty) {
-          console.log("No docs found");
-        } else {
-          let businessData = querySnap.docs.map((doc) => {
-            return {
-              ...doc.data(),
-              DOC_ID: doc.id,
-            };
-          });
-          setRows(businessData);
-          
-        }
-      });
-      return unsubscribe;
-     }
-  }, [currentUser.uid]);
+};    
 
   return (
     <div>
       <MaterialTable
         title="Business Information"
-        data={rows}
+        data={businessInfo}
         user={currentUser}
         columns={columns}
         icons={tableIcons}

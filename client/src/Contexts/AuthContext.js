@@ -17,7 +17,7 @@ export function useAuth() {
 }
 
 export function AuthProvider(props) {
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   const register = async (firstName, lastName, email, password) => {
     try {
@@ -69,7 +69,7 @@ export function AuthProvider(props) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log("use effect ");
+      console.log("Current User Changed");
     });
     return unsubscribe;
   }, []);

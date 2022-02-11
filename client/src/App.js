@@ -14,7 +14,7 @@ import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
 import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
-import BusinessProfile from "./Components/User_Interface/business/business_profile";
+import BusinessLandingPage from  './Pages/BusinessLandingPage';
 import Profile from "./Components/User_Interface/user/profile";
 import User_Profile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
@@ -39,8 +39,8 @@ function App(props) {
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
           <Route path='/dashboard' element={<User_Profile />} />
-          <Route path='/business-profile' element={<BusinessProfile />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/business-profile' element={<Profile />} />
+          <Route path='/profile' element={<BusinessLandingPage />} />
         </Routes>
         < Footer />
       </ThemeProvider>
