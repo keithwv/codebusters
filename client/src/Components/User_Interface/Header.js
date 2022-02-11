@@ -250,15 +250,7 @@ const Header = (props) => {
               </IconButton>
               <Avatar sx={{ marginRight: '36px'}} src="/BookmeLogo.png"/>
               <Typography variant="h3">bookMe!</Typography>
-              {/* Search bar component */}
-              <Box
-                sx={{
-                  width: 400,
-                  maxWidth: '100%',
-                }}
-              >
-                <TextField fullWidth label="Search..." />
-              </Box>
+
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -269,8 +261,8 @@ const Header = (props) => {
                 {currentUser && <Tab className={classes.tab} component={Link} to="/home" label="Logout" onClick={signOut} />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Register" label="Register" />}
                 {!currentUser && <Tab className={classes.tab} component={Link} to="/Login" label="Login" />}
-                {currentUser && <Avatar alt="" src={users[0]?.imageUrl} />}
               </Tabs>
+                {currentUser && users[0]?.imageUrl && <Avatar alt="" src={users[0]?.imageUrl} />}
             </Toolbar>
           </AppBar>
           {/* Drawer below */}

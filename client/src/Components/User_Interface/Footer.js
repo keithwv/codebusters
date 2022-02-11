@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Divider } from '@mui/material';
 
 //add proper info to this block after deployement
 function Copyright() {
@@ -19,10 +20,12 @@ function Copyright() {
 
 const Footer = () => {
   return (
+    
     <Box
       sx={{ bgcolor: 'background.paper', p: 10 }}
       component="footer"
     >
+       <Divider sx={{mr:"15%", ml:"15%"}}/>
       <Typography
         variant="h6"
         align="center"
