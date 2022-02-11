@@ -35,7 +35,7 @@ export default function Profile() {
     console.log(currentUser)
     return (
     <React.Fragment>
-        <Container maxWdith="sm">
+        <Container>
                 <Typography
                     component="h1"
                     variant="h5"
@@ -51,9 +51,7 @@ export default function Profile() {
                 <Grid item style={{marginLeft: "5em", marginTop: "1em" , width:'80%'}}>
                     <BusinessTable />
                 </Grid>
-                {/* <Grid item style={{marginLeft: "5em", marginTop: "5em" , width:'80%'}}>
-                    <ServicesTable />
-                </Grid> */}
+
         </Container>
     </React.Fragment>
         )
