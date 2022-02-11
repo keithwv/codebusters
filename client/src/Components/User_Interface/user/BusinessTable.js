@@ -80,13 +80,18 @@ const columns = [
         width: 100,
         minWidth: 100
   }
-  },
+},
+  {
+  title: "Category",
+  field: "Category",
+  }
 ];
 
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "business", id);
   return deleteDoc(businessDoc);
 };
+
 const handleRowAdd = async (props,newData, resolve) => {
     const {currentUser} = props
     console.log(currentUser)
