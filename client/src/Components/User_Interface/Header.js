@@ -248,7 +248,7 @@ const Header = (props) => {
               >
                 <MenuIcon />
               </IconButton>
-              <Avatar sx={{ marginRight: '36px'}} src="/BookmeLogo.png"/>
+              <Avatar sx={{ marginRight: '36px'}} src="/BookmeLogo.png" component={Link} to="/home"/>
               <Typography variant="h3">bookMe!</Typography>
 
               <Tabs
