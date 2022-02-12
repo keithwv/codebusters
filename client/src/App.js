@@ -18,6 +18,7 @@ import BusinessLandingPage from  './Pages/BusinessLandingPage';
 import Profile from "./Components/User_Interface/user/profile";
 import User_Profile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 
 
@@ -38,7 +39,7 @@ function App(props) {
           <Route path='/login-business/fill-form' element={<AddressForm />} />
           <Route path='/calendar' element={<CalendarWithSchedule />} />
           <Route path='/register-client' element={<RegisterClient />} />
-          <Route path='/dashboard' element={<User_Profile />} />
+          <Route path='/dashboard' element={<ProtectedRoute>< User_Profile /></ProtectedRoute>} />
           <Route path='/business-profile' element={<Profile />} />
           <Route path='/profile' element={<BusinessLandingPage />} />
         </Routes>

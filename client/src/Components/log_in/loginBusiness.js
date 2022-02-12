@@ -37,9 +37,10 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { loginFirebase, currentUser } = useAuth()
 
-  const onSubmit = (data) => {
-    navigate('/dashboard');
-    loginFirebase(data.email, data.password)
+  const onSubmit = async (data) => {
+    
+    await loginFirebase(data.email, data.password)
+    navigate("/dashboard")
     console.log(data, "submitted");
     console.log(errors)
     reset()
