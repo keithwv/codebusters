@@ -8,10 +8,11 @@ import { Button, IconButton, Input, Stack } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { styled } from "@mui/styles";
 
-export const UploadButton = (props) => {
+export const UploadButtonBusiness = (props) => {
   const { store } = useAuth();
 
   const docId = props.docId;
+  console.log(docId)
   //const Name = props.Name;
   const [file, setFile] = useState();
   const [progress, setProgress] = useState();
@@ -29,8 +30,8 @@ export const UploadButton = (props) => {
       return;
     }
 
-    console.log(`path is: user_pics/${docId}`);
-    const imageRef = ref(store, `user_pics/${docId}`);
+    console.log(`path is: business_logo_pics/${docId}`);
+    const imageRef = ref(store, `business_logo_pics/${docId}`);
     console.log(`imageRef is `, imageRef);
     const uploadTask = uploadBytesResumable(imageRef, file);
 
@@ -49,7 +50,7 @@ export const UploadButton = (props) => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("User image available at:", downloadURL);
-          const docRef = doc(db, `users/${docId}`);
+          const docRef = doc(db, `business/${docId}`);
           updateDoc(docRef, { imageUrl: downloadURL });
         });
       }

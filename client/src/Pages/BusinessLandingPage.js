@@ -4,18 +4,15 @@ import { Container } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { db } from "../Firebase/firebase-config";
 import {
   collection,
   // getDocs,
   // getDoc,
   // addDoc,
-  updateDoc,
+  //updateDoc,
   // deleteDoc,
-  doc,
+  //doc,
   onSnapshot,
   query,
   where,
@@ -71,10 +68,10 @@ export default function BusinessLandingPage() {
           component="h1"
           variant="h5"
           align="center"
-          color="text.primary"
+          color="blue"
           gutterBottom
         >
-          {`Hello, ${currentUser.email}`}
+          Business List
         </Typography>
         <Grid
           container
@@ -82,29 +79,6 @@ export default function BusinessLandingPage() {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
-            <Button
-              id="business-menu"
-              onClick={handleClick}
-              variant="contained"
-            >
-              View Business Profile
-            </Button>
-            <Menu
-              id="business-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-            >
-            {businessInfo.map((business) => {
-              return (
-                <MenuItem key={business.DOC_ID} onClick={handleClose}>
-                  {business.company_name}
-                </MenuItem>
-              );
-            })}
-            </Menu>
-          </Grid>
           <Grid
             item
             style={{ marginLeft: "5em", marginTop: "1em", width: "80%" }}

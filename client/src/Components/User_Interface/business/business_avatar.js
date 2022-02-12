@@ -1,7 +1,6 @@
-import React, { useEffect, useState} from 'react';
+import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { db } from "../../../Firebase/firebase-config";
+
 
 // this function generates background color of avatar depending on the name
 function stringToColor(string) {

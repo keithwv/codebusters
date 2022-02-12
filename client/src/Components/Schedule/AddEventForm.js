@@ -3,25 +3,18 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
-import { date } from "yup";
-import SelectInput from "@mui/material/Select/SelectInput";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -124,29 +117,6 @@ export default function AddEventForm(props) {
                   )}
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={12}>
-                <Controller
-                  name="cost"
-                  defaultValue=""
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextField
-                      ref={registerForBusiness}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      required
-                      fullWidth
-                      id="cost"
-                      label="Hourly cost"
-                      name="cost"
-                      autoComplete="family-name"
-                      error={!!errors.cost}
-                      helperText={errors.cost?.message}
-                    />
-                  )}
-                />
-              </Grid> */}
             </Grid>
             <Button
               type="submit"

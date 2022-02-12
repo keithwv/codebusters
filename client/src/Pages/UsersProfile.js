@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, useTheme } from "@mui/styles";
 import { Container, Grid, Box, Stack } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button, Paper } from "@mui/material";
@@ -8,11 +7,13 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import { useAuth } from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
-import { UploadButton } from "../Components/for_logged_in_users/UploadButton";
+import { UploadButtonUsers } from "../Components/for_logged_in_users/UploadButtonUsers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
 import { doc, updateDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
+
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -21,15 +22,10 @@ const schema = yup.object().shape({
   email: yup.string().email().required("valid email is required"),
 });
 
-// onst useStyles = makeStyles((theme) => ({
-//   avatar: {},
-// }));c
 
-const User_Profile = () => {
-  //   const classes = useStyles();
-  // //   const theme = useTheme({
-  // //     spacing: 2,
-  // //   });
+
+const UserProfile = () => {
+
 
   const [users, setUsers] = useState({
     name: "",
@@ -215,7 +211,7 @@ const User_Profile = () => {
         spacing={15}
       >
         <Grid item xs="auto" mt="1.5rem">
-          <UploadButton docId={users?.DOC_ID} Name={users?.name} />
+          <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name} />
         </Grid>
         <Grid item xs="auto" mt="1.5rem">
           <Button
@@ -229,12 +225,16 @@ const User_Profile = () => {
         </Grid>
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={10}>
           <Grid item xs="auto" ml="10rem" mt="5rem">
-          <Button variant="contained">
+          <Button variant="contained"
+          component={Link}
+          to="/profile">
             VIEW EXISTING BUSINESS
           </Button>
           </Grid>
           <Grid item xs="auto" mt="5rem">
-          <Button variant="contained">
+          <Button variant="contained"
+          component={Link}
+          to="/services">
             SEE AVAILABLE SERVICES
           </Button>
       </Grid>
@@ -244,4 +244,4 @@ const User_Profile = () => {
   );
 };
 
-export default User_Profile;
+export default UserProfile;

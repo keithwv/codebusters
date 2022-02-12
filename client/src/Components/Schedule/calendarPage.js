@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
-import FullCalendar, { constrainPoint, formatDate } from "@fullcalendar/react";
+import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
+// import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../../contexts/AuthContext";
 import {
-  addDoc,
   collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
   onSnapshot,
   query,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase-config";
-import AddEventForm from "./AddEventForm";
+import { db } from "../../Firebase/firebase-config";
+// import AddEventForm from "./AddEventForm";
 import "./calendar.css";
-import { async } from "@firebase/util";
 import CalendarModal from "../Modals/CalendarModal";
-import EditDeleteEventForm from "./Edit_Delete_EventForm";
+// import EditDeleteEventForm from "./Edit_Delete_EventForm";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 
 export default function CalendarWithSchedule() {
@@ -123,14 +117,14 @@ export default function CalendarWithSchedule() {
     setCurrentEvents(events);
   };
 
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  }
+  // function renderEventContent(eventInfo) {
+  //   return (
+  //     <>
+  //       <b>{eventInfo.timeText}</b>
+  //       <i>{eventInfo.event.title}</i>
+  //     </>
+  //   );
+  // }
 
   function renderSidebarEvent(event) {
     return (

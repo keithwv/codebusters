@@ -30,8 +30,7 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Button, Grid, Menu, MenuItem } from "@material-ui/core";
-import { FormControl, InputLabel, Select } from "@mui/material";
+import { Grid } from "@material-ui/core";
 
 const columns = [
   {
@@ -41,35 +40,18 @@ const columns = [
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
+    width: "20%"
 },
 {
     title: "Business",
     field: "business",
+    width: "50%",
 }
 ];
 
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "services", id);
   return deleteDoc(businessDoc);
-};
-const handleRowAdd = async (props, newData, resolve) => {
-    const {currentUser} = props
-    console.log(currentUser)
-  if (currentUser?.uid) {
-  try {
-    await addDoc(collection(db, "services"), {
-      service: newData.service,
-      hourly_Cost: newData.hourly_Cost,
-      uid: currentUser.uid
-    });
-    console.log("Service Submitted");
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(newData);
-
-}
-  resolve();
 };
 
 const handleRowDelete = async (oldData, resolve) => {
@@ -121,19 +103,21 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function ServicesTable() {
+export default function ServicesTable(props) {
+  const { business, selectedBusiness } = props
+
   const [rows, setRows] = useState([]);
   console.log(rows)
-  const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState("");
+  // const [business, setBusiness] = useState([]);
+  // const [selectedBusiness, setSelectedBusiness] = useState("");
   
-  console.log(selectedBusiness.DOC_ID)
+  // console.log(selectedBusiness.DOC_ID)
   const { currentUser } = useAuth();
   console.log(currentUser)
 
-  const handleChange = (event) => {
-    setSelectedBusiness(event.target.value)
-  }
+  // const handleChange = (event) => {
+  //   setSelectedBusiness(event.target.value)
+  // }
 
   const handleRowAdd = async (newData, resolve) => {
    console.log(newData)
@@ -144,7 +128,7 @@ export default function ServicesTable() {
       hourly_Cost: newData.hourly_Cost,
       business: selectedBusiness.company_name,
       uid: currentUser.uid,
-      DOC_ID: selectedBusiness.DOC_ID
+      Business_ID: selectedBusiness.DOC_ID
 
     });
     console.log("Service Submitted");
@@ -155,31 +139,6 @@ export default function ServicesTable() {
   resolve()
 
 };
-
-
-
-useEffect(() => {
-  let collectionRef = collection(db, "business");
-   if (currentUser?.uid) {
-    let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-      if (querySnap.empty) {
-        console.log("No docs found");
-      } else {
-        let businessData = querySnap.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            DOC_ID: doc.id,
-          };
-        });
-        setBusiness(businessData);
-        
-      }
-    });
-    return unsubscribe;
-   }
-}, [currentUser.uid]);
-
 
   useEffect(() => {
     let collectionRef = collection(db, "services");
@@ -212,7 +171,7 @@ useEffect(() => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
+          {/* <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true">
               <InputLabel id="business-menu-id">Business</InputLabel>
             <Select
@@ -231,7 +190,7 @@ useEffect(() => {
             })}
             </Select>
           </FormControl>
-            </Grid>
+            </Grid> */}
       <Grid item>
       <MaterialTable
         title="Services Provided"
@@ -257,6 +216,7 @@ useEffect(() => {
       />
       </Grid>
       </Grid>
+    {/* </Grid> */}
     </>
   );
 }
