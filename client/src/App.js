@@ -18,6 +18,7 @@ import BusinessLandingPage from  './Pages/BusinessLandingPage';
 import Profile from "./Components/User_Interface/user/profile";
 import User_Profile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
+import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
 
 
 
@@ -41,6 +42,7 @@ function App(props) {
           <Route path='/dashboard' element={<User_Profile />} />
           <Route path='/business-profile' element={<Profile />} />
           <Route path='/profile' element={<BusinessLandingPage />} />
+          <Route path='/business-category-list' element={<ListOfBusinessesInCategory />} />
         </Routes>
         < Footer />
       </ThemeProvider>
