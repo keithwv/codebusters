@@ -30,7 +30,14 @@ function App(props) {
           <Route path="/Register" element={<RegisterBusiness />} />
           <Route path="/Login" element={<SignIn />} />
           <Route path="/add-services" element={<ServiceList />} />
-          <Route path="/services" element={<ServicesForBusiness />} />
+          <Route
+            path="/services"
+            element={
+              <ProtectedRoute>
+                <ServicesForBusiness />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/modal" element={<BasicModal />} />
           <Route path="/login-business/fill-form" element={<AddressForm />} />
           <Route
@@ -51,7 +58,14 @@ function App(props) {
             }
           />
           <Route path="/business-profile" element={<Profile />} />
-          <Route path="/profile" element={<BusinessLandingPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <BusinessLandingPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Footer />
       </ThemeProvider>
