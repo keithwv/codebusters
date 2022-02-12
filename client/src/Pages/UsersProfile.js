@@ -8,7 +8,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import { useAuth } from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
-import { UploadButton } from "../Components/for_logged_in_users/UploadButton";
+import { UploadButtonUsers } from "../Components/for_logged_in_users/UploadButtonUsers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
@@ -21,15 +21,10 @@ const schema = yup.object().shape({
   email: yup.string().email().required("valid email is required"),
 });
 
-// onst useStyles = makeStyles((theme) => ({
-//   avatar: {},
-// }));c
+
 
 const User_Profile = () => {
-  //   const classes = useStyles();
-  // //   const theme = useTheme({
-  // //     spacing: 2,
-  // //   });
+
 
   const [users, setUsers] = useState({
     name: "",
@@ -215,7 +210,7 @@ const User_Profile = () => {
         spacing={15}
       >
         <Grid item xs="auto" mt="1.5rem">
-          <UploadButton docId={users?.DOC_ID} Name={users?.name} />
+          <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name} />
         </Grid>
         <Grid item xs="auto" mt="1.5rem">
           <Button

@@ -41,10 +41,12 @@ const columns = [
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
+    width: "20%"
 },
 {
     title: "Business",
     field: "business",
+    width: "50%",
 }
 ];
 
@@ -121,19 +123,21 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function ServicesTable() {
+export default function ServicesTable(props) {
+  const { business, selectedBusiness } = props
+
   const [rows, setRows] = useState([]);
   console.log(rows)
-  const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState("");
+  // const [business, setBusiness] = useState([]);
+  // const [selectedBusiness, setSelectedBusiness] = useState("");
   
-  console.log(selectedBusiness.DOC_ID)
+  // console.log(selectedBusiness.DOC_ID)
   const { currentUser } = useAuth();
   console.log(currentUser)
 
-  const handleChange = (event) => {
-    setSelectedBusiness(event.target.value)
-  }
+  // const handleChange = (event) => {
+  //   setSelectedBusiness(event.target.value)
+  // }
 
   const handleRowAdd = async (newData, resolve) => {
    console.log(newData)
@@ -158,27 +162,27 @@ export default function ServicesTable() {
 
 
 
-useEffect(() => {
-  let collectionRef = collection(db, "business");
-   if (currentUser?.uid) {
-    let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-    const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-      if (querySnap.empty) {
-        console.log("No docs found");
-      } else {
-        let businessData = querySnap.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            DOC_ID: doc.id,
-          };
-        });
-        setBusiness(businessData);
+// useEffect(() => {
+//   let collectionRef = collection(db, "business");
+//    if (currentUser?.uid) {
+//     let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+//     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+//       if (querySnap.empty) {
+//         console.log("No docs found");
+//       } else {
+//         let businessData = querySnap.docs.map((doc) => {
+//           return {
+//             ...doc.data(),
+//             DOC_ID: doc.id,
+//           };
+//         });
+//         setBusiness(businessData);
         
-      }
-    });
-    return unsubscribe;
-   }
-}, [currentUser.uid]);
+//       }
+//     });
+//     return unsubscribe;
+//    }
+// }, [currentUser.uid]);
 
 
   useEffect(() => {
@@ -212,7 +216,7 @@ useEffect(() => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
+          {/* <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true">
               <InputLabel id="business-menu-id">Business</InputLabel>
             <Select
@@ -231,7 +235,7 @@ useEffect(() => {
             })}
             </Select>
           </FormControl>
-            </Grid>
+            </Grid> */}
       <Grid item>
       <MaterialTable
         title="Services Provided"
@@ -257,6 +261,7 @@ useEffect(() => {
       />
       </Grid>
       </Grid>
+    {/* </Grid> */}
     </>
   );
 }
