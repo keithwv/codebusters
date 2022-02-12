@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, useTheme } from "@mui/styles";
 import { Container, Grid, Box, Stack } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button, Paper } from "@mui/material";
@@ -13,6 +12,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
 import { doc, updateDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
+
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -224,12 +225,16 @@ const UserProfile = () => {
         </Grid>
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={10}>
           <Grid item xs="auto" ml="10rem" mt="5rem">
-          <Button variant="contained">
+          <Button variant="contained"
+          component={Link}
+          to="/profile">
             VIEW EXISTING BUSINESS
           </Button>
           </Grid>
           <Grid item xs="auto" mt="5rem">
-          <Button variant="contained">
+          <Button variant="contained"
+          component={Link}
+          to="/services">
             SEE AVAILABLE SERVICES
           </Button>
       </Grid>
