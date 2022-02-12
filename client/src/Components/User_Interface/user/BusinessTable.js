@@ -92,26 +92,6 @@ const deleteBusiness = (id) => {
   return deleteDoc(businessDoc);
 };
 
-const handleRowAdd = async (props,newData, resolve) => {
-    const {currentUser} = props
-    console.log(currentUser)
-  if (currentUser?.uid) {
-  try {
-    await addDoc(collection(db, "business"), {
-      address1: newData.address1,
-      address2: newData.address2,
-      city: newData.city,
-      company_name: newData.company_name,
-      postal_code: newData.postal_code,
-      uid: currentUser.uid
-    });
-    console.log("Business Submitted");
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(newData);
-
-}};
 
 const handleRowDelete = async (oldData, resolve) => {
   const id = oldData.DOC_ID;
