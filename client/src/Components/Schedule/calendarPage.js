@@ -167,7 +167,7 @@ export default function CalendarWithSchedule() {
         />
       </div>
       {removeEvents.check && (
-        <EditDeleteCalendarModal data={removeEvents} method={method} />
+        <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
       )}
       {openmodal.check && <CalendarModal data={openmodal} method={method} />}
     </div>
