@@ -19,6 +19,10 @@ import Profile from "./Components/User_Interface/user/profile";
 import User_Profile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
+
+
+
 
 function App(props) {
   return (
@@ -64,8 +68,10 @@ function App(props) {
               <ProtectedRoute>
                 <BusinessLandingPage />
               </ProtectedRoute>
+              
             }
           />
+          <Route path='/business-category-list' element={<ListOfBusinessesInCategory />} />
         </Routes>
         <Footer />
       </ThemeProvider>

@@ -84,7 +84,12 @@ const columns = [
   {
   title: "Category",
   field: "Category",
+  width: '20%',
+  cellStyle: {
+      width: 100,
+      minWidth: 100
   }
+}
 ];
 
 const deleteBusiness = (id) => {
