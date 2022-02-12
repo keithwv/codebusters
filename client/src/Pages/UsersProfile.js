@@ -23,7 +23,7 @@ const schema = yup.object().shape({
 
 
 
-const User_Profile = () => {
+const UserProfile = () => {
 
 
   const [users, setUsers] = useState({
@@ -239,4 +239,4 @@ const User_Profile = () => {
   );
 };
 
-export default User_Profile;
+export default UserProfile;

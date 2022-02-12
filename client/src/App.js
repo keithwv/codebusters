@@ -13,10 +13,10 @@ import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Components/Schedule/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
-import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
+//import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
 import BusinessLandingPage from "./Pages/BusinessLandingPage";
 import Profile from "./Components/User_Interface/user/profile";
-import User_Profile from "./Pages/UsersProfile";
+import UserProfile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
@@ -57,7 +57,7 @@ function App(props) {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <User_Profile />
+                <UserProfile />
               </ProtectedRoute>
             }
           />

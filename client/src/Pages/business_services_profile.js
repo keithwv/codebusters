@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
 // import Button from "@mui/material/Button";
 // import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 // import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 // import { makeStyles } from "@material-ui/styles";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Businesslist from "../Components/for_logged_in_users/businessList";
 // import { CardContent, CardHeader } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
-import AddServiceModal from "../Components/Modals/AddServicesModal";
-import ServiceList from "../Components/for_logged_in_users/serviceList";
 import ServicesTable from "../Components/User_Interface/user/ServicesTable";
-import { Avatar, Button, InputLabel, MenuItem, Select, Stack, TextField, FormControl } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { Avatar, Button, InputLabel, MenuItem, Select, Stack, TextField, FormControl, Typography } from "@mui/material";
 import { UploadButtonBusiness } from "../Components/for_logged_in_users/UploadButtonBusiness";
 import { db } from "../Firebase/firebase-config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
@@ -27,7 +20,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 export const ServicesForBusiness = () => {
   
   const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState(" ");
+  const [selectedBusiness, setSelectedBusiness] = useState([]);
   
   let businessLogo = selectedBusiness.imageUrl
 
@@ -61,7 +54,7 @@ export const ServicesForBusiness = () => {
      }
   }, [currentUser.uid]);
   
-
+  console.log("The business Selected is", selectedBusiness)
 
   return (
     <>
@@ -84,13 +77,35 @@ export const ServicesForBusiness = () => {
           justifyContent="center"
           alignItems="center"
         >
+          <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+        > 
+          <Grid item>
+            <Typography
+            component="h1"
+            variant="h5"
+            align="center"
+            color="blue"
+            gutterBottom>Select Business
+            </Typography>
+          </Grid>
           <Grid item sx={{mt:"2rem"}}>
-            <FormControl fullwidth="true">
+            <FormControl fullwidth="true"
+            sx={{
+              width:200,
+              height:100
+            }}>
               <InputLabel id="business-menu-id">Business</InputLabel>
             <Select
               id="business-menu"
               labelId="business-menu-id"
               value={selectedBusiness}
+              displayEmpty={true}
+              defaultValue="Business"
               label="Business"
               onChange={handleChange}
             >
@@ -103,6 +118,7 @@ export const ServicesForBusiness = () => {
             })}
             </Select>
           </FormControl>
+             </Grid>
             </Grid>
             </Grid>
         <Grid item sx={{ mt: "0.5rem"}} >

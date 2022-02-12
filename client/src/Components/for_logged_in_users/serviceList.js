@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../Firebase/firebase-config";
 import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useAuth } from "../../contexts/AuthContext";
-import Card from "@mui/material/Card";
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import { makeStyles } from "@material-ui/styles";
-import { ListItemButton, ListItemText } from "@mui/material";
+import { ListItemText } from "@mui/material";
 
 
 const ServiceList = () => {

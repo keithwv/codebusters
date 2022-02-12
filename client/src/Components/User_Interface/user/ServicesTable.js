@@ -30,8 +30,7 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Button, Grid, Menu, MenuItem } from "@material-ui/core";
-import { FormControl, InputLabel, Select } from "@mui/material";
+import { Grid } from "@material-ui/core";
 
 const columns = [
   {
@@ -53,25 +52,6 @@ const columns = [
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "services", id);
   return deleteDoc(businessDoc);
-};
-const handleRowAdd = async (props, newData, resolve) => {
-    const {currentUser} = props
-    console.log(currentUser)
-  if (currentUser?.uid) {
-  try {
-    await addDoc(collection(db, "services"), {
-      service: newData.service,
-      hourly_Cost: newData.hourly_Cost,
-      uid: currentUser.uid
-    });
-    console.log("Service Submitted");
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(newData);
-
-}
-  resolve();
 };
 
 const handleRowDelete = async (oldData, resolve) => {
@@ -148,7 +128,7 @@ export default function ServicesTable(props) {
       hourly_Cost: newData.hourly_Cost,
       business: selectedBusiness.company_name,
       uid: currentUser.uid,
-      DOC_ID: selectedBusiness.DOC_ID
+      Business_ID: selectedBusiness.DOC_ID
 
     });
     console.log("Service Submitted");
@@ -159,31 +139,6 @@ export default function ServicesTable(props) {
   resolve()
 
 };
-
-
-
-// useEffect(() => {
-//   let collectionRef = collection(db, "business");
-//    if (currentUser?.uid) {
-//     let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-//     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-//       if (querySnap.empty) {
-//         console.log("No docs found");
-//       } else {
-//         let businessData = querySnap.docs.map((doc) => {
-//           return {
-//             ...doc.data(),
-//             DOC_ID: doc.id,
-//           };
-//         });
-//         setBusiness(businessData);
-        
-//       }
-//     });
-//     return unsubscribe;
-//    }
-// }, [currentUser.uid]);
-
 
   useEffect(() => {
     let collectionRef = collection(db, "services");

@@ -1,33 +1,9 @@
 import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { useAuth } from "../../../contexts/AuthContext";
-import * as yup from "yup";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { db } from '../../../Firebase/firebase-config';
-import {
-    collection,
-    // getDocs,
-    // getDoc,
-    // addDoc,
-    updateDoc,
-    // deleteDoc,
-    doc,
-    onSnapshot,
-    query,
-    where,
-} from "firebase/firestore";
-import { Button, Paper } from '@mui/material';
-import { rootShouldForwardProp } from '@mui/material/styles/styled';
 import BusinessTable from './BusinessTable';
-import ServicesTable from './ServicesTable';
-
-
-  
 
 export default function Profile() {
 
@@ -51,7 +27,6 @@ export default function Profile() {
                 <Grid item style={{marginLeft: "5em", marginTop: "1em" , width:'80%'}}>
                     <BusinessTable />
                 </Grid>
-
         </Container>
     </React.Fragment>
         )
