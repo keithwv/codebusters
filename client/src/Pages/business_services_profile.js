@@ -55,6 +55,7 @@ export const ServicesForBusiness = () => {
   }, [currentUser.uid]);
   
   console.log("The business Selected is", selectedBusiness)
+  console.log("The inital business selected is", business)
 
   return (
     <>
@@ -84,31 +85,24 @@ export const ServicesForBusiness = () => {
           alignItems="center"
           spacing={2}
         > 
-          <Grid item>
-            <Typography
-            component="h1"
-            variant="h5"
-            align="center"
-            color="blue"
-            gutterBottom>Select Business
-            </Typography>
-          </Grid>
           <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true"
             sx={{
               width:200,
               height:100
             }}>
-              <InputLabel id="business-menu-id">Business</InputLabel>
+              <InputLabel id="business-menu-id"><em>Select a Business</em></InputLabel>
             <Select
               id="business-menu"
               labelId="business-menu-id"
               value={selectedBusiness}
               displayEmpty={true}
-              defaultValue="Business"
+              defaultValue={business[0]?.company_name}
               label="Business"
               onChange={handleChange}
             >
+              <MenuItem value="">
+              </MenuItem> // Provides initial value so that MUI doesn't give a warning in the console
             {business.map((business) => {
               return (
                 <MenuItem key={business.DOC_ID} value={business}>

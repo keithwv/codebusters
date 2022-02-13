@@ -117,14 +117,14 @@ export default function CalendarWithSchedule() {
     setCurrentEvents(events);
   };
 
-  // function renderEventContent(eventInfo) {
-  //   return (
-  //     <>
-  //       <b>{eventInfo.timeText}</b>
-  //       <i>{eventInfo.event.title}</i>
-  //     </>
-  //   );
-  // }
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    );
+  }
 
   function renderSidebarEvent(event) {
     return (
