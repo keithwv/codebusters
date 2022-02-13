@@ -17,6 +17,7 @@ import "./calendar.css";
 import CalendarModal from "../Modals/CalendarModal";
 // import EditDeleteEventForm from "./Edit_Delete_EventForm";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
+import SelectBusiness from "./SelectBusiness";
 
 export default function CalendarWithSchedule() {
   // Set business hours
@@ -43,18 +44,46 @@ export default function CalendarWithSchedule() {
     data: "",
   }); // State that determine the rendering of the Edit/Remove Event Form
 
+  const [business, setBusiness] = useState([]);
+  const [selectedBusiness, setSelectedBusiness] = useState([]);
+
+    // Get all business for logged in user
+    useEffect(() => {
+      let collectionRef = collection(db, "business");
+       if (currentUser?.uid) {
+        let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+        const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+          if (querySnap.empty) {
+            console.log("No docs found");
+          } else {
+            let businessData = querySnap.docs.map((doc) => {
+              return {
+                ...doc.data(),
+                DOC_ID: doc.id,
+              };
+            });
+            setBusiness(businessData);
+            
+          }
+        });
+        return unsubscribe;
+       }
+    }, [currentUser.uid]);
+
   const renderSidebar = () => {
     return (
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
+        <SelectBusiness business={business} selectedBusiness={selectedBusiness} setSelectedBusiness={setSelectedBusiness}/>
           <label>
             <input
               type="checkbox"
               checked={weekendsVisible}
               onChange={handleWeekendsToggle}
             ></input>
-            toggle weekends
+            Weekends
           </label>
+         
         </div>
         <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
@@ -145,6 +174,7 @@ export default function CalendarWithSchedule() {
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
+        
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
