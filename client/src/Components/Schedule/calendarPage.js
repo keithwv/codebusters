@@ -34,7 +34,7 @@ export default function CalendarWithSchedule() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
-  const [openmodal, setOpenModal] = useState({
+  const [addEvent, setAddEvent] = useState({
     check: false,
     data: "",
   }); // State that determines the rendering of the Add Event Form
@@ -98,7 +98,7 @@ export default function CalendarWithSchedule() {
   };
 
   const method = () => {
-    setOpenModal({ check: false });
+    setAddEvent({ check: false });
     setRemoveEvents({ check: false, data: "" });
   };
 
@@ -111,7 +111,7 @@ export default function CalendarWithSchedule() {
   };
 
   const handleDateSelect = (selectInfo) => {
-    setOpenModal({
+    setAddEvent({
       check: true,
       data: selectInfo,
     });
@@ -200,7 +200,7 @@ export default function CalendarWithSchedule() {
       {removeEvents.check && (
         <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
       )}
-      {openmodal.check && <CalendarModal selectedBusiness={selectedBusiness} data={openmodal} method={method} />}
+      {addEvent.check && <CalendarModal selectedBusiness={selectedBusiness} addEvent={addEvent} method={method} />}
     </div>
   );
 }
