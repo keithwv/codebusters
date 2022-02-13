@@ -18,7 +18,7 @@ const style = {
 };
 
 export default function EditDeleteCalendarModal(props) {
-    const { data, method }= props  
+    const { removeEvents, method }= props  
     
 
    
@@ -36,7 +36,7 @@ export default function EditDeleteCalendarModal(props) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                <EditDeleteEventForm  data={data} method={method} />
+                <EditDeleteEventForm removeEvents={removeEvents} method={method} />
                 </Box>
             </Modal>
         </div>

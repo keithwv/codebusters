@@ -30,17 +30,18 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Grid } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 
 const columns = [
   {
     title: "Service",
     field: "service",
+    width: "30%"
   },
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
-    width: "20%"
+    width: "30%"
 },
 {
     title: "Business",
@@ -144,7 +145,7 @@ export default function ServicesTable(props) {
     let collectionRef = collection(db, "services");
      if (currentUser?.uid && selectedBusiness?.DOC_ID) {
       let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
-      where("DOC_ID", "==", selectedBusiness.DOC_ID ));
+      where("Business_ID", "==", selectedBusiness.DOC_ID));
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");
@@ -164,33 +165,14 @@ export default function ServicesTable(props) {
   }, [currentUser.uid, selectedBusiness.DOC_ID]);
 
   return (
-    <>
+    <> 
+        <Container>
          <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
-        >
-          {/* <Grid item sx={{mt:"2rem"}}>
-            <FormControl fullwidth="true">
-              <InputLabel id="business-menu-id">Business</InputLabel>
-            <Select
-              id="business-menu"
-              labelId="business-menu-id"
-              value={selectedBusiness}
-              label="Business"
-              onChange={handleChange}
-            >
-            {business.map((business) => {
-              return (
-                <MenuItem key={business.DOC_ID} value={business}>
-                  {business.company_name}
-                </MenuItem>
-              );
-            })}
-            </Select>
-          </FormControl>
-            </Grid> */}
+        >     
       <Grid item>
       <MaterialTable
         title="Services Provided"
@@ -216,7 +198,7 @@ export default function ServicesTable(props) {
       />
       </Grid>
       </Grid>
-    {/* </Grid> */}
+    </Container>
     </>
   );
 }

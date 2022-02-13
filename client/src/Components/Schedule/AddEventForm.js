@@ -25,6 +25,7 @@ const schema = yup.object().shape({
 const theme = createTheme();
 
 export default function AddEventForm(props) {
+  const {addEvent, selectedBusiness, method} = props
   // registerForBusiness,and formstate: { errors } are for yup validation
   const {
     handleSubmit,
@@ -45,17 +46,18 @@ export default function AddEventForm(props) {
     console.log(e)
     
     
-    let calendarApi = props.data.data.view.calendar;
+    let calendarApi = addEvent.data.view.calendar;
     calendarApi.unselect(); // clear date selection
 
     let title = e.title;
     if (title) {
-      props.method() // close modal
+      method() // close modal
       try {
         const docRef = await addDoc(collection(db, "events"), {
           title: title,
-          start_time: props.data.data.startStr,
-          end_time: props.data.data.endStr,
+          start_time: addEvent.data.startStr,
+          end_time: addEvent.data.endStr,
+          Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
         });
        console.log("Event Submitted")

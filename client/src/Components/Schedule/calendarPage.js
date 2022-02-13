@@ -17,6 +17,7 @@ import "./calendar.css";
 import CalendarModal from "../Modals/CalendarModal";
 // import EditDeleteEventForm from "./Edit_Delete_EventForm";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
+import SelectBusiness from "./SelectBusiness";
 
 export default function CalendarWithSchedule() {
   // Set business hours
@@ -33,7 +34,7 @@ export default function CalendarWithSchedule() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
-  const [openmodal, setOpenModal] = useState({
+  const [addEvent, setAddEvent] = useState({
     check: false,
     data: "",
   }); // State that determines the rendering of the Add Event Form
@@ -43,18 +44,46 @@ export default function CalendarWithSchedule() {
     data: "",
   }); // State that determine the rendering of the Edit/Remove Event Form
 
+  const [business, setBusiness] = useState([]);
+  const [selectedBusiness, setSelectedBusiness] = useState([]);
+
+    // Get all business for logged in user
+    useEffect(() => {
+      let collectionRef = collection(db, "business");
+       if (currentUser?.uid) {
+        let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+        const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+          if (querySnap.empty) {
+            console.log("No docs found");
+          } else {
+            let businessData = querySnap.docs.map((doc) => {
+              return {
+                ...doc.data(),
+                DOC_ID: doc.id,
+              };
+            });
+            setBusiness(businessData);
+            
+          }
+        });
+        return unsubscribe;
+       }
+    }, [currentUser.uid]);
+
   const renderSidebar = () => {
     return (
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
+        <SelectBusiness business={business} selectedBusiness={selectedBusiness} setSelectedBusiness={setSelectedBusiness}/>
           <label>
             <input
               type="checkbox"
               checked={weekendsVisible}
               onChange={handleWeekendsToggle}
             ></input>
-            toggle weekends
+            Weekends
           </label>
+         
         </div>
         <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
@@ -69,7 +98,7 @@ export default function CalendarWithSchedule() {
   };
 
   const method = () => {
-    setOpenModal({ check: false });
+    setAddEvent({ check: false });
     setRemoveEvents({ check: false, data: "" });
   };
 
@@ -82,7 +111,7 @@ export default function CalendarWithSchedule() {
   };
 
   const handleDateSelect = (selectInfo) => {
-    setOpenModal({
+    setAddEvent({
       check: true,
       data: selectInfo,
     });
@@ -91,8 +120,9 @@ export default function CalendarWithSchedule() {
   // Initial fetch of all events from database for the logged in user
   useEffect(() => {
     let collectionRef = collection(db, "events");
-    if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid)); // logged in user has unique uid linked to events
+    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
+      where("Business_ID","==", selectedBusiness.DOC_ID)); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -111,20 +141,20 @@ export default function CalendarWithSchedule() {
     } else {
       console.log("User not logged in");
     }
-  }, [currentUser.uid]); // triggers when new user logins
+  }, [currentUser, selectedBusiness]); // triggers when new user logins
 
   const handleEvents = (events) => {
     setCurrentEvents(events);
   };
 
-  // function renderEventContent(eventInfo) {
-  //   return (
-  //     <>
-  //       <b>{eventInfo.timeText}</b>
-  //       <i>{eventInfo.event.title}</i>
-  //     </>
-  //   );
-  // }
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    );
+  }
 
   function renderSidebarEvent(event) {
     return (
@@ -145,6 +175,7 @@ export default function CalendarWithSchedule() {
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
+        
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -167,9 +198,9 @@ export default function CalendarWithSchedule() {
         />
       </div>
       {removeEvents.check && (
-        <EditDeleteCalendarModal data={removeEvents} method={method} />
+        <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
       )}
-      {openmodal.check && <CalendarModal data={openmodal} method={method} />}
+      {addEvent.check && <CalendarModal selectedBusiness={selectedBusiness} addEvent={addEvent} method={method} />}
     </div>
   );
 }

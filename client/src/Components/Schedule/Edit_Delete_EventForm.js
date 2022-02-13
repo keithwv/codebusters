@@ -44,8 +44,10 @@ const schema = yup.object().shape({
 const theme = createTheme();
 
 export default function EditDeleteEventForm(props) {
+  const { removeEvents, method} = props
+
   const [disabled, setDisabled] = useState(true);
-  const [storeddata, setData] = useState(props.data.data.event.title);
+  const [eventTitle, setEventTitle] = useState(removeEvents.data.event.title);
   const [eventData, setEventData] = useState([]);
 
   const {
@@ -68,7 +70,7 @@ export default function EditDeleteEventForm(props) {
     let queryRef = query(
       collectionRef,
       where("uid", "==", currentUser.uid),
-      where("start_time", "==", props.data.data.event.startStr)
+      where("start_time", "==", removeEvents.data.event.startStr)
     );
     console.log("Getting Documents 2")
     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
@@ -86,7 +88,7 @@ export default function EditDeleteEventForm(props) {
       }
     });
     return unsubscribe;
-  }, [props.data.data.event]);
+  }, [removeEvents.data.event]);
 
 
  
@@ -104,31 +106,32 @@ export default function EditDeleteEventForm(props) {
   const eventDelete = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${props.data.data.event.title}'`
+        `Are you sure you want to delete the event '${removeEvents.data.event.title}'`
       )
     ) {
       const id = eventData.DOC_ID;
+      console.log(id)
       deleteEvent(id);
-      props.data.data.event.remove();
+      removeEvents.data.event.remove();
     }
-    props.method();
+    method();
   };
 
   const updateHandler = async (e) => {
-      console.log(storeddata)
-      console.log(props.data.data)
+      console.log(eventTitle)
+      console.log(removeEvents.data)
       const id = eventData.DOC_ID
       const EventDoc = doc(db, "events", id);
       console.log(EventDoc)
       await updateDoc(EventDoc ,{
-      title: storeddata
+      title: eventTitle
    })
-   props.method();
+   method();
 
     }
 
   const handleCancel = () => {
-    props.method(); // close modal
+    method(); // close modal
   };
 
   return (
@@ -163,8 +166,8 @@ export default function EditDeleteEventForm(props) {
                   control={control}
                   render={({ field: { onBlur, value } }) => (
                     <TextField
-                      onChange={(e) => setData(e.target.value)}
-                      value={storeddata}
+                      onChange={(e) => setEventTitle(e.target.value)}
+                      value={eventTitle}
                       onBlur={onBlur}
                       //autoComplete="given-name"
                       name="title"
