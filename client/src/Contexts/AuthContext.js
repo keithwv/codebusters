@@ -9,7 +9,6 @@ import { auth } from "../Firebase/firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import { store } from "../Firebase/firebase-config"
-import { Navigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -51,7 +50,6 @@ export function AuthProvider(props) {
       );
       console.log(user);
       
-      // alert("You logged in success!");
     } catch (error) {
       console.log(error.message);
     }
@@ -77,7 +75,6 @@ export function AuthProvider(props) {
   }, []);
 
   console.log(currentUser);
-  //console.log(currentUser.uid)
 
   const value = {
     currentUser,

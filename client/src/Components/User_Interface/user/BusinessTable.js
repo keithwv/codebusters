@@ -83,7 +83,7 @@ const columns = [
 },
   {
   title: "Category",
-  field: "Category",
+  field: "category",
   width: '20%',
   cellStyle: {
       width: 100,
@@ -158,6 +158,7 @@ export default function BusinessTable(props) {
       company_name: newData.company_name,
       postal_code: newData.postal_code,
       province: newData.province,
+      category: newData.category,
       uid: currentUser.uid
     });
     console.log("Business Submitted");

@@ -7,10 +7,34 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 
 
 export default function ListOfBusinessesInCategory() {
+    
+    const [heroes, setHeroes] = React.useState([]);
+    const FirebaseContext = React.useContext(FirebaseContext);
+    const db = FirebaseContext.db;
+  
+    const AddBusinesses = async () => {
+      try {
+        let collectionRef = collection(db, "business");
+        let queryRef = query(collectionRef, orderBy("category"));
+        let querySnap = await getDocs(queryRef);
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let heroesData = querySnap.docs.map((doc) => ({
+            ...doc.data(),
+            DOC_ID: doc.id,
+          }));
+          setHeroes(heroesData);
+        }
+      } catch (ex) {
+        console.log("FIRESTORE FAILURE!", ex.message);
+      }
+    };
 
     // const AddBusinesses = () => {
     //     const list = useContext(FirebaseContext);
