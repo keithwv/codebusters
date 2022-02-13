@@ -145,7 +145,7 @@ export default function ServicesTable(props) {
     let collectionRef = collection(db, "services");
      if (currentUser?.uid && selectedBusiness?.DOC_ID) {
       let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
-      where("DOC_ID", "==", selectedBusiness.DOC_ID ));
+      where("Business_ID", "==", selectedBusiness.DOC_ID));
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");

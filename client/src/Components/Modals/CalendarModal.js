@@ -17,7 +17,7 @@ const style = {
 };
 
 export default function CalendarModal(props) {
-  const { data, method } = props;
+  const { data, method, selectedBusiness } = props;
 
   // const handleClose = () => {
   //     data.check = false
@@ -37,7 +37,7 @@ export default function CalendarModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddEventForm data={data} method={method} />
+          <AddEventForm data={data} selectedBusiness={selectedBusiness} method={method} />
         </Box>
       </Modal>
     </div>

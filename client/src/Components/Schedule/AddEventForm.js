@@ -25,6 +25,7 @@ const schema = yup.object().shape({
 const theme = createTheme();
 
 export default function AddEventForm(props) {
+  const { selectedBusiness} = props
   // registerForBusiness,and formstate: { errors } are for yup validation
   const {
     handleSubmit,
@@ -56,6 +57,7 @@ export default function AddEventForm(props) {
           title: title,
           start_time: props.data.data.startStr,
           end_time: props.data.data.endStr,
+          Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
         });
        console.log("Event Submitted")

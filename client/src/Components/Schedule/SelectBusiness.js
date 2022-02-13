@@ -9,42 +9,13 @@ import { Avatar, FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/ma
 
 const SelectBusiness = (props) => {
     const {business, selectedBusiness, setSelectedBusiness} = props
-    // const [business, setBusiness] = useState([]);
-    // const [selectedBusiness, setSelectedBusiness] = useState([]);
+  
     
     let businessLogo = selectedBusiness.imageUrl
     
     const handleChange = (event) => {
       setSelectedBusiness(event.target.value)
     }
-    
-    // const { currentUser } = useAuth();
-    // console.log(currentUser);
-    
-    // // Get all business for logged in user
-    // useEffect(() => {
-    //   let collectionRef = collection(db, "business");
-    //    if (currentUser?.uid) {
-    //     let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-    //     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-    //       if (querySnap.empty) {
-    //         console.log("No docs found");
-    //       } else {
-    //         let businessData = querySnap.docs.map((doc) => {
-    //           return {
-    //             ...doc.data(),
-    //             DOC_ID: doc.id,
-    //           };
-    //         });
-    //         setBusiness(businessData);
-            
-    //       }
-    //     });
-    //     return unsubscribe;
-    //    }
-    // }, [currentUser.uid]);
-
-  
 
   return (
       <>

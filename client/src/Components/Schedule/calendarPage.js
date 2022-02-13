@@ -120,8 +120,9 @@ export default function CalendarWithSchedule() {
   // Initial fetch of all events from database for the logged in user
   useEffect(() => {
     let collectionRef = collection(db, "events");
-    if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid)); // logged in user has unique uid linked to events
+    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
+      where("Business_ID","==", selectedBusiness.DOC_ID)); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -140,7 +141,7 @@ export default function CalendarWithSchedule() {
     } else {
       console.log("User not logged in");
     }
-  }, [currentUser.uid]); // triggers when new user logins
+  }, [currentUser, selectedBusiness]); // triggers when new user logins
 
   const handleEvents = (events) => {
     setCurrentEvents(events);
@@ -199,7 +200,7 @@ export default function CalendarWithSchedule() {
       {removeEvents.check && (
         <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
       )}
-      {openmodal.check && <CalendarModal data={openmodal} method={method} />}
+      {openmodal.check && <CalendarModal selectedBusiness={selectedBusiness} data={openmodal} method={method} />}
     </div>
   );
 }
