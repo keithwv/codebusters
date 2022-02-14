@@ -15,6 +15,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { TitleRounded } from "@material-ui/icons";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -25,7 +28,13 @@ const schema = yup.object().shape({
 const theme = createTheme();
 
 export default function AddEventForm(props) {
-  const {addEvent, selectedBusiness, method} = props
+  const {
+    addEvent,
+    setServicesProvided,
+    method,
+    servicesProvided: services,
+    selectedBusiness,
+  } = props;
   // registerForBusiness,and formstate: { errors } are for yup validation
   const {
     handleSubmit,
@@ -33,25 +42,34 @@ export default function AddEventForm(props) {
     reset,
     formState: { errors },
     formState,
-  } = useForm({
-    resolver: yupResolver(schema),
-    mode: "all",
+  } = useForm({criteriaMode: "all"
   });
+  
+
+  
+ 
+  const [selectedService, setSelectedService] = React.useState("")
+ 
+
+  const handleChange = (event) => {
+    console.log(event.target.value)
+    setSelectedService(event.target.value);
+  };
 
   //   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const onSubmit = async (e) => {
     //e.prevent.default()
-    console.log(e)
-    
-    
+    console.log(e);
+
     let calendarApi = addEvent.data.view.calendar;
     calendarApi.unselect(); // clear date selection
 
-    let title = e.title;
+    let title = selectedService;
+  
     if (title) {
-      method() // close modal
+      method(); // close modal
       try {
         const docRef = await addDoc(collection(db, "events"), {
           title: title,
@@ -60,7 +78,7 @@ export default function AddEventForm(props) {
           Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
         });
-       console.log("Event Submitted")
+        console.log("Event Submitted");
       } catch (error) {
         console.log(error);
       }
@@ -68,8 +86,8 @@ export default function AddEventForm(props) {
   };
 
   const handleCancel = () => {
-    props.method() // close modal
-  }
+    method(); // close modal
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,7 +102,7 @@ export default function AddEventForm(props) {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+            <EventAvailableIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Add Events
@@ -97,34 +115,47 @@ export default function AddEventForm(props) {
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
+              <FormControl
+                      fullwidth="true"
+                      sx={{
+                        width: 200,
+                        height: 100,
+                      }}
+                    >
+                      <InputLabel id="title">
+                        <em>Select a Service</em>
+                      </InputLabel>
                 <Controller
                   name="title"
                   defaultValue=""
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <TextField
-                      onChange={onChange}
+                      <Select
+                      onChange={handleChange}
                       value={value}
-                      onBlur={onBlur}
-                      autoComplete="given-name"
-                      name="title"
-                      required
-                      fullWidth
                       id="title"
-                      label="title"
-                      autoFocus
-                      error={!!errors.title}
-                      helperText={errors.title?.message}
-                    />
-                  )}
+                      >
+                        <MenuItem value="">
+                        </MenuItem>
+                       {services.map((service) => { return (
+                    (<MenuItem key={service.DOC_ID} value={service.service}>
+                        {service.service}
+                    </MenuItem>)
+                     );
+                    })}
+                   </Select>
+               
+                )}
                 />
+                </FormControl>
               </Grid>
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              disabled={!formState.isValid}
+              //onClick={handleSubmit(onSubmit)}
+              //disabled={!formState.isValid}
               sx={{ mt: 3, mb: 2 }}
             >
               Add Event

@@ -54,7 +54,7 @@ export const ServicesForBusiness = () => {
      }
   }, [currentUser.uid]);
   
-  console.log("The business Selected is", selectedBusiness)
+  console.log("The business selected is", selectedBusiness)
   console.log("The inital business selected is", business)
 
   return (
