@@ -36,17 +36,22 @@ const columns = [
   {
     title: "Service",
     field: "service",
-    width: "30%"
+    width: "30%", 
+    validate: rowsData => rowsData.service === "" ? "service cannot be empty" : true,
   },
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
-    width: "30%"
+    width: "30%",
+    type: "numeric",
+   
+
 },
 {
     title: "Business",
     field: "business",
     width: "50%",
+    validate: rowsData => rowsData.business === "" ? " business cannot be empty" : true,
 }
 ];
 
