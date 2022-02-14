@@ -27,8 +27,14 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
+import { Avatar } from "@mui/material";
 
 const columns = [
+  {
+    title: "Company Logo",
+    field: "imageUrl",
+    render: (rowData) => <Avatar src={rowData.imageUrl} style={{ width: 50, borderRadius: "50%" }} />
+  },  
   {
     title: "Company Name",
     field: "company_name",
@@ -146,6 +152,7 @@ export default function BusinessTable(props) {
   
   const { currentUser } = useAuth();
 
+ 
 
   const handleRowAdd = async (newData, resolve) => {
    console.log(newData)
