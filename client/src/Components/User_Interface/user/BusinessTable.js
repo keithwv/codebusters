@@ -34,6 +34,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import cards from "../../HomePageCards/cards";
 
 // const categories = ["Vehicle Services", "Personal Care", 'Indoor Services/Repairs', "Outdoor Services/Repairs",
 // "Online Services"]
@@ -162,7 +163,7 @@ export default function BusinessTable(props) {
   const { currentUser } = useAuth();
 
   const categories = [
-    { category: "Vehicle Services", id: 1 },
+    { category: cards.title, id: 1 },
     {
       category: "Personal Care",
       id: 2,
