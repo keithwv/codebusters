@@ -3,7 +3,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import Header from "./Components/User_Interface/Header";
 import Footer from "./Components/User_Interface/Footer";
 import theme from "./Components/User_Interface/Theme";
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
 import SignIn from "./Components/log_in/loginBusiness";
@@ -26,10 +26,12 @@ import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
 
 function App(props) {
   return (
+    <BrowserRouter>
     <AuthProvider>
       <ThemeProvider theme={theme}>
-        <Header />
+        {/* <Header /> */}
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/Register" element={<RegisterBusiness />} />
           <Route path="/Login" element={<SignIn />} />
@@ -76,6 +78,7 @@ function App(props) {
         <Footer />
       </ThemeProvider>
     </AuthProvider>
+    </BrowserRouter>
   );
 }
 

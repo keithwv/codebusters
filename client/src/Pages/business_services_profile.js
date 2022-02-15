@@ -14,6 +14,7 @@ import { Avatar, Button, InputLabel, MenuItem, Select, Stack, TextField, FormCon
 import { UploadButtonBusiness } from "../Components/for_logged_in_users/UploadButtonBusiness";
 import { db } from "../Firebase/firebase-config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
+import Header from "../Components/User_Interface/Header";
 
 
 
@@ -59,6 +60,7 @@ export const ServicesForBusiness = () => {
 
   return (
     <>
+      <Header/>
       <Container>
         <Grid container direction="row" justifyContent="center" spacing={2}>
           <Grid item>

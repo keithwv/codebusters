@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { Container } from '@mui/material';
 import { useAuth } from "../../../contexts/AuthContext";
 import SignIn from '../../log_in/loginBusiness';
+import Header from '../Header';
 
 export default function BusinessProfile() {
 
@@ -10,6 +11,7 @@ export default function BusinessProfile() {
     if (currentUser) {
         return (
             <>
+                <Header/>
                 <Container maxWidth="sm">
                     <Typography
                         component="h1"

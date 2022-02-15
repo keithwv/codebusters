@@ -13,6 +13,7 @@ import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
 import { doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import Header from "../Components/User_Interface/Header";
 
 
 // Schema for register form
@@ -94,6 +95,8 @@ const UserProfile = () => {
   };
 
   return (
+    <>
+    <Header/>
     <Box
      onSubmit={handleSubmit(onSubmit)}
      component="form"
@@ -241,6 +244,7 @@ const UserProfile = () => {
       </Grid>
       </Grid>
       </Box>
+      </>
   );
 };
 

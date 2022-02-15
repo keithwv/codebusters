@@ -17,7 +17,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
-
+import Header from "../User_Interface/Header";
 
 const theme = createTheme();
 
@@ -47,7 +47,8 @@ export default function SignIn() {
   };
 
   return (
-
+    <>
+     <Header/>
     <ThemeProvider theme={theme} >
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -151,5 +152,6 @@ export default function SignIn() {
         </Box>
       </Container>
     </ThemeProvider >
+    </>
   );
 }
