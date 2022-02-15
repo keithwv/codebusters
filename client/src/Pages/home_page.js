@@ -11,74 +11,57 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CardActions, TextField } from "@mui/material";
-import { CardActionArea, ButtonBase } from "@mui/material";
-import {
-  collection,
-  endAt,
-  onSnapshot,
-  orderBy,
-  query,
-  startAt,
-} from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { db } from "../Firebase/firebase-config";
+import { TextField } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import Header from "../Components/User_Interface/Header";
-// import AppBar from "@mui/material/AppBar";
-// import CameraIcon from "@mui/icons-material/PhotoCamera";
-// import CardActions from "@mui/material/CardActions";
-// import Toolbar from "@mui/material/Toolbar";
-// import { minHeight } from "@mui/system";
+import cards from "../Components/HomePageCards/cards";
 
-const cards = [
-  {
-    title: "Vehicle Services",
-    text: " View businesses related to vehicle repairs, tunning and other services. ",
-    imageSource:
-      "http://www.iheartradio.ca/image/policy:1.16181387:1633034858/image/image.jpg?a=16%3A9&w=1000&$p$a$w=28c4cb7",
-    path: "/business-category-list",
-  },
-  {
-    title: "Personal Care",
-    text: " View businesses related to hairdressing, cosmetology, skin & body care.",
-    imageSource: "https://i.ibb.co/JxfD2tS/Webp-net-resizeimage.jpg",
-    path: "/business-category-list",
-  },
-  {
-    title: "Indoor Services/Repairs",
-    text: " View repair, construction, cleaning etc. services for homes and offices.",
-    imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-    path: "/business-category-list",
-  },
-  {
-    title: "Outdoor Services/Repairs",
-    text: " View repair, construction, cleaning etc. services for homes and offices.",
-    imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-    path: "/business-category-list",
-  },
-  {
-    title: "Online Services",
-    text: " View repair, construction, cleaning etc. services for homes and offices.",
-    imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-    path: "/business-category-list",
-  },
-  {
-    title: "Other",
-    text: " View repair, construction, cleaning etc. services for homes and offices.",
-    imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-    path: "/business-category-list",
-  },
-];
+// const cards = [
+//   {
+//     title: "Vehicle Services",
+//     text: " View businesses related to vehicle repairs, tunning and other services. ",
+//     imageSource:
+//       "http://www.iheartradio.ca/image/policy:1.16181387:1633034858/image/image.jpg?a=16%3A9&w=1000&$p$a$w=28c4cb7",
+//     path: "/business-category-list",
+//   },
+//   {
+//     title: "Personal Care",
+//     text: " View businesses related to hairdressing, cosmetology, skin & body care.",
+//     imageSource: "https://i.ibb.co/JxfD2tS/Webp-net-resizeimage.jpg",
+//     path: "/business-category-list",
+//   },
+//   {
+//     title: "Indoor Services/Repairs",
+//     text: " View repair, construction, cleaning etc. services for homes and offices.",
+//     imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
+//     path: "/business-category-list",
+//   },
+//   {
+//     title: "Outdoor Services/Repairs",
+//     text: " View repair, construction, cleaning etc. services for homes and offices.",
+//     imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
+//     path: "/business-category-list",
+//   },
+//   {
+//     title: "Online Services",
+//     text: " View repair, construction, cleaning etc. services for homes and offices.",
+//     imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
+//     path: "/business-category-list",
+//   },
+//   {
+//     title: "Other",
+//     text: " View repair, construction, cleaning etc. services for homes and offices.",
+//     imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
+//     path: "/business-category-list",
+//   },
+// ];
 
 const theme = createTheme();
 
 export default function HomePage() {
-  function clickableObject(item) {
-    console.log(item, "hi there");
-  }
   return (
     <ThemeProvider theme={theme}>
-      <Header/>
+      <Header />
 
       <CssBaseline />
       <main>
@@ -148,7 +131,6 @@ export default function HomePage() {
           <Grid container spacing={4}>
             {cards.map((item, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>
-                {/* <div onClick={clickableObject(item.title)}> */}
                 <Card
                   sx={{
                     height: "100%",
@@ -173,7 +155,6 @@ export default function HomePage() {
                     <Typography>{item.text}</Typography>
                   </CardContent>
                 </Card>
-                {/* </div> */}
               </Grid>
             ))}
           </Grid>
