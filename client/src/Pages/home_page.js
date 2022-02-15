@@ -1,22 +1,32 @@
 import * as React from "react";
-// import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
-// import CameraIcon from "@mui/icons-material/PhotoCamera";
 import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-// import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { TextField } from "@mui/material";
-import { CardActionArea } from "@mui/material";
+import { CardActions, TextField } from "@mui/material";
+import { CardActionArea, ButtonBase } from "@mui/material";
+import {
+  collection,
+  endAt,
+  onSnapshot,
+  orderBy,
+  query,
+  startAt,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { db } from "../Firebase/firebase-config";
+// import AppBar from "@mui/material/AppBar";
+// import CameraIcon from "@mui/icons-material/PhotoCamera";
+// import CardActions from "@mui/material/CardActions";
+// import Toolbar from "@mui/material/Toolbar";
 // import { minHeight } from "@mui/system";
 
 const cards = [
@@ -62,6 +72,9 @@ const cards = [
 const theme = createTheme();
 
 export default function HomePage() {
+  function clickableObject(item) {
+    console.log(item, "hi there");
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -132,6 +145,7 @@ export default function HomePage() {
           <Grid container spacing={4}>
             {cards.map((item, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>
+                {/* <div onClick={clickableObject(item.title)}> */}
                 <Card
                   sx={{
                     height: "100%",
@@ -147,7 +161,6 @@ export default function HomePage() {
                       <CardMedia component="img" image={item.imageSource} />
                     </CardActionArea>
                   </Link>
-
                   <CardContent>
                     {/* takes title from cards array */}
                     <Typography gutterBottom variant="h5" component="h2">
@@ -156,12 +169,8 @@ export default function HomePage() {
                     {/* takes text from cards array */}
                     <Typography>{item.text}</Typography>
                   </CardContent>
-
-                  {/* <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions> */}
                 </Card>
+                {/* </div> */}
               </Grid>
             ))}
           </Grid>

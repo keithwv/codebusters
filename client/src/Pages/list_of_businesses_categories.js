@@ -7,7 +7,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 // import { Button } from "@mui/material";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, endAt, onSnapshot, orderBy, query, startAt } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 
@@ -16,7 +16,7 @@ export default function ListOfBusinessesInCategory() {
 
   useEffect(() => {
     let collectionRef = collection(db, "business");
-    let queryRef = query(collectionRef, orderBy("category"));
+    let queryRef = query(collectionRef, orderBy("category"), startAt('Car Repairs'), endAt('Car Repairs'));
     const undo = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
         console.log("No docs found");
