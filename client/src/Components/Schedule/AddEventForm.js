@@ -18,6 +18,7 @@ import { db } from "../../Firebase/firebase-config";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { TitleRounded } from "@material-ui/icons";
+import { SingleSelect } from "react-select-material-ui";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -132,8 +133,10 @@ export default function AddEventForm(props) {
                   render={({ field: { onChange, onBlur, value } }) => (
                       <Select
                       onChange={handleChange}
-                      value={value}
+                      value={services.service}
                       id="title"
+                      displayEmpty={true}
+                      defaultValue=""
                       >
                         <MenuItem value="">
                         </MenuItem>
