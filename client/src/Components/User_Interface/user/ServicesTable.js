@@ -31,6 +31,7 @@ import {
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Grid, Container } from "@material-ui/core";
+import { MenuItem, Select } from "@mui/material";
 
 const columns = [
   {
@@ -47,12 +48,6 @@ const columns = [
    
 
 },
-{
-    title: "Business",
-    field: "business",
-    width: "50%",
-    validate: rowsData => rowsData.business === "" ? " business cannot be empty" : true,
-}
 ];
 
 const deleteBusiness = (id) => {
@@ -111,6 +106,7 @@ const tableIcons = {
 
 export default function ServicesTable(props) {
   const { business, selectedBusiness } = props
+
 
   const [rows, setRows] = useState([]);
   console.log(rows)

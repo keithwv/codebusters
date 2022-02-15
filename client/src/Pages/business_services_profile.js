@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 // import { CardContent, CardHeader } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import ServicesTable from "../Components/User_Interface/user/ServicesTable";
-import { Avatar, Button, InputLabel, MenuItem, Select, Stack, TextField, FormControl, Typography } from "@mui/material";
+import { Avatar, Button, InputLabel, MenuItem, Select, Stack, TextField, FormControl, Typography, Paper } from "@mui/material";
 import { UploadButtonBusiness } from "../Components/for_logged_in_users/UploadButtonBusiness";
 import { db } from "../Firebase/firebase-config";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
@@ -85,6 +85,7 @@ export const ServicesForBusiness = () => {
           alignItems="center"
           spacing={2}
         > 
+         
           <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true"
             sx={{
@@ -118,6 +119,7 @@ export const ServicesForBusiness = () => {
         <Grid item sx={{ mt: "0.5rem"}} >
           <ServicesTable business={business} selectedBusiness={selectedBusiness} />
         </Grid>
+        
       </Container>
     </>
   );
