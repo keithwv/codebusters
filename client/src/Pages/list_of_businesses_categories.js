@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { collection, endAt, onSnapshot, orderBy, query, startAt } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
+import Header from "../Components/User_Interface/Header";
 
 export default function ListOfBusinessesInCategory() {
   const [list, setList] = useState([]);
@@ -35,6 +36,7 @@ export default function ListOfBusinessesInCategory() {
 
   return (
     <>
+    <Header/>
       <List
         sx={{
           width: "100%",

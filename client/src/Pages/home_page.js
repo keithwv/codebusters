@@ -23,6 +23,7 @@ import {
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
+import Header from "../Components/User_Interface/Header";
 // import AppBar from "@mui/material/AppBar";
 // import CameraIcon from "@mui/icons-material/PhotoCamera";
 // import CardActions from "@mui/material/CardActions";
@@ -77,6 +78,8 @@ export default function HomePage() {
   }
   return (
     <ThemeProvider theme={theme}>
+      <Header/>
+
       <CssBaseline />
       <main>
         {/* Search bar component */}

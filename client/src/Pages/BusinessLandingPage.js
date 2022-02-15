@@ -17,7 +17,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-
+import Header from "../Components/User_Interface/Header";
 import BusinessTable from "../Components/User_Interface/user/BusinessTable";
 
 export default function BusinessLandingPage() {
@@ -62,7 +62,8 @@ export default function BusinessLandingPage() {
   }, [currentUser.uid]);
 
   return (
-    <React.Fragment>
+    <>
+      <Header/>
       <Container>
         <Typography
           component="h1"
@@ -87,6 +88,6 @@ export default function BusinessLandingPage() {
           </Grid>
         </Grid>
       </Container>
-    </React.Fragment>
+    </>
   );
 }

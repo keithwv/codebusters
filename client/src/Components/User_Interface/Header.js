@@ -204,7 +204,7 @@ const Header = (props) => {
   const businessProfileDrawerElement = [
     {
       text: "Your Profile",
-      path: "/business-profile",
+      path: "/profile",
     },
   ];
 

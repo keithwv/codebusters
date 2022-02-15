@@ -20,6 +20,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import StoreIcon from '@mui/icons-material/Store';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Header from "../User_Interface/Header";
+
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -65,6 +67,8 @@ export default function RegisterBusiness() {
   };
 
   return (
+    <>
+    <Header/>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -255,5 +259,6 @@ export default function RegisterBusiness() {
         </Box>
       </Container>
     </ThemeProvider>
+    </>
   );
 }

@@ -14,6 +14,8 @@ import CalendarModal from "../Modals/CalendarModal";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 import SelectBusiness from "./SelectBusiness";
 import { SignalCellularNullOutlined } from "@material-ui/icons";
+import Header from "../User_Interface/Header";
+
 
 export default function CalendarWithSchedule() {
   // Set business hours
@@ -205,6 +207,8 @@ export default function CalendarWithSchedule() {
   }
 
   return (
+    <>
+    <Header/>
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
@@ -242,5 +246,6 @@ export default function CalendarWithSchedule() {
         />
       )}
     </div>
+    </>
   );
 }
