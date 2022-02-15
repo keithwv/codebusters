@@ -33,6 +33,7 @@ const columns = [
     title: "Company Name",
     field: "company_name",
     width: '20%',
+    validate: rowsData => rowsData.company_name === "" ? "Business cannot be empty" : true,
     cellStyle: {
         width: 100,
         minWidth: 100
@@ -41,6 +42,7 @@ const columns = [
   {
     title: "Address 1",
     field: "address1",
+    validate: rowsData => rowsData.address1 === "" ? " Address cannot be empty" : true,
     cellStyle: {
         width: 150,
         minWidth: 150
@@ -49,6 +51,7 @@ const columns = [
   {
     title: "Address 2",
     field: "address2",
+    validate: rowsData => rowsData.address2 === "" ? " Address 2 cannot be empty" : true,
     cellStyle: {
         width: 100,
         minWidth: 100
@@ -57,6 +60,7 @@ const columns = [
   {
     title: "City",
     field: "city",
+    validate: rowsData => rowsData.city === "" ? " City cannot be empty" : true,
     cellStyle: {
         width: 100,
         minWidth: 100
@@ -66,6 +70,7 @@ const columns = [
     title: "Postal Code",
     field: "postal_code",
     width: '20%',
+    validate: rowsData => rowsData.postal_code === "" ? " postal code cannot be empty" : true,
     cellStyle: {
         width: 100,
         minWidth: 100
@@ -85,6 +90,7 @@ const columns = [
   title: "Category",
   field: "category",
   width: '20%',
+  validate: rowsData => rowsData.category === "" ? " Category cannot be empty" : true,
   cellStyle: {
       width: 100,
       minWidth: 100
