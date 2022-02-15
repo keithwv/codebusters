@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import AddEventForm from "../Schedule/AddEventForm";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -17,7 +16,13 @@ const style = {
 };
 
 export default function CalendarModal(props) {
-  const { addEvent, method, selectedBusiness } = props;
+  const {
+    addEvent,
+    method,
+    selectedBusiness,
+    servicesProvided: services,
+    setServicesProvided,
+  } = props;
 
   // const handleClose = () => {
   //     data.check = false
@@ -37,7 +42,13 @@ export default function CalendarModal(props) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddEventForm addEvent={addEvent} selectedBusiness={selectedBusiness} method={method} />
+          <AddEventForm
+            setServicesProvided={setServicesProvided}
+            servicesProvided={services}
+            addEvent={addEvent}
+            selectedBusiness={selectedBusiness}
+            method={method}
+          />
         </Box>
       </Modal>
     </div>

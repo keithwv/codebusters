@@ -5,12 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../../contexts/AuthContext";
-import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 // import AddEventForm from "./AddEventForm";
 import "./calendar.css";
@@ -18,6 +13,7 @@ import CalendarModal from "../Modals/CalendarModal";
 // import EditDeleteEventForm from "./Edit_Delete_EventForm";
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 import SelectBusiness from "./SelectBusiness";
+import { SignalCellularNullOutlined } from "@material-ui/icons";
 
 export default function CalendarWithSchedule() {
   // Set business hours
@@ -46,35 +42,70 @@ export default function CalendarWithSchedule() {
 
   const [business, setBusiness] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState([]);
+  const [services, setServicesProvided] = useState([]);
+  
 
-    // Get all business for logged in user
-    useEffect(() => {
-      let collectionRef = collection(db, "business");
-       if (currentUser?.uid) {
-        let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-        const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-          if (querySnap.empty) {
-            console.log("No docs found");
-          } else {
-            let businessData = querySnap.docs.map((doc) => {
-              return {
-                ...doc.data(),
-                DOC_ID: doc.id,
-              };
-            });
-            setBusiness(businessData);
-            
-          }
-        });
-        return unsubscribe;
-       }
-    }, [currentUser.uid]);
+  console.log(eventsData)
+  // Get all business for logged in user
+  useEffect(() => {
+    let collectionRef = collection(db, "business");
+    if (currentUser?.uid) {
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let businessData = querySnap.docs.map((doc) => {
+            return {
+              ...doc.data(),
+              DOC_ID: doc.id,
+            };
+          });
+          setBusiness(businessData);
+        }
+      });
+      return unsubscribe;
+    }
+  }, [currentUser.uid]);
+
+  // Get all services associated with the selected business
+  useEffect(() => {
+    let collectionRef = collection(db, "services");
+    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(
+        collectionRef,
+        where("uid", "==", currentUser.uid),
+        where("Business_ID", "==", selectedBusiness.DOC_ID)
+      );
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let servicesData = querySnap.docs.map((doc) => {
+            return {
+              ...doc.data(),
+              DOC_ID: doc.id,
+            };
+          });
+          console.log(servicesData)
+          // console.log(typeof(servicesData))
+          setServicesProvided(servicesData);
+        }
+      });
+      return unsubscribe;
+    }
+  }, [currentUser.uid, selectedBusiness.DOC_ID]);
+  console.log(services)
 
   const renderSidebar = () => {
     return (
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
-        <SelectBusiness business={business} selectedBusiness={selectedBusiness} setSelectedBusiness={setSelectedBusiness}/>
+          <SelectBusiness
+            business={business}
+            selectedBusiness={selectedBusiness}
+            setSelectedBusiness={setSelectedBusiness}
+          />
           <label>
             <input
               type="checkbox"
@@ -83,7 +114,6 @@ export default function CalendarWithSchedule() {
             ></input>
             Weekends
           </label>
-         
         </div>
         <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
@@ -121,8 +151,11 @@ export default function CalendarWithSchedule() {
   useEffect(() => {
     let collectionRef = collection(db, "events");
     if (currentUser?.uid && selectedBusiness?.DOC_ID) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
-      where("Business_ID","==", selectedBusiness.DOC_ID)); // logged in user has unique uid linked to events
+      let queryRef = query(
+        collectionRef,
+        where("uid", "==", currentUser.uid),
+        where("Business_ID", "==", selectedBusiness.DOC_ID)
+      ); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -175,7 +208,6 @@ export default function CalendarWithSchedule() {
     <div className="demo-app">
       {renderSidebar()}
       <div className="demo-app-main">
-        
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -200,7 +232,15 @@ export default function CalendarWithSchedule() {
       {removeEvents.check && (
         <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
       )}
-      {addEvent.check && <CalendarModal selectedBusiness={selectedBusiness} addEvent={addEvent} method={method} />}
+      {addEvent.check && (
+        <CalendarModal
+          servicesProvided={services}
+          setServicesProvided={setServicesProvided}
+          selectedBusiness={selectedBusiness}
+          addEvent={addEvent}
+          method={method}
+        />
+      )}
     </div>
   );
 }

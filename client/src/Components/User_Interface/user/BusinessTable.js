@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import MaterialTable from "@material-table/core";
 import {
   addDoc,
@@ -27,82 +27,91 @@ import {
   ViewColumn,
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Avatar } from "@mui/material";
+import {
+  Avatar,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
-const columns = [
-  {
-    title: "Company Logo",
-    field: "imageUrl",
-    render: (rowData) => <Avatar src={rowData.imageUrl} style={{ width: 50, borderRadius: "50%" }} />
-  },  
-  {
-    title: "Company Name",
-    field: "company_name",
-    width: '20%',
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
-  },
-  {
-    title: "Address 1",
-    field: "address1",
-    cellStyle: {
-        width: 150,
-        minWidth: 150
-  }
-},
-  {
-    title: "Address 2",
-    field: "address2",
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
-},
-  {
-    title: "City",
-    field: "city",
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
-  },
-  {
-    title: "Postal Code",
-    field: "postal_code",
-    width: '20%',
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
-    
-  },
-  {
-    title: "Province",
-    field: "province",
-    width: '20%',
-    cellStyle: {
-        width: 100,
-        minWidth: 100
-  }
-},
-  {
-  title: "Category",
-  field: "category",
-  width: '20%',
-  cellStyle: {
-      width: 100,
-      minWidth: 100
-  }
-}
-];
+// const categories = ["Vehicle Services", "Personal Care", 'Indoor Services/Repairs', "Outdoor Services/Repairs",
+// "Online Services"]
+
+// const columns = [
+
+//   {
+//     title: "Company Logo",
+//     field: "imageUrl",
+//     render: (rowData) => <Avatar src={rowData.imageUrl} style={{ width: 50, borderRadius: "50%" }} />
+//   },
+//   {
+//     title: "Company Name",
+//     field: "company_name",
+//     width: '20%',
+//     cellStyle: {
+//         width: 100,
+//         minWidth: 100
+//   }
+//   },
+//   {
+//     title: "Address 1",
+//     field: "address1",
+//     cellStyle: {
+//         width: 150,
+//         minWidth: 150
+//   }
+// },
+//   {
+//     title: "Address 2",
+//     field: "address2",
+//     cellStyle: {
+//         width: 100,
+//         minWidth: 100
+//   }
+// },
+//   {
+//     title: "City",
+//     field: "city",
+//     cellStyle: {
+//         width: 100,
+//         minWidth: 100
+//   }
+//   },
+//   {
+//     title: "Postal Code",
+//     field: "postal_code",
+//     width: '20%',
+//     cellStyle: {
+//         width: 100,
+//         minWidth: 100
+//   }
+
+//   },
+//   {
+//     title: "Province",
+//     field: "province",
+//     width: '20%',
+//     cellStyle: {
+//         width: 100,
+//         minWidth: 100
+//   }
+// },
+//   {
+//   title: "Category",
+//   field: "category",
+//   width: '20%',
+//   cellStyle: {
+//       width: 100,
+//       minWidth: 100
+//   },
+//   }
+// ];
 
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "business", id);
   return deleteDoc(businessDoc);
 };
-
 
 const handleRowDelete = async (oldData, resolve) => {
   const id = oldData.DOC_ID;
@@ -148,34 +157,141 @@ const tableIcons = {
 };
 
 export default function BusinessTable(props) {
-  const {businessInfo} = props  // all business information from logged in user fetched from the business collection of firestore
-  
+  const { businessInfo } = props; // all business information from logged in user fetched from the business collection of firestore
+
   const { currentUser } = useAuth();
 
- 
+  const categories = [
+    { category: "Vehicle Services", id: 1 },
+    {
+      category: "Personal Care",
+      id: 2,
+    },
+    {
+      catergory: "Indoor Services/Repairs",
+      id: 3,
+    },
+    {
+      category: "Outdoor Services/Repairs",
+      id: 4,
+    },
+    { category: "Online Services", id: 5 },
+  ];
+
+  const [columns, setColumns] = useState([
+    {
+      title: "Company Logo",
+      field: "imageUrl",
+      render: (rowData) => (
+        <Avatar
+          src={rowData.imageUrl}
+          style={{ width: 50, borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
+      title: "Company Name",
+      field: "company_name",
+      width: "20%",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+    },
+    {
+      title: "Address 1",
+      field: "address1",
+      cellStyle: {
+        width: 150,
+        minWidth: 150,
+      },
+    },
+    {
+      title: "Address 2",
+      field: "address2",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+    },
+    {
+      title: "City",
+      field: "city",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+    },
+    {
+      title: "Postal Code",
+      field: "postal_code",
+      width: "20%",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+    },
+    {
+      title: "Province",
+      field: "province",
+      width: "20%",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+    },
+    {
+      title: "Category",
+      field: "category",
+      width: "20%",
+      cellStyle: {
+        width: 100,
+        minWidth: 100,
+      },
+      editComponent: ({onChange}) => (
+        <Select
+          id="category-menu"
+          labelId="category-menu-id"
+          value={categories.category}
+          displayEmpty={true}
+          label="category"
+          onChange={(event) => onChange(event.target.value)}
+        >
+          <MenuItem value=""></MenuItem> // Provides initial value so that MUI
+          doesn't give a warning in the console
+          {categories.map((category) => {
+            return (
+              <MenuItem key={category.id} value={category.category}>
+                {category.category}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      ),
+    },
+  ]);
 
   const handleRowAdd = async (newData, resolve) => {
-   console.log(newData)
+    console.log(newData);
 
-  try {
-    await addDoc(collection(db, "business"), {
-      address1: newData.address1,
-      address2: newData.address2,
-      city: newData.city,
-      company_name: newData.company_name,
-      postal_code: newData.postal_code,
-      province: newData.province,
-      category: newData.category,
-      uid: currentUser.uid
-    });
-    console.log("Business Submitted");
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(newData);
-  resolve()
-
-};    
+    try {
+      await addDoc(collection(db, "business"), {
+        address1: newData.address1,
+        address2: newData.address2,
+        city: newData.city,
+        company_name: newData.company_name,
+        postal_code: newData.postal_code,
+        province: newData.province,
+        category: newData.category,
+        uid: currentUser.uid,
+      });
+      console.log("Business Submitted");
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(newData);
+    resolve();
+  };
 
   return (
     <div>
