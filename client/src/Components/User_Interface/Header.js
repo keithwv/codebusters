@@ -27,7 +27,7 @@ import TodayIcon from "@mui/icons-material/Today";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import BusinessAvatar from "./business/business_avatar";
-import { Avatar } from "@mui/material";
+import { Avatar, Menu, MenuItem } from "@mui/material";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import {
   collection,
@@ -38,6 +38,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 import TextField from "@mui/material/TextField";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -145,10 +146,22 @@ const Header = (props) => {
 
   const { currentUser } = useAuth();
 
+  // Drop down menu state and functions
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open2 = Boolean(anchorEl);
+  const handleClick = (event) => {
+    console.log(event.currentTarget)
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  console.log(open2)
+
   // Header constants
   const classes = useStyles();
   let selectedTab;
-  console.log(window.location.pathname)
+  // console.log(window.location.pathname);
   if (window.location.pathname === "/home") {
     console.log("0 selected");
     selectedTab = 0;
@@ -162,8 +175,6 @@ const Header = (props) => {
     selectedTab = false;
   }
 
-
-
   const { logout } = useAuth();
 
   const signOut = () => {
@@ -171,12 +182,11 @@ const Header = (props) => {
     logout();
     //alert("you loggged out");
   };
- 
-  const handleTabsChange = (e, newValue) => {
-    console.log(`New Value is ${newValue}`)
-    selectedTab=newValue
-  }
 
+  const handleTabsChange = (e, newValue) => {
+    console.log(`New Value is ${newValue}`);
+    selectedTab = newValue;
+  };
 
   const drawerElements = [
     {
@@ -297,7 +307,25 @@ const Header = (props) => {
                 )}
               </Tabs>
               {currentUser && users[0]?.imageUrl && (
-                <Avatar alt="" src={users[0]?.imageUrl} />
+                <>
+                  <IconButton onClick={handleClick}>
+                    <Avatar alt="" src={users[0]?.imageUrl} />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="avatar-menu"
+                    open={open2}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                  >
+                    <MenuItem component={Link} to="/profile">Your Profile</MenuItem>
+                    <MenuItem component={Link} to="/dashboard">Dashboard</MenuItem>
+                    <Divider/>
+                    <MenuItem onClick={signOut}>Sign Out</MenuItem>
+                  </Menu>
+                </>
               )}
             </Toolbar>
           </AppBar>
