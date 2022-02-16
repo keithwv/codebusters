@@ -4,7 +4,7 @@ const cards = [
       text: " View businesses related to vehicle repairs, tunning and other services. ",
       imageSource:
         "http://www.iheartradio.ca/image/policy:1.16181387:1633034858/image/image.jpg?a=16%3A9&w=1000&$p$a$w=28c4cb7",
-      path: "/business-category-list",
+      path: "/login",
     },
     {
       title: "Personal Care",

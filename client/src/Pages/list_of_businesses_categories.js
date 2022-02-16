@@ -1,23 +1,43 @@
 import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-// import { Button } from "@mui/material";
-import { collection, endAt, onSnapshot, orderBy, query, startAt } from "firebase/firestore";
+import {
+  collection,
+  endAt,
+  onSnapshot,
+  orderBy,
+  query,
+  startAt,
+  where,
+} from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import Header from "../Components/User_Interface/Header";
+import cards from "../Components/HomePageCards/cards";
+import HomePage from "./home_page";
+// import { useCategory } from "../contexts/SelectedCategoryContext";
 
-export default function ListOfBusinessesInCategory() {
+export default function ListOfBusinessesInCategory(props) {
+  // const category = useCategory
   const [list, setList] = useState([]);
+  const { value } = props 
+  console.log(value, "VALUE IS HERE!")
 
   useEffect(() => {
+    if(value){
     let collectionRef = collection(db, "business");
-    let queryRef = query(collectionRef, orderBy("category"), startAt('Car Repairs'), endAt('Car Repairs'));
+    let queryRef = query(
+      collectionRef,
+      where("category", "==", value),
+      // orderBy("company_name"),
+      // startAt("Car Repairs"),
+      // endAt("Car Repairs")
+    );
+    // console.log("HOMEPAGE VALUE", category)
     const undo = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
         console.log("No docs found");
@@ -30,13 +50,14 @@ export default function ListOfBusinessesInCategory() {
         });
         setList(businessesList);
       }
-    });
+    })
     return undo;
-  }, []);
+  }
+  }, [value]);
 
   return (
     <>
-    <Header/>
+      <Header />
       <List
         sx={{
           width: "100%",
@@ -47,37 +68,35 @@ export default function ListOfBusinessesInCategory() {
       >
         {list.map((item) => {
           return (
-            <ul key={item.DOC_ID}>
-              <li>category: {item.category}</li>
-              <li>docId: {item.DOC_ID}</li>
+            <>
+              <ul key={item.DOC_ID}></ul>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.category}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {item.DOC_ID}
+                      </Typography>
+                      {" - this is ID of a document in firebase"}
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
               <hr />
-            </ul>
+            </>
           );
         })}
         <br />
-
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
+        {/* <Divider variant="inset" component="li" /> */}
       </List>
     </>
   );
