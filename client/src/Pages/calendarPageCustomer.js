@@ -3,21 +3,23 @@ import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from '@fullcalendar/list'
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
-import { useAuth } from "../../contexts/AuthContext";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../Firebase/firebase-config";
-// import AddEventForm from "./AddEventForm";
-import "./calendar.css";
-import CalendarModal from "../Modals/CalendarModal";
-// import EditDeleteEventForm from "./Edit_Delete_EventForm";
-import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
-import SelectBusiness from "./SelectBusiness";
-import { SignalCellularNullOutlined } from "@material-ui/icons";
-import Header from "../User_Interface/Header";
+import { useAuth } from "../contexts/AuthContext";
+import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { db } from "../Firebase/firebase-config";
+
+import "../Components/Schedule/calendar.css";
+import CalendarModal from "../Components/Modals/CalendarModal";
+
+import EditDeleteCalendarModal from "../Components/Modals/EditDeleteCalendarModal";
+import SelectBusiness from "../Components/Schedule/SelectBusiness";
 
 
-export default function CalendarWithSchedule() {
+import Header from "../Components/User_Interface/Header";
+
+
+export default function CalendarWithScheduleCustomer() {
   // Set business hours
   const businessHours = {
     // days of week. an array of zero-based day of week integers (0=Sunday)
@@ -68,7 +70,7 @@ export default function CalendarWithSchedule() {
       });
       return unsubscribe;
     }
-  }, [currentUser.uid]);
+  }, [currentUser]);
 
   // Get all services associated with the selected business
   useEffect(() => {
@@ -96,7 +98,7 @@ export default function CalendarWithSchedule() {
       });
       return unsubscribe;
     }
-  }, [currentUser.uid, selectedBusiness.DOC_ID]);
+  }, [currentUser, selectedBusiness.DOC_ID]);
   console.log(services)
 
   const renderSidebar = () => {
@@ -156,7 +158,8 @@ export default function CalendarWithSchedule() {
       let queryRef = query(
         collectionRef,
         where("uid", "==", currentUser.uid),
-        where("Business_ID", "==", selectedBusiness.DOC_ID)
+        where("Business_ID", "==", selectedBusiness.DOC_ID),
+        where("Booked", "==", false)
       ); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
@@ -168,6 +171,8 @@ export default function CalendarWithSchedule() {
             end: doc.data().end_time,
             title: doc.data().title,
             id: doc.id,
+            backgroundColor: doc.data().color,
+            email: doc.data().customer_email
           }));
           setEventsData(eventsData);
         }
@@ -183,6 +188,7 @@ export default function CalendarWithSchedule() {
   };
 
   function renderEventContent(eventInfo) {
+    console.log(eventInfo)
     return (
       <>
         <b>{eventInfo.timeText}</b>
@@ -205,6 +211,20 @@ export default function CalendarWithSchedule() {
       </li>
     );
   }
+ // Update the start and end times for event if it is dragged to a different time         
+ const handleEventDrop = async (event) => {
+   let updated_start_time = event.event.startStr
+   let updated_end_time=event.event.endStr
+   let document_id = event.event.id
+   const EventDoc = doc(db, "events", document_id);
+   console.log("Document has been updated", EventDoc)
+   await updateDoc(EventDoc, {
+     start_time: updated_start_time,
+     end_time: updated_end_time
+   })
+ }
+   
+  
 
   return (
     <>
@@ -213,11 +233,16 @@ export default function CalendarWithSchedule() {
       {renderSidebar()}
       <div className="demo-app-main">
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           headerToolbar={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "dayGridMonth,timeGridWeek,timeGridDay, listDay,listWeek,listMonth",
+          }}
+          views= {{
+            listDay: { buttonText: 'List Day' },
+            listWeek: { buttonText: 'List Week' },
+            listMonth: { buttonText: 'List Month' }
           }}
           initialView="dayGridMonth"
           editable={true}
@@ -230,7 +255,11 @@ export default function CalendarWithSchedule() {
           select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
+          eventOverlap={false}
+          slotEventOverlap={false}
+          eventDrop={handleEventDrop}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          //eventContent={renderEventContent}
         />
       </div>
       {removeEvents.check && (
