@@ -10,7 +10,7 @@ import SignIn from "./Components/log_in/loginBusiness";
 import AddressForm from "./Components/for_logged_in_users/Business fill in form";
 import { ServicesForBusiness } from "./Pages/business_services_profile";
 import BasicModal from "./Components/Modals/Modal";
-import CalendarWithSchedule from "./Components/Schedule/calendarPage";
+import CalendarWithSchedule from "./Pages/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
 //import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
@@ -20,6 +20,7 @@ import UserProfile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
+import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer"
 
 
 
@@ -54,6 +55,7 @@ function App(props) {
               </ProtectedRoute>
             }
           />
+          <Route path="/customer_calendar" element={<CalendarWithScheduleCustomer/>}/>
           <Route path="/register-client" element={<RegisterClient />} />
           <Route
             path="/dashboard"

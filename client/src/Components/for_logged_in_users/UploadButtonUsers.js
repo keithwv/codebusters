@@ -7,6 +7,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { Button, IconButton, Input, Stack } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { styled } from "@mui/styles";
+import LinearProgressWithLabel from '../../Components/User_Interface/business/LinearProgressIndicator'
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const UploadButtonUsers = (props) => {
   const { store } = useAuth();
@@ -15,6 +17,7 @@ export const UploadButtonUsers = (props) => {
   //const Name = props.Name;
   const [file, setFile] = useState();
   const [progress, setProgress] = useState();
+  console.log(progress)
   console.log(file);
 
 
@@ -76,6 +79,7 @@ export const UploadButtonUsers = (props) => {
         >
           Upload
         </Button>
+        {progress<100 && <CircularProgress />}
       </label>
       <label htmlFor="icon-button-file">
         <Input

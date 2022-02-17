@@ -49,7 +49,7 @@ export default function EditDeleteEventForm(props) {
   const [disabled, setDisabled] = useState(true);
   const [eventTitle, setEventTitle] = useState(removeEvents.data.event.title);
   const [eventData, setEventData] = useState([]);
-
+  console.log("you selected the following event", eventData)
   const {
     handleSubmit,
     control,
