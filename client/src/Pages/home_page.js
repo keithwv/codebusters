@@ -9,30 +9,19 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
-import { useState } from "react";
+import { Link as RrdLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CardActions, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { CardActionArea } from "@mui/material";
 import Header from "../Components/User_Interface/Header";
 import cards from "../Components/HomePageCards/cards";
-import ListOfBusinessesInCategory from "./list_of_businesses_categories";
-// import { SelectedCategoryProvider } from "../contexts/SelectedCategoryContext";
 
 const theme = createTheme();
 
 export default function HomePage() {
-  // const [value, setValue] = useState();
-  // console.log(value, 'HELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEE')
-  // const handleChange = (e) => {
-  //   setValue(cards.title)
-  // }
   return (
     <ThemeProvider theme={theme}>
       <Header />
-
-      {/* <ListOfBusinessesInCategory value={value} /> */}
-
       <CssBaseline />
       <main>
         {/* Search bar component */}
@@ -101,60 +90,33 @@ export default function HomePage() {
           <Grid container spacing={4}>
             {cards.map((item, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>
-                {/* <SelectedCategoryProvider> */}
-
-                {/* <div onClick={handleChange}> */}
-                {/* console.log("CLICKED", setValue() ) */}
-                <Link
-                  // href="/business-category-list"
-                  // href={{
-                  //   pathname: '/business-category-list',
-                  //   query: { name: item.title },
-                  // }}
-                  // href="/business-category-list"
-                  to={{
-                    pathname: "/business-category-list",
-                    search: item.title,
-                    // query: { name: item.title },
-                    // hash: "Vehicle Services",
-                    // state: { referrer: item.pathname },
+                <Card
+                  sx={{
+                    height: "100%",
+                    width: "100%",
+                    mr: "240px",
+                    maxWidth: "100%",
                   }}
                 >
-                  <Card
-                    sx={{
-                      height: "100%",
-                      width: "100%",
-                      mr: "240px",
-                      maxWidth: "100%",
-                    }}
+                  {/* takes path from cards array */}
+                  <RrdLink
+                    to={`/business-category-list?category=${item.title}`}
                   >
-                    {/* takes path from cards array */}
-                    {/* <CardActions */}
-                    {/* // component="button" */}
-                    {/* // onClick={() => { */}
-                    {/* //   setValue(item.title);
-                  //   // alert("clicked");
-                  //   // console.log(item.title, "status");
-                  // }}
-                  // > */}
-                    {/* <Link href={item.path}> */}
                     <CardActionArea>
                       {/* takes image path from cards array */}
                       <CardMedia component="img" image={item.imageSource} />
                     </CardActionArea>
-                    {/* </CardActions> */}
-                    <CardContent>
-                      {/* takes title from cards array */}
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {item.title}
-                      </Typography>
-                      {/* takes text from cards array */}
-                      <Typography>{item.text}</Typography>
-                    </CardContent>
-                  </Card>
-                </Link>
-                {/* </div> */}
-                {/* </SelectedCategoryProvider> */}
+                  </RrdLink>
+                  {/* </CardActions> */}
+                  <CardContent>
+                    {/* takes title from cards array */}
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.title}
+                    </Typography>
+                    {/* takes text from cards array */}
+                    <Typography>{item.text}</Typography>
+                  </CardContent>
+                </Card>
               </Grid>
             ))}
           </Grid>
