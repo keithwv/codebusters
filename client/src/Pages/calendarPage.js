@@ -5,18 +5,18 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { db } from "../../Firebase/firebase-config";
+import { db } from "../Firebase/firebase-config";
 
-import "./calendar.css";
-import CalendarModal from "../Modals/CalendarModal";
+import "../Components/Schedule/calendar.css"
+import CalendarModal from "../Components/Modals/CalendarModal";
 
-import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
-import SelectBusiness from "./SelectBusiness";
+import EditDeleteCalendarModal from "../Components/Modals/EditDeleteCalendarModal";
+import SelectBusiness from "../Components/Schedule/SelectBusiness";
 
 
-import Header from "../User_Interface/Header";
+import Header from "../Components/User_Interface/Header";
 
 
 export default function CalendarWithSchedule() {

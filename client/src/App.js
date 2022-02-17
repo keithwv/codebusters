@@ -10,7 +10,7 @@ import SignIn from "./Components/log_in/loginBusiness";
 import AddressForm from "./Components/for_logged_in_users/Business fill in form";
 import { ServicesForBusiness } from "./Pages/business_services_profile";
 import BasicModal from "./Components/Modals/Modal";
-import CalendarWithSchedule from "./Components/Schedule/calendarPage";
+import CalendarWithSchedule from "./Pages/calendarPage";
 import RegisterClient from "./Components/Register/RegisterClient";
 import ServiceList from "./Components/for_logged_in_users/serviceList";
 //import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
