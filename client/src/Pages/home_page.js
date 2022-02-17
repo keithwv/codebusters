@@ -22,7 +22,7 @@ import ListOfBusinessesInCategory from "./list_of_businesses_categories";
 const theme = createTheme();
 
 export default function HomePage() {
-  const [value, setValue] = useState();
+  // const [value, setValue] = useState();
   // console.log(value, 'HELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEEHELLOEEEE')
   // const handleChange = (e) => {
   //   setValue(cards.title)
@@ -31,7 +31,7 @@ export default function HomePage() {
     <ThemeProvider theme={theme}>
       <Header />
 
-      <ListOfBusinessesInCategory value={value} />
+      {/* <ListOfBusinessesInCategory value={value} /> */}
 
       <CssBaseline />
       <main>
@@ -105,39 +105,54 @@ export default function HomePage() {
 
                 {/* <div onClick={handleChange}> */}
                 {/* console.log("CLICKED", setValue() ) */}
-                <Card
-                  sx={{
-                    height: "100%",
-                    width: "100%",
-                    mr: "240px",
-                    maxWidth: "100%",
+                <Link
+                  // href="/business-category-list"
+                  // href={{
+                  //   pathname: '/business-category-list',
+                  //   query: { name: item.title },
+                  // }}
+                  // href="/business-category-list"
+                  to={{
+                    pathname: "/business-category-list",
+                    search: item.title,
+                    // query: { name: item.title },
+                    // hash: "Vehicle Services",
+                    // state: { referrer: item.pathname },
                   }}
                 >
-                  {/* takes path from cards array */}
-                  <CardActions
-                    component="button"
-                    onClick={() => {
-                      setValue(item.title);
-                      // alert("clicked");
-                      // console.log(item.title, "status");
+                  <Card
+                    sx={{
+                      height: "100%",
+                      width: "100%",
+                      mr: "240px",
+                      maxWidth: "100%",
                     }}
                   >
-                    <Link href={item.path}>
-                      <CardActionArea>
-                        {/* takes image path from cards array */}
-                        <CardMedia component="img" image={item.imageSource} />
-                      </CardActionArea>
-                    </Link>
-                  </CardActions>
-                  <CardContent>
-                    {/* takes title from cards array */}
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {item.title}
-                    </Typography>
-                    {/* takes text from cards array */}
-                    <Typography>{item.text}</Typography>
-                  </CardContent>
-                </Card>
+                    {/* takes path from cards array */}
+                    {/* <CardActions */}
+                    {/* // component="button" */}
+                    {/* // onClick={() => { */}
+                    {/* //   setValue(item.title);
+                  //   // alert("clicked");
+                  //   // console.log(item.title, "status");
+                  // }}
+                  // > */}
+                    {/* <Link href={item.path}> */}
+                    <CardActionArea>
+                      {/* takes image path from cards array */}
+                      <CardMedia component="img" image={item.imageSource} />
+                    </CardActionArea>
+                    {/* </CardActions> */}
+                    <CardContent>
+                      {/* takes title from cards array */}
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {item.title}
+                      </Typography>
+                      {/* takes text from cards array */}
+                      <Typography>{item.text}</Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
                 {/* </div> */}
                 {/* </SelectedCategoryProvider> */}
               </Grid>
