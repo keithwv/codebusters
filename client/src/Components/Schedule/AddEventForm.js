@@ -104,9 +104,9 @@ export default function AddEventForm(props) {
           uid: currentUser.uid,
           Booked: booking,
           color: color,
-          customer_email: data.Email,
-          description: data.Notes,
-          customer_phone_number: data.Phone_Number
+          customer_email: data?.Email || null,
+          description: data?.Notes || null,
+          customer_phone_number: data?.Phone_Number || null
           
         });
         console.log("Event Submitted");

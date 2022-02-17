@@ -20,6 +20,7 @@ import UserProfile from "./Pages/UsersProfile";
 import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
+import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer"
 
 
 
@@ -54,6 +55,7 @@ function App(props) {
               </ProtectedRoute>
             }
           />
+          <Route path="/customer_calendar" element={<CalendarWithScheduleCustomer/>}/>
           <Route path="/register-client" element={<RegisterClient />} />
           <Route
             path="/dashboard"
