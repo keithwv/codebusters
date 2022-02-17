@@ -19,6 +19,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { TitleRounded } from "@material-ui/icons";
 import { SingleSelect } from "react-select-material-ui";
+import { Email } from "@mui/icons-material";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -57,7 +58,7 @@ export default function AddEventForm(props) {
   ];
 
   const [selectedService, setSelectedService] = React.useState("");
-  const [status, setStatus] = React.useState("");
+  const [booking, setBooking] = React.useState(false);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -66,25 +67,27 @@ export default function AddEventForm(props) {
   };
 
   const handleAvailability = (event) => {
-    console.log(event.target.value)
-    setStatus(event.target.value)
+    if (event.target.value === "Booked") {
+      setBooking(true)
+    } else
+      setBooking(false)
   }
   //   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (data) => {
     //e.prevent.default()
-    console.log(e);
+    console.log(data);
 
     let calendarApi = addEvent.data.view.calendar;
     calendarApi.unselect(); // clear date selection
     let color = ""
-    console.log(status)
-    if (status === "Booked") {
+    console.log(booking)
+    if (booking) {
       console.log("Booked")
       color =  "#ff0000"
     } else {
-      color = "#0000ff"
+      color = ""
     }
 
     console.log(color)
@@ -99,8 +102,12 @@ export default function AddEventForm(props) {
           end_time: addEvent.data.endStr,
           Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
-          status: status,
-          color: color
+          Booked: booking,
+          color: color,
+          customer_email: data.Email,
+          description: data.Notes,
+          customer_phone_number: data.Phone_Number
+          
         });
         console.log("Event Submitted");
       } catch (error) {
@@ -119,10 +126,11 @@ export default function AddEventForm(props) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyItem: "center"
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -131,14 +139,15 @@ export default function AddEventForm(props) {
           <Typography component="h1" variant="h5">
             Add Events
           </Typography>
+          </Box>
           <Box
             component="form"
             noValidate
             onSubmit={handleSubmit(onSubmit)}
-            sx={{ mt: 3 }}
+            sx={{ mt: 1.5 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
+            <Grid container flex-direction="row" spacing={2}>
+              <Grid item xs={6} sm={6}>
                 <FormControl
                   fullwidth="true"
                   sx={{
@@ -177,9 +186,7 @@ export default function AddEventForm(props) {
                   />
                 </FormControl>
               </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
+              <Grid item xs={6} sm={6}>
                 <FormControl
                   fullwidth="true"
                   sx={{
@@ -219,6 +226,109 @@ export default function AddEventForm(props) {
                 </FormControl>
               </Grid>
             </Grid>
+           
+            {booking && 
+            <>
+            <Grid container flex-direction="row" spacing={2} >
+              <Grid item xs={12} sm={12} sx={{mt:1}}>
+                <Controller
+                  name="Name"
+                  defaultValue=""
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={onChange}
+                      value={value}
+                      onBlur={onBlur}
+                      autoComplete="given-name"
+                      name="Name"
+                      required
+                      fullWidth="true"
+                      id="Name"
+                      label="Customer Name"
+                      autoFocus
+                      error={!!errors.Phone_Number}
+                      helperText={errors.Phone_Number?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Phone_Number"
+                  defaultValue=""
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={onChange}
+                      value={value}
+                      onBlur={onBlur}
+                      // autoComplete="given-name"
+                      name="Phone_Number"
+                      required
+                      fullWidth="true"
+                      id="Name"
+                      label="Phone Number"
+                      autoFocus
+                      error={!!errors.Name}
+                      helperText={errors.Name?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Email"
+                  defaultValue=""
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={onChange}
+                      value={value}
+                      onBlur={onBlur}
+                      // autoComplete="given-name"
+                      name="Email"
+                      required
+                      fullWidth="true"
+                      id="Email"
+                      label="Email"
+                      autoFocus
+                      error={!!errors.Email}
+                      helperText={errors.Email?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Notes"
+                  defaultValue=""
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={onChange}
+                      value={value}
+                      onBlur={onBlur}
+                      // autoComplete="given-name"
+                      name="Notes"
+                      required
+                      multiline
+                      fullWidth="true"
+                      id="Notes"
+                      label="Notes"
+                      autoFocus
+                      error={!!errors.Notes}
+                      helperText={errors.Notes?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            </>
+            }
             <Button
               type="submit"
               fullWidth
@@ -227,7 +337,7 @@ export default function AddEventForm(props) {
               //disabled={!formState.isValid}
               sx={{ mt: 3, mb: 2 }}
             >
-              Add Event
+              {booking ? "Submit Appointment": "Set to Schedule"}
             </Button>
             <Button
               fullWidth
@@ -239,7 +349,6 @@ export default function AddEventForm(props) {
               Cancel
             </Button>
           </Box>
-        </Box>
       </Container>
     </ThemeProvider>
   );

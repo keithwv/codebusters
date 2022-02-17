@@ -170,7 +170,8 @@ export default function CalendarWithSchedule() {
             end: doc.data().end_time,
             title: doc.data().title,
             id: doc.id,
-            backgroundColor: doc.data().color
+            backgroundColor: doc.data().color,
+            email: doc.data().customer_email
           }));
           setEventsData(eventsData);
         }

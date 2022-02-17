@@ -113,7 +113,6 @@ export default function RegisterClient() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <Controller
-                  ref={registerForClient}
                   name="firstName"
                   defaultValue=""
                   control={control}
@@ -122,7 +121,7 @@ export default function RegisterClient() {
                       onChange={onChange}
                       value={value}
                       onBlur={onBlur}
-                      // ref={registerBusiness}
+                
                       autoComplete="given-name"
                       name="firstName"
                       required
