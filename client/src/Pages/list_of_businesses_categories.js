@@ -17,43 +17,51 @@ import {
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import Header from "../Components/User_Interface/Header";
-import cards from "../Components/HomePageCards/cards";
-import HomePage from "./home_page";
+import { useLocation } from "react-router-dom";
+// import HomePage from "./home_page";
+// import cards from "../Components/HomePageCards/cards";
 // import { useCategory } from "../contexts/SelectedCategoryContext";
 
-export default function ListOfBusinessesInCategory(props) {
+export default function ListOfBusinessesInCategory() {
+  //we passed props here
   // const category = useCategory
   const [list, setList] = useState([]);
-  const { value } = props 
-  console.log(value, "VALUE IS HERE!")
+  // const { value } = props;
+  // console.log(value, "VALUE IS HERE!");
+
+  //location.search is used to search in firestore
+  let location = useLocation();
+
+  console.log(`location is:`, location);
+  console.log(`category is:`, location.search);
 
   useEffect(() => {
-    if(value){
-    let collectionRef = collection(db, "business");
-    let queryRef = query(
-      collectionRef,
-      where("category", "==", value),
-      // orderBy("company_name"),
-      // startAt("Car Repairs"),
-      // endAt("Car Repairs")
-    );
-    // console.log("HOMEPAGE VALUE", category)
-    const undo = onSnapshot(queryRef, (querySnap) => {
-      if (querySnap.empty) {
-        console.log("No docs found");
-      } else {
-        let businessesList = querySnap.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            DOC_ID: doc.id,
-          };
-        });
-        setList(businessesList);
-      }
-    })
-    return undo;
-  }
-  }, [value]);
+    if (location.search) {
+      let collectionRef = collection(db, "business");
+      let queryRef = query(
+        collectionRef,
+        where("category", "==", location.search) //value change to location.search
+        // orderBy("company_name"),
+        // startAt("Car Repairs"),
+        // endAt("Car Repairs")
+      );
+      // console.log("HOMEPAGE VALUE", category)
+      const undo = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let businessesList = querySnap.docs.map((doc) => {
+            return {
+              ...doc.data(),
+              DOC_ID: doc.id,
+            };
+          });
+          setList(businessesList);
+        }
+      });
+      return undo;
+    }
+  }, [location.search]);
 
   return (
     <>
