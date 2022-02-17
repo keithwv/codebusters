@@ -156,7 +156,7 @@ const Header = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(open2)
+
 
   // Header constants
   const classes = useStyles();
@@ -239,7 +239,7 @@ const Header = (props) => {
       return unsubscribe;
     }
   }, [currentUser?.uid]);
-  console.log(selectedTab, "is value");
+ 
   return (
     <>
       <div className={classes.toolbarMargin} />

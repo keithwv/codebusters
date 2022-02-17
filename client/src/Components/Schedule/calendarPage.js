@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../../contexts/AuthContext";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 
 import "./calendar.css";
@@ -210,8 +210,19 @@ export default function CalendarWithSchedule() {
       </li>
     );
   }
-          
-
+ // Update the start and end times for event if it is dragged to a different time         
+ const handleEventDrop = async (event) => {
+   let updated_start_time = event.event.startStr
+   let updated_end_time=event.event.endStr
+   let document_id = event.event.id
+   const EventDoc = doc(db, "events", document_id);
+   console.log("Document has been updated", EventDoc)
+   await updateDoc(EventDoc, {
+     start_time: updated_start_time,
+     end_time: updated_end_time
+   })
+ }
+   
   
 
   return (
@@ -243,6 +254,9 @@ export default function CalendarWithSchedule() {
           select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
+          eventOverlap={false}
+          slotEventOverlap={false}
+          eventDrop={handleEventDrop}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           //eventContent={renderEventContent}
         />
