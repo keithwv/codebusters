@@ -3,17 +3,19 @@ import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from '@fullcalendar/list'
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../../contexts/AuthContext";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
-// import AddEventForm from "./AddEventForm";
+
 import "./calendar.css";
 import CalendarModal from "../Modals/CalendarModal";
-// import EditDeleteEventForm from "./Edit_Delete_EventForm";
+
 import EditDeleteCalendarModal from "../Modals/EditDeleteCalendarModal";
 import SelectBusiness from "./SelectBusiness";
-import { SignalCellularNullOutlined } from "@material-ui/icons";
+
+
 import Header from "../User_Interface/Header";
 
 
@@ -168,6 +170,7 @@ export default function CalendarWithSchedule() {
             end: doc.data().end_time,
             title: doc.data().title,
             id: doc.id,
+            backgroundColor: doc.data().color
           }));
           setEventsData(eventsData);
         }
@@ -183,6 +186,7 @@ export default function CalendarWithSchedule() {
   };
 
   function renderEventContent(eventInfo) {
+    console.log(eventInfo)
     return (
       <>
         <b>{eventInfo.timeText}</b>
@@ -205,6 +209,9 @@ export default function CalendarWithSchedule() {
       </li>
     );
   }
+          
+
+  
 
   return (
     <>
@@ -213,11 +220,16 @@ export default function CalendarWithSchedule() {
       {renderSidebar()}
       <div className="demo-app-main">
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
           headerToolbar={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "dayGridMonth,timeGridWeek,timeGridDay, listDay,listWeek,listMonth",
+          }}
+          views= {{
+            listDay: { buttonText: 'List Day' },
+            listWeek: { buttonText: 'List Week' },
+            listMonth: { buttonText: 'List Month' }
           }}
           initialView="dayGridMonth"
           editable={true}
@@ -231,6 +243,7 @@ export default function CalendarWithSchedule() {
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          //eventContent={renderEventContent}
         />
       </div>
       {removeEvents.check && (

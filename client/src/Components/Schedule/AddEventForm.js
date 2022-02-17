@@ -43,20 +43,32 @@ export default function AddEventForm(props) {
     reset,
     formState: { errors },
     formState,
-  } = useForm({criteriaMode: "all"
-  });
-  
+  } = useForm({ criteriaMode: "all" });
 
-  
- 
-  const [selectedService, setSelectedService] = React.useState("")
- 
+  const availability = [
+    {
+      status: "Booked",
+      id: 1,
+    },
+    {
+      status: "Available",
+      id: 2,
+    },
+  ];
+
+  const [selectedService, setSelectedService] = React.useState("");
+  const [status, setStatus] = React.useState("");
 
   const handleChange = (event) => {
-    console.log(event.target.value)
+    console.log(event.target.value);
     setSelectedService(event.target.value);
+   
   };
 
+  const handleAvailability = (event) => {
+    console.log(event.target.value)
+    setStatus(event.target.value)
+  }
   //   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
@@ -66,9 +78,18 @@ export default function AddEventForm(props) {
 
     let calendarApi = addEvent.data.view.calendar;
     calendarApi.unselect(); // clear date selection
+    let color = ""
+    console.log(status)
+    if (status === "Booked") {
+      console.log("Booked")
+      color =  "#ff0000"
+    } else {
+      color = "#0000ff"
+    }
 
+    console.log(color)
     let title = selectedService;
-  
+
     if (title) {
       method(); // close modal
       try {
@@ -78,6 +99,8 @@ export default function AddEventForm(props) {
           end_time: addEvent.data.endStr,
           Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
+          status: status,
+          color: color
         });
         console.log("Event Submitted");
       } catch (error) {
@@ -116,40 +139,83 @@ export default function AddEventForm(props) {
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
-              <FormControl
-                      fullwidth="true"
-                      sx={{
-                        width: 200,
-                        height: 100,
-                      }}
-                    >
-                      <InputLabel id="title">
-                        <em>Select a Service</em>
-                      </InputLabel>
-                <Controller
-                  name="title"
-                  defaultValue=""
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
+                <FormControl
+                  fullwidth="true"
+                  sx={{
+                    width: 200,
+                    height: 75,
+                  }}
+                >
+                  <InputLabel id="title">
+                    <em>Select a Service</em>
+                  </InputLabel>
+                  <Controller
+                    name="title"
+                    defaultValue=""
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <Select
-                      onChange={handleChange}
-                      value={services.service}
-                      id="title"
-                      displayEmpty={true}
-                      defaultValue=""
+                        onChange={handleChange}
+                        value={services.service}
+                        id="title"
+                        displayEmpty={true}
+                        defaultValue=""
                       >
-                        <MenuItem value="">
-                        </MenuItem>
-                       {services.map((service) => { return (
-                    (<MenuItem key={service.DOC_ID} value={service.service}>
-                        {service.service}
-                    </MenuItem>)
-                     );
-                    })}
-                   </Select>
-               
-                )}
-                />
+                        <MenuItem value=""></MenuItem>
+                        {services.map((service) => {
+                          return (
+                            <MenuItem
+                              key={service.DOC_ID}
+                              value={service.service}
+                            >
+                              {service.service}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12}>
+                <FormControl
+                  fullwidth="true"
+                  sx={{
+                    width: 200,
+                    height: 75,
+                  }}
+                >
+                  <InputLabel id="title">
+                    <em>Select Availability</em>
+                  </InputLabel>
+                  <Controller
+                    name="title"
+                    defaultValue=""
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Select
+                        onChange={handleAvailability}
+                        value={availability.status}
+                        id="title"
+                        displayEmpty={true}
+                        defaultValue=""
+                      >
+                        <MenuItem value=""></MenuItem>
+                        {availability.map((available) => {
+                          return (
+                            <MenuItem
+                              key={available.id}
+                              value={available.status}
+                            >
+                              {available.status}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    )}
+                  />
                 </FormControl>
               </Grid>
             </Grid>
