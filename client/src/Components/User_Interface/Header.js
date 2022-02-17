@@ -26,7 +26,6 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import TodayIcon from "@mui/icons-material/Today";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import BusinessAvatar from "./business/business_avatar";
 import { Avatar } from "@mui/material";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import {
@@ -148,7 +147,7 @@ const Header = (props) => {
   // Header constants
   const classes = useStyles();
   let selectedTab;
-  console.log(window.location.pathname)
+  console.log(window.location.pathname);
   if (window.location.pathname === "/home") {
     console.log("0 selected");
     selectedTab = 0;
@@ -162,8 +161,6 @@ const Header = (props) => {
     selectedTab = false;
   }
 
-
-
   const { logout } = useAuth();
 
   const signOut = () => {
@@ -171,12 +168,11 @@ const Header = (props) => {
     logout();
     //alert("you loggged out");
   };
- 
-  const handleTabsChange = (e, newValue) => {
-    console.log(`New Value is ${newValue}`)
-    selectedTab=newValue
-  }
 
+  const handleTabsChange = (e, newValue) => {
+    console.log(`New Value is ${newValue}`);
+    selectedTab = newValue;
+  };
 
   const drawerElements = [
     {
@@ -197,13 +193,6 @@ const Header = (props) => {
     {
       text: "Add/Update Business",
       iconName: <AddBusinessIcon />,
-      path: "/profile",
-    },
-  ];
-
-  const businessProfileDrawerElement = [
-    {
-      text: "Your Profile",
       path: "/profile",
     },
   ];
@@ -304,28 +293,6 @@ const Header = (props) => {
           {/* Drawer below */}
           <Drawer variant="permanent" open={open}>
             <DrawerHeader>
-              {currentUser && (
-                <Avatar
-                  style={{
-                    display: "flex",
-                    justifyContent: "auto",
-                    marginRight: "auto",
-                  }}
-                >
-                  {BusinessAvatar()}
-                </Avatar>
-              )}
-
-              {businessProfileDrawerElement.map((item, key) => (
-                <ListItem
-                  button
-                  component={Link}
-                  to={item.path}
-                  key={item.text}
-                >
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              ))}
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />

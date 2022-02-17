@@ -5,47 +5,27 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import {
-  collection,
-  endAt,
-  onSnapshot,
-  orderBy,
-  query,
-  startAt,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import Header from "../Components/User_Interface/Header";
 import { useLocation } from "react-router-dom";
-// import HomePage from "./home_page";
-// import cards from "../Components/HomePageCards/cards";
-// import { useCategory } from "../contexts/SelectedCategoryContext";
 
 export default function ListOfBusinessesInCategory() {
-  //we passed props here
-  // const category = useCategory
   const [list, setList] = useState([]);
-  // const { value } = props;
-  // console.log(value, "VALUE IS HERE!");
-
-  //location.search is used to search in firestore
   let location = useLocation();
+  let params = new URLSearchParams(location.search);
+  let myCategory = params.get("category");
+  console.log(`myCategory is ${myCategory}`);
 
   console.log(`location is:`, location);
   console.log(`category is:`, location.search);
 
   useEffect(() => {
-    if (location.search) {
+    if (myCategory) {
       let collectionRef = collection(db, "business");
-      let queryRef = query(
-        collectionRef,
-        where("category", "==", location.search) //value change to location.search
-        // orderBy("company_name"),
-        // startAt("Car Repairs"),
-        // endAt("Car Repairs")
-      );
-      // console.log("HOMEPAGE VALUE", category)
+      console.log(`searching for business.category == ${myCategory}`);
+      let queryRef = query(collectionRef, where("category", "==", myCategory));
       const undo = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");
@@ -61,7 +41,7 @@ export default function ListOfBusinessesInCategory() {
       });
       return undo;
     }
-  }, [location.search]);
+  }, [myCategory]);
 
   return (
     <>
