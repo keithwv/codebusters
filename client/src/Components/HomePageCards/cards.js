@@ -1,41 +1,40 @@
 const cards = [
-    {
-      title: "Vehicle Services",
-      text: " View businesses related to vehicle repairs, tunning and other services. ",
-      imageSource:
-        "http://www.iheartradio.ca/image/policy:1.16181387:1633034858/image/image.jpg?a=16%3A9&w=1000&$p$a$w=28c4cb7",
-      // path: "/business-category-list",
-    },
-    {
-      title: "Personal Care",
-      text: " View businesses related to hairdressing, cosmetology, skin & body care.",
-      imageSource: "https://i.ibb.co/JxfD2tS/Webp-net-resizeimage.jpg",
-      // path: "/business-category-list",
-    },
-    {
-      title: "Indoor Services/Repairs",
-      text: " View repair, construction, cleaning etc. services for homes and offices.",
-      imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-      // path: "/business-category-list",
-    },
-    {
-      title: "Outdoor Services/Repairs",
-      text: " View repair, construction, cleaning etc. services for homes and offices.",
-      imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-      // path: "/business-category-list",
-    },
-    {
-      title: "Online Services",
-      text: " View repair, construction, cleaning etc. services for homes and offices.",
-      imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-      // path: "/business-category-list",
-    },
-    {
-      title: "Other",
-      text: " View repair, construction, cleaning etc. services for homes and offices.",
-      imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
-      // path: "/business-category-list",
-    },
-  ];
+  {
+    title: "Cars and Vehicles",
+    text: " Businesses related to vehicle repairs, tunning and other services. ",
+    imageSource: "https://i.ibb.co/MgbrXrM/image.jpg",
+    // path: "/business-category-list",
+  },
+  {
+    title: "Health and Beauty",
+    text: " Businesses related to hairdressing, cosmetology, skin & body care. ",
+    imageSource: "https://i.ibb.co/JxfD2tS/Webp-net-resizeimage.jpg",
+    // path: "/business-category-list",
+  },
+  {
+    title: "Skilled Trades",
+    text: " Services for repairs, construction, cleaning etc. for homes and offices. ",
+    imageSource: "https://i.ibb.co/s5p4GFN/pexels-anete-lusina-4792521.jpg",
+    // path: "/business-category-list",
+  },
+  {
+    title: "Travel & Estate",
+    text: " Travel agencies, hotels, hostels and other related services. ",
+    imageSource: "https://i.ibb.co/rG4fDHz/rsz-maxresdefault.jpg",
+    // path: "/business-category-list",
+  },
+  {
+    title: "Online Services",
+    text: " All the businesses related to distant-provided services. ",
+    imageSource: "https://i.ibb.co/MMvx29d/Laptop-mtg-planner.jpg",
+    // path: "/business-category-list",
+  },
+  {
+    title: "Home and Office",
+    text: " Services for home and office care including delivery, moving, gardening etc. ",
+    imageSource: "https://i.ibb.co/V29dvVv/Cool-office-desk.webp",
+    // path: "/business-category-list",
+  },
+];
 
-  export default cards
+export default cards;

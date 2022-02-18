@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { Link as RrdLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TextField } from "@mui/material";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Paper } from "@mui/material";
 import Header from "../Components/User_Interface/Header";
 import cards from "../Components/HomePageCards/cards";
 
@@ -36,6 +36,19 @@ export default function HomePage() {
           <TextField fullWidth label="Search..." />
         </Box>
         {/* Hero unit */}
+        <Paper
+          align="center"
+          sx={{
+            pt: 6,
+            ml: "240px",
+            mr: "240px",
+          }}
+        >
+          <img
+            position="center"
+            src="https://i.ibb.co/BNhQDKk/Webp-net-resizeimage-2.png"
+          />
+        </Paper>
         <Box
           sx={{
             bgcolor: "background.paper",
@@ -46,17 +59,18 @@ export default function HomePage() {
             maxWidth: "100%",
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="100%">
             <Typography
               component="h1"
               variant="h2"
               align="center"
               color="text.primary"
               gutterBottom
+              width={"100%"}
             >
-              HOME PAGE
+              BUSINESS CATEGORY LIST
             </Typography>
-            <Typography
+            {/* <Typography
               variant="h5"
               align="center"
               color="text.secondary"
@@ -82,7 +96,7 @@ export default function HomePage() {
               >
                 Another button
               </Button>
-            </Stack>
+            </Stack> */}
           </Container>
         </Box>
         <Container maxWidth="md">
