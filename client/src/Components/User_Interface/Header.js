@@ -239,14 +239,9 @@ const Header = (props) => {
               >
                 <MenuIcon />
               </IconButton>
-              <Avatar
-                sx={{ marginRight: "36px" }}
-                src="/BookmeLogo.png"
-                component={Link}
-                to="/home"
-              />
-              <Typography variant="h3">bookMe!</Typography>
-
+              <Typography variant="h3" color={"white"} sx={{ mr: "36px" }}>
+                bookMe!
+              </Typography>
               <Tabs
                 value={selectedTab}
                 className={classes.tabContainer}
