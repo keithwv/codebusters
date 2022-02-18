@@ -171,7 +171,13 @@ export default function CalendarWithSchedule() {
             title: doc.data().title,
             id: doc.id,
             backgroundColor: doc.data().color,
-            email: doc.data().customer_email
+            email: doc.data().customer_email,
+            status: doc.data().status,
+            description: doc.data().description,
+            name: doc.data().customer_name,
+            number: doc.data().customer_phone_number,
+            notes: doc.data().notes
+            
           }));
           setEventsData(eventsData);
         }
@@ -262,7 +268,7 @@ export default function CalendarWithSchedule() {
         />
       </div>
       {removeEvents.check && (
-        <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
+        <EditDeleteCalendarModal removeEvents={removeEvents} services={services} method={method} />
       )}
       {addEvent.check && (
         <CalendarModal
