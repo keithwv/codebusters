@@ -58,7 +58,10 @@ export default function AddEventForm(props) {
   ];
 
   const [selectedService, setSelectedService] = React.useState("");
-  const [booking, setBooking] = React.useState(false);
+  const [booking, setBooking] = React.useState("");
+  const [extendedForm, setExtendedForm] = React.useState(false);
+
+  console.log(extendedForm)
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -66,11 +69,16 @@ export default function AddEventForm(props) {
    
   };
 
+
+
   const handleAvailability = (event) => {
+    setBooking(event.target.value)
+    
     if (event.target.value === "Booked") {
-      setBooking(true)
+      setExtendedForm(true)
     } else
-      setBooking(false)
+    setExtendedForm(false)
+    
   }
   //   const navigate = useNavigate();
   const { currentUser } = useAuth();
@@ -83,7 +91,7 @@ export default function AddEventForm(props) {
     calendarApi.unselect(); // clear date selection
     let color = ""
     console.log(booking)
-    if (booking) {
+    if (booking === "Booked") {
       console.log("Booked")
       color =  "#ff0000"
     } else {
@@ -102,8 +110,9 @@ export default function AddEventForm(props) {
           end_time: addEvent.data.endStr,
           Business_ID: selectedBusiness.DOC_ID,
           uid: currentUser.uid,
-          Booked: booking,
+          status: booking,
           color: color,
+          customer_name: data?.Name || null,
           customer_email: data?.Email || null,
           description: data?.Notes || null,
           customer_phone_number: data?.Phone_Number || null
@@ -227,7 +236,7 @@ export default function AddEventForm(props) {
               </Grid>
             </Grid>
            
-            {booking && 
+            {extendedForm && 
             <>
             <Grid container flex-direction="row" spacing={2} >
               <Grid item xs={12} sm={12} sx={{mt:1}}>
@@ -247,8 +256,8 @@ export default function AddEventForm(props) {
                       id="Name"
                       label="Customer Name"
                       autoFocus
-                      error={!!errors.Phone_Number}
-                      helperText={errors.Phone_Number?.message}
+                      error={!!errors.Name}
+                      helperText={errors.Name?.message}
                     />
                   )}
                   />
@@ -272,8 +281,8 @@ export default function AddEventForm(props) {
                       id="Name"
                       label="Phone Number"
                       autoFocus
-                      error={!!errors.Name}
-                      helperText={errors.Name?.message}
+                      error={!!errors.Phone_Number}
+                      helperText={errors.Phone_Number?.message}
                     />
                   )}
                   />

@@ -32,8 +32,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 import { date } from "yup";
-import SelectInput from "@mui/material/Select/SelectInput";
-import { async } from "@firebase/util";
+import { InputLabel } from "@mui/material";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -41,14 +40,37 @@ const schema = yup.object().shape({
   //   service: yup.string().required("service is required"),
 });
 
-const theme = createTheme();
+
+const availability = [
+  {
+    status: "Booked",
+    id: 1,
+  },
+  {
+    status: "Available",
+    id: 2,
+  },
+];
+
 
 export default function EditDeleteEventForm(props) {
-  const { removeEvents, method} = props
+  const { removeEvents, method, services} = props
 
-  const [disabled, setDisabled] = useState(true);
+ 
   const [eventTitle, setEventTitle] = useState(removeEvents.data.event.title);
   const [eventData, setEventData] = useState([]);
+  const [selectedService, setSelectedService] = React.useState(removeEvents.data.event.title);
+  const [booking, setBooking] = React.useState(removeEvents.data.event.extendedProps.status);
+  const [extendedForm, setExtendedForm] = React.useState(true);
+  const [name, setName] = React.useState(removeEvents.data.event.extendedProps.name)
+  const [phoneNumber, setPhoneNumber] = React.useState(removeEvents.data.event.extendedProps.number)
+  const [email, setEmail] = React.useState(removeEvents.data.event.extendedProps.email)
+  const [notes, setNotes] = React.useState(removeEvents.data.event.extendedProps.notes)
+ 
+
+  
+
+
   console.log("you selected the following event", eventData)
   const {
     handleSubmit,
@@ -118,24 +140,63 @@ export default function EditDeleteEventForm(props) {
   };
 
   const updateHandler = async (e) => {
-      console.log(eventTitle)
-      console.log(removeEvents.data)
+      let color = ""
+
+      // if booking is true i.e event is now booked change the color of event to red
+      if (booking === "Booked") {
+        color = "#ff0000"
+      }
+
       const id = eventData.DOC_ID
       const EventDoc = doc(db, "events", id);
       console.log(EventDoc)
       await updateDoc(EventDoc ,{
-      title: eventTitle
+      title: selectedService,
+      status: booking,
+      color: color,
+      customer_name: name,
+      customer_phone_number: phoneNumber,
+      customer_email: email,
+      notes: notes
    })
    method();
 
+    }
+  
+
+  useEffect(() => {
+   if (removeEvents.data.event.extendedProps.status === "Booked") {
+     setExtendedForm(true)
+   } else
+   setExtendedForm(false)
+  }, [])
+
+  const handleAvailability = (event) => {
+      setBooking(event.target.value)
+      
+      if (event.target.value === "Booked") {
+        setExtendedForm(true)
+      } else
+      setExtendedForm(false)
+      
+    }
+
+  const handleChange = (event) => {
+      console.log(event.target.value);
+      setSelectedService(event.target.value);
+     
     }
 
   const handleCancel = () => {
     method(); // close modal
   };
 
+  const handleName = (event) => {
+    setName(event.target.value)
+  }
+
+ 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -158,54 +219,185 @@ export default function EditDeleteEventForm(props) {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <Controller
-                  name="title"
-                  defaultValue=""
-                  control={control}
-                  render={({ field: { onBlur, value } }) => (
-                    <TextField
-                      onChange={(e) => setEventTitle(e.target.value)}
-                      value={eventTitle}
-                      onBlur={onBlur}
-                      //autoComplete="given-name"
-                      name="title"
-                      required
-                      fullWidth
-                      id="title"
-                      label="title"
-                      autoFocus
-                      error={!!errors.title}
-                      helperText={errors.title?.message}
-                    />
-                  )}
-                />
+             <Grid container flex-direction="row" spacing={2}>
+              <Grid item xs={6} sm={6}>
+                <FormControl
+                  fullwidth="true"
+                  sx={{
+                    width: 200,
+                    height: 75,
+                  }}
+                >
+                  <InputLabel id="title">
+                    <em>Select a Service</em>
+                  </InputLabel>
+                  <Controller
+                    name="title"
+                    // defaultValue="some value"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Select
+                        onChange={handleChange}
+                        value={selectedService}
+                        id="title"
+                        // displayEmpty
+                        defaultValue={removeEvents.data.event.title}
+                      >
+                        <MenuItem value=""></MenuItem>
+                        {services.map((service) => {
+                          return (
+                            <MenuItem
+                              key={service.DOC_ID}
+                              value={service.service}
+                            >
+                              {service.service}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                </Grid>
+                <Grid item xs={6} sm={6}>
+                <FormControl
+                  fullwidth="true"
+                  sx={{
+                    width: 200,
+                    height: 75,
+                  }}
+                >
+                  <InputLabel id="title">
+                    <em>Select Availability</em>
+                  </InputLabel>
+                  <Controller
+                    name="title"
+                    defaultValue=""
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <Select
+                        onChange={handleAvailability}
+                        value={availability.status}
+                        id="title"
+                        defaultValue={removeEvents.data.event.extendedProps.status} 
+                      >
+                        <MenuItem value=""></MenuItem>
+                        {availability.map((available) => {
+                          return (
+                            <MenuItem
+                              key={available.id}
+                              value={available.status}
+                            >
+                              {available.status}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    )}
+                  />
+                </FormControl>
               </Grid>
-              {/* <Grid item xs={12} sm={12}>
+            </Grid>
+            {extendedForm && 
+            <>
+            <Grid container flex-direction="row" spacing={2} >
+              <Grid item xs={12} sm={12} sx={{mt:1}}>
                 <Controller
-                  name="cost"
-                  defaultValue=""
+                  name="Name"
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextField
-                      ref={registerForBusiness}
-                      onChange={onChange}
-                      onBlur={onBlur}
+                      onChange={(e) => setName(e.target.value)}
                       value={value}
+                      onBlur={onBlur}
+                      defaultValue={removeEvents.data.event.extendedProps.name}
+                      autoComplete="given-name"
+                      name="Name"
                       required
-                      fullWidth
-                      id="cost"
-                      label="Hourly cost"
-                      name="cost"
-                      autoComplete="family-name"
-                      error={!!errors.cost}
-                      helperText={errors.cost?.message}
+                      fullWidth="true"
+                      id="Name"
+                      label="Customer Name"
+                      autoFocus
+                      error={!!errors.Name}
+                      helperText={errors.Name?.message}
                     />
                   )}
-                />
-              </Grid> */}
+                  />
             </Grid>
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Phone_Number"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      value={value}
+                      onBlur={onBlur}
+                      defaultValue={removeEvents.data.event.extendedProps.number}
+                      // autoComplete="given-name"
+                      name="Phone_Number"
+                      required
+                      fullWidth="true"
+                      id="Name"
+                      label="Phone Number"
+                      autoFocus
+                      error={!!errors.Phone_Number}
+                      helperText={errors.Phone_Number?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Email"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={(e) => setEmail(e.target.value)}
+                      value={value}
+                      onBlur={onBlur}
+                      defaultValue={removeEvents.data.event.extendedProps.email}
+                      name="Email"
+                      required
+                      fullWidth="true"
+                      id="Email"
+                      label="Email"
+                      autoFocus
+                      error={!!errors.Email}
+                      helperText={errors.Email?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            <br></br>
+              <Grid item xs={12} sm={12}>
+                <Controller
+                  name="Notes"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextField
+                      onChange={(e) => setNotes(e.target.value)}
+                      value={value}
+                      onBlur={onBlur}
+                      defaultValue={removeEvents.data.event.extendedProps.notes}
+                      name="Notes"
+                      required
+                      multiline
+                      fullWidth="true"
+                      id="Notes"
+                      label="Notes"
+                      autoFocus
+                      error={!!errors.Notes}
+                      helperText={errors.Notes?.message}
+                    />
+                  )}
+                  />
+            </Grid>
+            </>
+            }
             <Button
               //type="submit"
               fullWidth
@@ -237,6 +429,5 @@ export default function EditDeleteEventForm(props) {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }
