@@ -169,7 +169,7 @@ export default function BusinessTable(props) {
       id: 2,
     },
     {
-      catergory: "Indoor Services/Repairs",
+      category: "Indoor Services/Repairs",
       id: 3,
     },
     {
@@ -199,22 +199,22 @@ export default function BusinessTable(props) {
         minWidth: 100,
       },
     },
-    {
-      title: "Address 1",
-      field: "address1",
-      cellStyle: {
-        width: 150,
-        minWidth: 150,
-      },
-    },
-    {
-      title: "Address 2",
-      field: "address2",
-      cellStyle: {
-        width: 100,
-        minWidth: 100,
-      },
-    },
+    // {
+    //   title: "Address 1",
+    //   field: "address1",
+    //   cellStyle: {
+    //     width: 100,
+    //     minWidth: 100,
+    //   },
+    // },
+    // {
+    //   title: "Address 2",
+    //   field: "address2",
+    //   cellStyle: {
+    //     width: 100,
+    //     minWidth: 100,
+    //   },
+    // },
     {
       title: "City",
       field: "city",
@@ -228,8 +228,8 @@ export default function BusinessTable(props) {
       field: "postal_code",
       width: "20%",
       cellStyle: {
-        width: 100,
-        minWidth: 100,
+        width: 50,
+        minWidth: 50,
       },
     },
     {
@@ -237,8 +237,8 @@ export default function BusinessTable(props) {
       field: "province",
       width: "20%",
       cellStyle: {
-        width: 100,
-        minWidth: 100,
+        width: 50,
+        minWidth: 50,
       },
     },
     {
@@ -253,17 +253,16 @@ export default function BusinessTable(props) {
         <Select
           id="category-menu"
           labelId="category-menu-id"
-          value={categories.category}
-          displayEmpty={true}
+          value={cards.title}
+          defaultValue= ""
           label="category"
           onChange={(event) => onChange(event.target.value)}
         >
-          <MenuItem value=""></MenuItem> // Provides initial value so that MUI
-          doesn't give a warning in the console
-          {categories.map((category) => {
+          {/* <MenuItem value=""></MenuItem>  */}
+          {cards.map((card) => {
             return (
-              <MenuItem key={category.id} value={category.category}>
-                {category.category}
+              <MenuItem key={card.id} value={card.title}>
+                {card.title}
               </MenuItem>
             );
           })}

@@ -5,7 +5,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -70,33 +69,6 @@ export default function HomePage() {
             >
               BUSINESS CATEGORY LIST
             </Typography>
-            {/* <Typography
-              variant="h5"
-              align="center"
-              color="text.secondary"
-              paragraph
-            >
-              Some Text/Description
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button
-                sx={{ minWidth: "135px", height: "40px" }}
-                variant="contained"
-              >
-                Some button
-              </Button>
-              <Button
-                sx={{ minWidth: "135px", height: "40px" }}
-                variant="outlined"
-              >
-                Another button
-              </Button>
-            </Stack> */}
           </Container>
         </Box>
         <Container maxWidth="md">

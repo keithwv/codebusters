@@ -37,17 +37,21 @@ const columns = [
   {
     title: "Service",
     field: "service",
-    width: "30%", 
-    validate: rowsData => rowsData.service === "" ? "service cannot be empty" : true,
+    width: "30%",
+    validate: (rowsData) =>
+      rowsData.service === "" ? "service cannot be empty" : true,
   },
   {
     title: "Cost per Hour ($)",
     field: "hourly_Cost",
     width: "30%",
     type: "numeric",
-   
-
-},
+  },
+  {
+    title: "Category",
+    field: "category",
+    width: "30%",
+  },
 ];
 
 const deleteBusiness = (id) => {
@@ -66,15 +70,15 @@ const handleRowUpdate = async (newData, oldData, resolve) => {
   console.log(oldData);
   const id = newData.DOC_ID;
   const serviceDoc = doc(db, "services", id);
-  console.log(serviceDoc)
+  console.log(serviceDoc);
   try {
-  await updateDoc(serviceDoc, {
-    ...newData,
-  }); 
-  console.log('Doc Updated')
-} catch(err) {
-  console.log(err.message)
-}
+    await updateDoc(serviceDoc, {
+      ...newData,
+    });
+    console.log("Doc Updated");
+  } catch (err) {
+    console.log(err.message);
+  }
 
   resolve();
 };
@@ -105,48 +109,49 @@ const tableIcons = {
 };
 
 export default function ServicesTable(props) {
-  const { business, selectedBusiness } = props
-
+  const { business, selectedBusiness } = props;
 
   const [rows, setRows] = useState([]);
-  console.log(rows)
+  console.log(rows);
   // const [business, setBusiness] = useState([]);
   // const [selectedBusiness, setSelectedBusiness] = useState("");
-  
+
   // console.log(selectedBusiness.DOC_ID)
   const { currentUser } = useAuth();
-  console.log(currentUser)
+  console.log(currentUser);
 
   // const handleChange = (event) => {
   //   setSelectedBusiness(event.target.value)
   // }
 
   const handleRowAdd = async (newData, resolve) => {
-   console.log(newData)
-   
-  try {
-    await addDoc(collection(db, "services"), {
-      service: newData.service,
-      hourly_Cost: newData.hourly_Cost,
-      business: selectedBusiness.company_name,
-      uid: currentUser.uid,
-      Business_ID: selectedBusiness.DOC_ID
+    console.log(newData);
 
-    });
-    console.log("Service Submitted");
-  } catch (error) {
-    console.log(error);
-  }
-  console.log(newData);
-  resolve()
-
-};
+    try {
+      await addDoc(collection(db, "services"), {
+        service: newData.service,
+        hourly_Cost: newData.hourly_Cost,
+        business: selectedBusiness.company_name,
+        uid: currentUser.uid,
+        Business_ID: selectedBusiness.DOC_ID,
+        // category: newData.category
+      });
+      console.log("Service Submitted");
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(newData);
+    resolve();
+  };
 
   useEffect(() => {
     let collectionRef = collection(db, "services");
-     if (currentUser?.uid && selectedBusiness?.DOC_ID) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid),
-      where("Business_ID", "==", selectedBusiness.DOC_ID));
+    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(
+        collectionRef,
+        where("uid", "==", currentUser.uid),
+        where("Business_ID", "==", selectedBusiness.DOC_ID)
+      );
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");
@@ -158,48 +163,47 @@ export default function ServicesTable(props) {
             };
           });
           setRows(servicesData);
-          
         }
       });
       return unsubscribe;
-     }
+    }
   }, [currentUser.uid, selectedBusiness.DOC_ID]);
 
   return (
-    <> 
-        <Container>
-         <Grid
+    <>
+      <Container>
+        <Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
-        >     
-      <Grid item>
-      <MaterialTable
-        title="Services Provided"
-        data={rows}
-        user={currentUser}
-        columns={columns}
-        icons={tableIcons}
-        //options={{selection:true}}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve) => {
-              handleRowAdd(newData, resolve);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve) => {
-              handleRowDelete(oldData, resolve);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
-              handleRowUpdate(newData, oldData, resolve);
-            }),
-        }}
-      />
-      </Grid>
-      </Grid>
-    </Container>
+        >
+          <Grid item>
+            <MaterialTable
+              title="Services Provided"
+              data={rows}
+              user={currentUser}
+              columns={columns}
+              icons={tableIcons}
+              //options={{selection:true}}
+              editable={{
+                onRowAdd: (newData) =>
+                  new Promise((resolve) => {
+                    handleRowAdd(newData, resolve);
+                  }),
+                onRowDelete: (oldData) =>
+                  new Promise((resolve) => {
+                    handleRowDelete(oldData, resolve);
+                  }),
+                onRowUpdate: (newData, oldData) =>
+                  new Promise((resolve) => {
+                    handleRowUpdate(newData, oldData, resolve);
+                  }),
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }
