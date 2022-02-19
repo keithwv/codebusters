@@ -162,22 +162,22 @@ export default function BusinessTable(props) {
 
   const { currentUser } = useAuth();
 
-  const categories = [
-    { category: cards.title, id: 1 },
-    {
-      category: "Personal Care",
-      id: 2,
-    },
-    {
-      category: "Indoor Services/Repairs",
-      id: 3,
-    },
-    {
-      category: "Outdoor Services/Repairs",
-      id: 4,
-    },
-    { category: "Online Services", id: 5 },
-  ];
+  // const categories = [
+  //   { category: cards.title, id: 1 },
+  //   {
+  //     category: "Personal Care",
+  //     id: 2,
+  //   },
+  //   {
+  //     category: "Indoor Services/Repairs",
+  //     id: 3,
+  //   },
+  //   {
+  //     category: "Outdoor Services/Repairs",
+  //     id: 4,
+  //   },
+  //   { category: "Online Services", id: 5 },
+  // ];
 
   const [columns, setColumns] = useState([
     {
@@ -258,7 +258,6 @@ export default function BusinessTable(props) {
           label="category"
           onChange={(event) => onChange(event.target.value)}
         >
-          {/* <MenuItem value=""></MenuItem>  */}
           {cards.map((card) => {
             return (
               <MenuItem key={card.id} value={card.title}>

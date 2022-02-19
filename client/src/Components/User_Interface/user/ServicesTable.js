@@ -32,6 +32,7 @@ import {
 import { useAuth } from "../../../contexts/AuthContext";
 import { Grid, Container } from "@material-ui/core";
 import { MenuItem, Select } from "@mui/material";
+import cards from "../../HomePageCards/cards";
 
 const columns = [
   {
@@ -51,6 +52,24 @@ const columns = [
     title: "Category",
     field: "category",
     width: "30%",
+    editComponent: ({ onChange }) => (
+      <Select
+        id="category-menu"
+        labelId="category-menu-id"
+        value={cards.title}
+        defaultValue=""
+        label="category"
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {cards.map((card) => {
+          return (
+            <MenuItem key={card.id} value={card.title}>
+              {card.title}
+            </MenuItem>
+          );
+        })}
+      </Select>
+    ),
   },
 ];
 
@@ -134,7 +153,7 @@ export default function ServicesTable(props) {
         business: selectedBusiness.company_name,
         uid: currentUser.uid,
         Business_ID: selectedBusiness.DOC_ID,
-        // category: newData.category
+        category: newData.category,
       });
       console.log("Service Submitted");
     } catch (error) {
