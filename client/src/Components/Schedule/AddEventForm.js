@@ -346,7 +346,7 @@ export default function AddEventForm(props) {
               //disabled={!formState.isValid}
               sx={{ mt: 3, mb: 2 }}
             >
-              {booking ? "Submit Appointment": "Set to Schedule"}
+              {extendedForm ? "Submit Appointment": "Set to Schedule"}
             </Button>
             <Button
               fullWidth
