@@ -53,6 +53,8 @@ const availability = [
 export default function EditDeleteEventForm(props) {
   const { removeEvents, method, services} = props
 
+  console.log(services)
+
   let selectedEventStartTime = removeEvents.data.event.startStr
   let selectedEvent = removeEvents.data.event
   let selectedEventTitle = removeEvents.data.event.title
@@ -78,7 +80,7 @@ export default function EditDeleteEventForm(props) {
  
 
   
-
+ 
 
   console.log("you selected the following event", eventData)
   const {

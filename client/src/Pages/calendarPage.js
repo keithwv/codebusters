@@ -173,7 +173,6 @@ export default function CalendarWithSchedule() {
             backgroundColor: doc.data().color,
             email: doc.data().customer_email,
             status: doc.data().status,
-            description: doc.data().description,
             name: doc.data().customer_name,
             number: doc.data().customer_phone_number,
             notes: doc.data().notes
