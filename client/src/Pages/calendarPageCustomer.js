@@ -48,7 +48,7 @@ export default function CalendarWithScheduleCustomer() {
   const [selectedBusiness, setSelectedBusiness] = useState([]);
   const [services, setServicesProvided] = useState([]);
   
-
+  console.log("This is the services", services)
   console.log(eventsData)
   // Get all business for logged in user
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function CalendarWithScheduleCustomer() {
         collectionRef,
         where("uid", "==", currentUser.uid),
         where("Business_ID", "==", selectedBusiness.DOC_ID),
-        where("Booked", "==", false)
+        where("status", "==", "Available")
       ); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
@@ -172,7 +172,11 @@ export default function CalendarWithScheduleCustomer() {
             title: doc.data().title,
             id: doc.id,
             backgroundColor: doc.data().color,
-            email: doc.data().customer_email
+            email: doc.data().customer_email,
+            status: doc.data().status,
+            name: doc.data().customer_name,
+            number: doc.data().customer_phone_number,
+            notes: doc.data().notes
           }));
           setEventsData(eventsData);
         }
@@ -244,9 +248,9 @@ export default function CalendarWithScheduleCustomer() {
             listWeek: { buttonText: 'List Week' },
             listMonth: { buttonText: 'List Month' }
           }}
-          initialView="dayGridMonth"
-          editable={true}
-          selectable={true}
+          initialView="timeGridWeek"
+          editable={false}
+          selectable={false}
           selectMirror={true}
           dayMaxEvents={true}
           businessHours={true}
@@ -263,7 +267,7 @@ export default function CalendarWithScheduleCustomer() {
         />
       </div>
       {removeEvents.check && (
-        <EditDeleteCalendarModal removeEvents={removeEvents} method={method} />
+        <EditDeleteCalendarModal removeEvents={removeEvents} services={services} method={method} />
       )}
       {addEvent.check && (
         <CalendarModal

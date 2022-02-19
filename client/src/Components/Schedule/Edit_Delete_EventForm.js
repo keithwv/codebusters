@@ -3,7 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -24,8 +23,6 @@ import {
   deleteDoc,
   doc,
   updateDoc,
-  setDoc,
-  getDocs,
   onSnapshot,
   query,
   where,
@@ -56,20 +53,34 @@ const availability = [
 export default function EditDeleteEventForm(props) {
   const { removeEvents, method, services} = props
 
+  console.log(services)
+
+  let selectedEventStartTime = removeEvents.data.event.startStr
+  let selectedEvent = removeEvents.data.event
+  let selectedEventTitle = removeEvents.data.event.title
+  let selectedEventBookingStatus = removeEvents.data.event.extendedProps.status
+  let selectedEventName = removeEvents.data.event.extendedProps.name
+  let selectedEventPhoneNumber = removeEvents.data.event.extendedProps.number
+  let selectedEventEmail = removeEvents.data.event.extendedProps.email
+  let selectedEventNotes = removeEvents.data.event.extendedProps.notes
  
-  const [eventTitle, setEventTitle] = useState(removeEvents.data.event.title);
+  console.log(removeEvents.data.event)
+  console.log(selectedEventBookingStatus)
+
+
+  const [eventTitle, setEventTitle] = useState(selectedEventTitle);
   const [eventData, setEventData] = useState([]);
-  const [selectedService, setSelectedService] = React.useState(removeEvents.data.event.title);
-  const [booking, setBooking] = React.useState(removeEvents.data.event.extendedProps.status);
+  const [selectedService, setSelectedService] = React.useState(selectedEventTitle);
+  const [booking, setBooking] = React.useState(selectedEventBookingStatus);
   const [extendedForm, setExtendedForm] = React.useState(true);
-  const [name, setName] = React.useState(removeEvents.data.event.extendedProps.name)
-  const [phoneNumber, setPhoneNumber] = React.useState(removeEvents.data.event.extendedProps.number)
-  const [email, setEmail] = React.useState(removeEvents.data.event.extendedProps.email)
-  const [notes, setNotes] = React.useState(removeEvents.data.event.extendedProps.notes)
+  const [name, setName] = React.useState(selectedEventName)
+  const [phoneNumber, setPhoneNumber] = React.useState(selectedEventPhoneNumber)
+  const [email, setEmail] = React.useState(selectedEventEmail)
+  const [notes, setNotes] = React.useState(selectedEventNotes)
  
 
   
-
+ 
 
   console.log("you selected the following event", eventData)
   const {
@@ -83,7 +94,6 @@ export default function EditDeleteEventForm(props) {
     mode: "all",
   });
 
-  //   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -92,7 +102,7 @@ export default function EditDeleteEventForm(props) {
     let queryRef = query(
       collectionRef,
       where("uid", "==", currentUser.uid),
-      where("start_time", "==", removeEvents.data.event.startStr)
+      where("start_time", "==", selectedEventStartTime)
     );
     console.log("Getting Documents 2")
     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
@@ -110,7 +120,7 @@ export default function EditDeleteEventForm(props) {
       }
     });
     return unsubscribe;
-  }, [removeEvents.data.event]);
+  }, [selectedEvent]);
 
 
  
@@ -123,18 +133,19 @@ export default function EditDeleteEventForm(props) {
 
   const onSubmit = (data) => {
     console.log(data);
+    reset()
   };
 
   const eventDelete = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${removeEvents.data.event.title}'`
+        `Are you sure you want to delete the event '${selectedEventTitle}'`
       )
     ) {
       const id = eventData.DOC_ID;
       console.log(id)
       deleteEvent(id);
-      removeEvents.data.event.remove();
+      selectedEvent.remove();
     }
     method();
   };
@@ -154,10 +165,10 @@ export default function EditDeleteEventForm(props) {
       title: selectedService,
       status: booking,
       color: color,
-      customer_name: name,
-      customer_phone_number: phoneNumber,
-      customer_email: email,
-      notes: notes
+      customer_name: name || null,
+      customer_phone_number: phoneNumber || null,
+      customer_email: email || null,
+      notes: notes || null
    })
    method();
 
@@ -165,7 +176,7 @@ export default function EditDeleteEventForm(props) {
   
 
   useEffect(() => {
-   if (removeEvents.data.event.extendedProps.status === "Booked") {
+   if (selectedEventBookingStatus === "Booked") {
      setExtendedForm(true)
    } else
    setExtendedForm(false)
@@ -241,7 +252,7 @@ export default function EditDeleteEventForm(props) {
                         value={selectedService}
                         id="title"
                         // displayEmpty
-                        defaultValue={removeEvents.data.event.title}
+                        defaultValue={selectedEventTitle}
                       >
                         <MenuItem value=""></MenuItem>
                         {services.map((service) => {
@@ -279,7 +290,7 @@ export default function EditDeleteEventForm(props) {
                         onChange={handleAvailability}
                         value={availability.status}
                         id="title"
-                        defaultValue={removeEvents.data.event.extendedProps.status} 
+                        defaultValue={selectedEventBookingStatus} 
                       >
                         <MenuItem value=""></MenuItem>
                         {availability.map((available) => {
@@ -310,7 +321,7 @@ export default function EditDeleteEventForm(props) {
                       onChange={(e) => setName(e.target.value)}
                       value={value}
                       onBlur={onBlur}
-                      defaultValue={removeEvents.data.event.extendedProps.name}
+                      defaultValue={selectedEventName}
                       autoComplete="given-name"
                       name="Name"
                       required
@@ -335,7 +346,7 @@ export default function EditDeleteEventForm(props) {
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       value={value}
                       onBlur={onBlur}
-                      defaultValue={removeEvents.data.event.extendedProps.number}
+                      defaultValue={selectedEventPhoneNumber}
                       // autoComplete="given-name"
                       name="Phone_Number"
                       required
@@ -359,7 +370,7 @@ export default function EditDeleteEventForm(props) {
                       onChange={(e) => setEmail(e.target.value)}
                       value={value}
                       onBlur={onBlur}
-                      defaultValue={removeEvents.data.event.extendedProps.email}
+                      defaultValue={selectedEventEmail}
                       name="Email"
                       required
                       fullWidth="true"
@@ -382,7 +393,7 @@ export default function EditDeleteEventForm(props) {
                       onChange={(e) => setNotes(e.target.value)}
                       value={value}
                       onBlur={onBlur}
-                      defaultValue={removeEvents.data.event.extendedProps.notes}
+                      defaultValue={selectedEventNotes}
                       name="Notes"
                       required
                       multiline
