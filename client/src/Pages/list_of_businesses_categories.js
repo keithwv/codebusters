@@ -16,15 +16,15 @@ export default function ListOfBusinessesInCategory() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   let myCategory = params.get("category");
-  console.log(`myCategory is ${myCategory}`);
+  // console.log(`myCategory is ${myCategory}`);
 
-  console.log(`location is:`, location);
-  console.log(`category is:`, location.search);
+  // console.log(`location is:`, location);
+  // console.log(`category is:`, location.search);
 
   useEffect(() => {
     if (myCategory) {
-      let collectionRef = collection(db, "business");
-      console.log(`searching for business.category == ${myCategory}`);
+      let collectionRef = collection(db, "services");
+      console.log(`searching for services.category == ${myCategory}`);
       let queryRef = query(collectionRef, where("category", "==", myCategory));
       const undo = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {

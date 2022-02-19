@@ -34,45 +34,6 @@ import { Grid, Container } from "@material-ui/core";
 import { MenuItem, Select } from "@mui/material";
 import cards from "../../HomePageCards/cards";
 
-const columns = [
-  {
-    title: "Service",
-    field: "service",
-    width: "30%",
-    validate: (rowsData) =>
-      rowsData.service === "" ? "service cannot be empty" : true,
-  },
-  {
-    title: "Cost per Hour ($)",
-    field: "hourly_Cost",
-    width: "30%",
-    type: "numeric",
-  },
-  {
-    title: "Category",
-    field: "category",
-    width: "30%",
-    editComponent: ({ onChange }) => (
-      <Select
-        id="category-menu"
-        labelId="category-menu-id"
-        value={cards.title}
-        defaultValue=""
-        label="category"
-        onChange={(event) => onChange(event.target.value)}
-      >
-        {cards.map((card) => {
-          return (
-            <MenuItem key={card.id} value={card.title}>
-              {card.title}
-            </MenuItem>
-          );
-        })}
-      </Select>
-    ),
-  },
-];
-
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "services", id);
   return deleteDoc(businessDoc);
@@ -142,7 +103,44 @@ export default function ServicesTable(props) {
   // const handleChange = (event) => {
   //   setSelectedBusiness(event.target.value)
   // }
-
+  const [columns] = useState([
+    {
+      title: "Service",
+      field: "service",
+      width: "30%",
+      validate: (rowsData) =>
+        rowsData.service === "" ? "service cannot be empty" : true,
+    },
+    {
+      title: "Cost per Hour ($)",
+      field: "hourly_Cost",
+      width: "30%",
+      type: "numeric",
+    },
+    {
+      title: "Category",
+      field: "category",
+      width: "30%",
+      editComponent: ({ onChange }) => (
+        <Select
+          id="category-menu"
+          labelId="category-menu-id"
+          value={cards.title}
+          defaultValue=""
+          label="category"
+          onChange={(event) => onChange(event.target.value)}
+        >
+          {cards.map((card) => {
+            return (
+              <MenuItem key={card.id} value={card.title}>
+                {card.title}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      ),
+    },
+  ]);
   const handleRowAdd = async (newData, resolve) => {
     console.log(newData);
 
