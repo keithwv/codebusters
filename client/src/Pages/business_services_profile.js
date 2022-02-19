@@ -94,7 +94,7 @@ export const ServicesForBusiness = () => {
               width:200,
               height:100
             }}>
-              <InputLabel id="business-menu-id"><em>Select a Business</em></InputLabel>
+              <InputLabel id="business-menu-id">Select a Business</InputLabel>
             <Select
               id="business-menu"
               labelId="business-menu-id"
