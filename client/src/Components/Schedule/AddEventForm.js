@@ -17,9 +17,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { TitleRounded } from "@material-ui/icons";
-import { SingleSelect } from "react-select-material-ui";
-import { Email } from "@mui/icons-material";
+
 
 // Schema for register form
 const schema = yup.object().shape({

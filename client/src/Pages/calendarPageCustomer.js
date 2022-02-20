@@ -4,18 +4,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
-// import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../contexts/AuthContext";
 import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
-
 import "../Components/Schedule/calendar.css";
-import CalendarModal from "../Components/Modals/CalendarModal";
-
-import EditDeleteCalendarModal from "../Components/Modals/EditDeleteCalendarModal";
+import BookingModal from "../Components/Modals/BookingModal"
 import SelectBusiness from "../Components/Schedule/SelectBusiness";
-
-
 import Header from "../Components/User_Interface/Header";
 
 
@@ -34,21 +28,27 @@ export default function CalendarWithScheduleCustomer() {
   const [currentEvents, setCurrentEvents] = useState([]);
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
-  const [addEvent, setAddEvent] = useState({
-    check: false,
-    data: "",
-  }); // State that determines the rendering of the Add Event Form
+  // const [addEvent, setAddEvent] = useState({
+  //   check: false,
+  //   data: "",
+  // }); // State that determines the rendering of the Add Event Form
 
-  const [removeEvents, setRemoveEvents] = useState({
+  // const [removeEvents, setRemoveEvents] = useState({
+  //   check: false,
+  //   data: "",
+  // }); // State that determine the rendering of the Edit/Remove Event Form
+
+  const [bookEvents, setBookEvents] = useState({
     check: false,
-    data: "",
-  }); // State that determine the rendering of the Edit/Remove Event Form
+    data: ""
+  })
+
+  console.log("State of BookEvent" , bookEvents)
 
   const [business, setBusiness] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState([]);
-  const [services, setServicesProvided] = useState([]);
+
   
-  console.log("This is the services", services)
   console.log(eventsData)
   // Get all business for logged in user
   useEffect(() => {
@@ -72,34 +72,34 @@ export default function CalendarWithScheduleCustomer() {
     }
   }, [currentUser]);
 
-  // Get all services associated with the selected business
-  useEffect(() => {
-    let collectionRef = collection(db, "services");
-    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
-      let queryRef = query(
-        collectionRef,
-        where("uid", "==", currentUser.uid),
-        where("Business_ID", "==", selectedBusiness.DOC_ID)
-      );
-      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-        if (querySnap.empty) {
-          console.log("No docs found");
-        } else {
-          let servicesData = querySnap.docs.map((doc) => {
-            return {
-              ...doc.data(),
-              DOC_ID: doc.id,
-            };
-          });
-          console.log(servicesData)
-          // console.log(typeof(servicesData))
-          setServicesProvided(servicesData);
-        }
-      });
-      return unsubscribe;
-    }
-  }, [currentUser, selectedBusiness.DOC_ID]);
-  console.log(services)
+  // // Get all services associated with the selected business
+  // useEffect(() => {
+  //   let collectionRef = collection(db, "services");
+  //   if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+  //     let queryRef = query(
+  //       collectionRef,
+  //       where("uid", "==", currentUser.uid),
+  //       where("Business_ID", "==", selectedBusiness.DOC_ID)
+  //     );
+  //     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+  //       if (querySnap.empty) {
+  //         console.log("No docs found");
+  //       } else {
+  //         let servicesData = querySnap.docs.map((doc) => {
+  //           return {
+  //             ...doc.data(),
+  //             DOC_ID: doc.id,
+  //           };
+  //         });
+  //         console.log(servicesData)
+  //         // console.log(typeof(servicesData))
+  //         setServicesProvided(servicesData);
+  //       }
+  //     });
+  //     return unsubscribe;
+  //   }
+  // }, [currentUser, selectedBusiness.DOC_ID]);
+ 
 
   const renderSidebar = () => {
     return (
@@ -119,10 +119,6 @@ export default function CalendarWithScheduleCustomer() {
             Weekends
           </label>
         </div>
-        <div className="demo-app-sidebar-section">
-          <h2>All Events ({currentEvents.length})</h2>
-          <ul>{currentEvents.map(renderSidebarEvent)}</ul>
-        </div>
       </div>
     );
   };
@@ -132,24 +128,24 @@ export default function CalendarWithScheduleCustomer() {
   };
 
   const method = () => {
-    setAddEvent({ check: false });
-    setRemoveEvents({ check: false, data: "" });
+    // setAddEvent({ check: false });
+    setBookEvents({ check: false, data: "" });
   };
 
   // Need to be able to delete doc from firebase and the user interface
   const handleEventClick = (clickInfo) => {
-    setRemoveEvents({
+    setBookEvents({
       check: true,
       data: clickInfo,
     });
   };
 
-  const handleDateSelect = (selectInfo) => {
-    setAddEvent({
-      check: true,
-      data: selectInfo,
-    });
-  };
+  // const handleDateSelect = (selectInfo) => {
+  //   setAddEvent({
+  //     check: true,
+  //     data: selectInfo,
+  //   });
+  // };
 
   // Initial fetch of all events from database for the logged in user
   useEffect(() => {
@@ -215,21 +211,8 @@ export default function CalendarWithScheduleCustomer() {
       </li>
     );
   }
- // Update the start and end times for event if it is dragged to a different time         
- const handleEventDrop = async (event) => {
-   let updated_start_time = event.event.startStr
-   let updated_end_time=event.event.endStr
-   let document_id = event.event.id
-   const EventDoc = doc(db, "events", document_id);
-   console.log("Document has been updated", EventDoc)
-   await updateDoc(EventDoc, {
-     start_time: updated_start_time,
-     end_time: updated_end_time
-   })
- }
-   
-  
 
+  
   return (
     <>
     <Header/>
@@ -256,20 +239,22 @@ export default function CalendarWithScheduleCustomer() {
           businessHours={true}
           events={eventsData}
           weekends={weekendsVisible}
-          select={handleDateSelect}
+          // select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
-          eventOverlap={false}
+          eventOverlap={function(stillEvent, movingEvent) {
+            return stillEvent.allDay && movingEvent.allDay;
+          }}
           slotEventOverlap={false}
-          eventDrop={handleEventDrop}
+          // eventDrop={handleEventDrop}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           //eventContent={renderEventContent}
         />
       </div>
-      {removeEvents.check && (
-        <EditDeleteCalendarModal removeEvents={removeEvents} services={services} method={method} />
+      {bookEvents.check && (
+        <BookingModal bookEvents={bookEvents} method={method} />
       )}
-      {addEvent.check && (
+      {/* {addEvent.check && (
         <CalendarModal
           servicesProvided={services}
           setServicesProvided={setServicesProvided}
@@ -277,7 +262,7 @@ export default function CalendarWithScheduleCustomer() {
           addEvent={addEvent}
           method={method}
         />
-      )}
+      )} */}
     </div>
     </>
   );

@@ -119,10 +119,10 @@ export default function CalendarWithSchedule() {
             Weekends
           </label>
         </div>
-        <div className="demo-app-sidebar-section">
+        {/* <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
           <ul>{currentEvents.map(renderSidebarEvent)}</ul>
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -248,7 +248,7 @@ export default function CalendarWithSchedule() {
             listWeek: { buttonText: 'List Week' },
             listMonth: { buttonText: 'List Month' }
           }}
-          initialView="dayGridMonth"
+          initialView="timeGridWeek"
           editable={true}
           selectable={true}
           selectMirror={true}
