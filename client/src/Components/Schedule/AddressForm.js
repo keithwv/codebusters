@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 
 
 export default function AddressForm(props) {
-    const { user,validationSchema,formData, setFormData} = props
+    const { user, formData, setFormData} = props
     console.log("this is the form data", formData)
     // Customer information gathered from logged in user to be used to prepopulate form
     let customer_first_name = user.name

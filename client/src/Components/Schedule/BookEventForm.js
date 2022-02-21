@@ -39,6 +39,10 @@ export default function BookEventForm(props) {
     phoneNumber: "",
     city: "",
     province: "",
+    cardName: "",
+    cardNumber: "",
+    expDate: "",
+    cvv: "",
   });
  
 
@@ -51,6 +55,13 @@ export default function BookEventForm(props) {
         phone_number: yup.number().required("Phone Number is required"),
         city: yup.string().required("City is required"),
         province: yup.string().required("Province is required"),
+  }),
+  //Validation for second step
+  yup.object().shape({ 
+    cardName : yup.string().required("Name is required"),
+    cardNumber: yup.number().required("Card Number is required"),
+    expDate: yup.number().required("expiry date is required"),
+    cvv: yup.number().required("CVV is required")
   })
 ];
   const currentValidationSchema = validationSchema[activeStep];
@@ -72,7 +83,6 @@ export default function BookEventForm(props) {
             user={user}
             formData={formData}
             setFormData={setFormData}
-            validationSchema={validationSchema}
           />
         );
       case 1:
@@ -87,7 +97,7 @@ export default function BookEventForm(props) {
 
 
   const handleNext = async () => {
-    let isStepValid = await trigger(["firstName", "lastName","email","phone_number","city", "province"])
+    let isStepValid = await trigger(["firstName", "lastName","email","phone_number","city", "province", "cardName", "cardNumber", "expDate", "cvv"])
     console.log("is trigggered");
     console.log(isStepValid)
 
