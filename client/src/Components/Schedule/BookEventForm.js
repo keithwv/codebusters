@@ -97,6 +97,7 @@ export default function BookEventForm(props) {
 
 
   const handleNext = async () => {
+    
     let isStepValid = await trigger(["firstName", "lastName","email","phone_number","city", "province", "cardName", "cardNumber", "expDate", "cvv"])
     console.log("is trigggered");
     console.log(isStepValid)
@@ -104,6 +105,7 @@ export default function BookEventForm(props) {
     if (isStepValid) {
       setActiveStep(activeStep + 1);
     }
+
   };
 
   const handleBack = () => {
