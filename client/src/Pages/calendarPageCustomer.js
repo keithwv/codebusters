@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
 import { useAuth } from "../contexts/AuthContext";
-import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { collection,onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import "../Components/Schedule/calendar.css";
 import BookingModal from "../Components/Modals/BookingModal"
@@ -25,18 +25,9 @@ export default function CalendarWithScheduleCustomer() {
 
   const { currentUser } = useAuth(); // currentUser refers to authenticated user
   // All State declarations below
-  const [currentEvents, setCurrentEvents] = useState([]);
+
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
-  // const [addEvent, setAddEvent] = useState({
-  //   check: false,
-  //   data: "",
-  // }); // State that determines the rendering of the Add Event Form
-
-  // const [removeEvents, setRemoveEvents] = useState({
-  //   check: false,
-  //   data: "",
-  // }); // State that determine the rendering of the Edit/Remove Event Form
 
   const [bookEvents, setBookEvents] = useState({
     check: false,
@@ -47,6 +38,33 @@ export default function CalendarWithScheduleCustomer() {
 
   const [business, setBusiness] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState([]);
+  const [user, setUser] = useState(null)
+
+   
+  // Get customer information from users database of firestore to and use this information
+  // to prepopulate contact informaion on Booking Form modal
+  useEffect(() => {
+    if (currentUser?.uid) {
+      let collectionRef = collection(db, "users");
+      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let usersData = querySnap.docs.map((doc) => {
+            return { ...doc.data(), DOC_ID: doc.id };
+          });
+          setUser({
+            name: usersData[0].name,
+            last_name: usersData[0].last_name,
+            email: usersData[0].email,
+          });
+        }
+      });
+      return unsubscribe;
+    }
+  }, [currentUser?.uid]);
+
 
   
   console.log(eventsData)
@@ -140,13 +158,7 @@ export default function CalendarWithScheduleCustomer() {
     });
   };
 
-  // const handleDateSelect = (selectInfo) => {
-  //   setAddEvent({
-  //     check: true,
-  //     data: selectInfo,
-  //   });
-  // };
-
+ 
   // Initial fetch of all events from database for the logged in user
   useEffect(() => {
     let collectionRef = collection(db, "events");
@@ -183,34 +195,32 @@ export default function CalendarWithScheduleCustomer() {
     }
   }, [currentUser, selectedBusiness]); // triggers when new user logins
 
-  const handleEvents = (events) => {
-    setCurrentEvents(events);
-  };
 
-  function renderEventContent(eventInfo) {
-    console.log(eventInfo)
-    return (
-      <>
-        <b>{eventInfo.timeText}</b>
-        <i>{eventInfo.event.title}</i>
-      </>
-    );
-  }
 
-  function renderSidebarEvent(event) {
-    return (
-      <li key={event.id}>
-        <b>
-          {formatDate(event.start, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </b>
-        <i>{event.title}</i>
-      </li>
-    );
-  }
+  // function renderEventContent(eventInfo) {
+  //   console.log(eventInfo)
+  //   return (
+  //     <>
+  //       <b>{eventInfo.timeText}</b>
+  //       <i>{eventInfo.event.title}</i>
+  //     </>
+  //   );
+  // }
+
+  // function renderSidebarEvent(event) {
+  //   return (
+  //     <li key={event.id}>
+  //       <b>
+  //         {formatDate(event.start, {
+  //           year: "numeric",
+  //           month: "short",
+  //           day: "numeric",
+  //         })}
+  //       </b>
+  //       <i>{event.title}</i>
+  //     </li>
+  //   );
+  // }
 
   
   return (
@@ -242,27 +252,17 @@ export default function CalendarWithScheduleCustomer() {
           // select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
-          eventOverlap={function(stillEvent, movingEvent) {
-            return stillEvent.allDay && movingEvent.allDay;
-          }}
+          eventOverlap={false}
           slotEventOverlap={false}
+  
           // eventDrop={handleEventDrop}
-          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          // eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           //eventContent={renderEventContent}
         />
       </div>
       {bookEvents.check && (
-        <BookingModal bookEvents={bookEvents} method={method} />
+        <BookingModal bookEvents={bookEvents} user={user} method={method} />
       )}
-      {/* {addEvent.check && (
-        <CalendarModal
-          servicesProvided={services}
-          setServicesProvided={setServicesProvided}
-          selectedBusiness={selectedBusiness}
-          addEvent={addEvent}
-          method={method}
-        />
-      )} */}
     </div>
     </>
   );

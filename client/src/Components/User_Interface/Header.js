@@ -162,7 +162,6 @@ const Header = (props) => {
   const classes = useStyles();
   let selectedTab;
 
-  console.log(window.location.pathname);
 
   if (window.location.pathname === "/home") {
     console.log("0 selected");

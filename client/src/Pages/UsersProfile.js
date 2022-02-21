@@ -32,19 +32,22 @@ const UserProfile = () => {
     DOC_ID: "",
   });
 
+ 
+
   const {
     handleSubmit,
     control,
     reset,
     formState: { errors },
-    formState,
   } = useForm({
     resolver: yupResolver(schema),
-    mode: "onChange",
+    mode: "all",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (event) => {
+    // event.preventDefault()
+    console.log("clicked")
+    // console.log(data);
     reset();
   };
 
@@ -119,11 +122,11 @@ const UserProfile = () => {
             <Stack spacing={1}>
               <Controller
                 name="name"
-                defaultValue=""
                 control={control}
-                render={({ field: { onBlur, value } }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <TextField
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      onChange(e)
                       setUsers({
                         name: e.target.value,
                         last_name: users.last_name,
@@ -131,9 +134,9 @@ const UserProfile = () => {
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
                       })
-                    }
+                    }}
                     value={users.name}
-                    onBlur={onBlur}
+                    // onBlur={onBlur}
                     autoComplete="given-name"
                     name="name"
                     label="first name"
@@ -146,12 +149,13 @@ const UserProfile = () => {
                 )}
               />
               <Controller
-                name="name"
+                name="last_name"
                 defaultValue=""
                 control={control}
-                render={({ field: { onBlur, value } }) => (
+                render={({ field: { onChange , onBlur, value } }) => (
                   <TextField
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      onChange(e)
                       setUsers({
                         name: users.name,
                         last_name: e.target.value,
@@ -159,7 +163,7 @@ const UserProfile = () => {
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
                       })
-                    }
+                    }}
                     value={users.last_name}
                     label="last name"
                     id="last_name"
@@ -171,12 +175,12 @@ const UserProfile = () => {
                 )}
               />
               <Controller
-                name="name"
-                defaultValue=""
+                name="email"
                 control={control}
-                render={({ field: { onBlur, value } }) => (
+                render={({ field: {onChange, onBlur, value } }) => (
                   <TextField
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      onChange(e)
                       setUsers({
                         name: users.name,
                         last_name: users.last_name,
@@ -184,8 +188,10 @@ const UserProfile = () => {
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
                       })
-                    }
+                    }}
+                    
                     value={users.email}
+                    onBlur={onBlur}
                     label="email"
                     id="email"
                     variant="standard"
@@ -198,6 +204,7 @@ const UserProfile = () => {
             </Stack>
           </Grid>
         </Grid>
+        </Box>
         <Grid
           container
           direction="row"
@@ -237,7 +244,7 @@ const UserProfile = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Box>
+      {/* </Box> */}
     </>
   );
 };

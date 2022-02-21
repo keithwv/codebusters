@@ -17,8 +17,9 @@ const style = {
 
 export default function BookingModal(props) {
   const {
-    bookEvent,
+    bookEvents,
     method,
+    user
   } = props;
   console.log("Booking modal is Open")
   //     data.check = false
@@ -39,8 +40,9 @@ export default function BookingModal(props) {
       >
         <Box sx={style}>
           <BookEventForm
-            bookEvent={bookEvent}
+            bookEvents={bookEvents}
             method={method}
+            user={user}
           />
         </Box>
       </Modal>
