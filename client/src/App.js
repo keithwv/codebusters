@@ -21,6 +21,7 @@ import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
 import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer"
+import BookEventForm from "./Components/Schedule/BookEventForm";
 
 
 
@@ -56,6 +57,7 @@ function App(props) {
             }
           />
           <Route path="/customer_calendar" element={<CalendarWithScheduleCustomer/>}/>
+          <Route path="/checkout" element={<BookEventForm/>}/>
           <Route path="/register-client" element={<RegisterClient />} />
           <Route
             path="/dashboard"

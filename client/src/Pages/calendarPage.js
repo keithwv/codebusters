@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FullCalendar, { formatDate } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin, { Draggable} from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
 // import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../contexts/AuthContext";
@@ -28,6 +28,8 @@ export default function CalendarWithSchedule() {
     startTime: "09:00",
     endTime: "17:00",
   };
+
+  let draggableEl = document.getElementById('mydraggable');
 
   const { currentUser } = useAuth(); // currentUser refers to authenticated user
   // All State declarations below
@@ -119,10 +121,10 @@ export default function CalendarWithSchedule() {
             Weekends
           </label>
         </div>
-        <div className="demo-app-sidebar-section">
+        {/* <div className="demo-app-sidebar-section">
           <h2>All Events ({currentEvents.length})</h2>
           <ul>{currentEvents.map(renderSidebarEvent)}</ul>
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -227,8 +229,15 @@ export default function CalendarWithSchedule() {
      end_time: updated_end_time
    })
  }
-   
-  
+ 
+//  const Draggable = FullCalendar.Draggable
+ 
+//  new Draggable(draggableEl, {
+//   eventData: {
+//     title: 'my event',
+//     duration: '02:00'
+//   }
+// });
 
   return (
     <>
@@ -248,7 +257,7 @@ export default function CalendarWithSchedule() {
             listWeek: { buttonText: 'List Week' },
             listMonth: { buttonText: 'List Month' }
           }}
-          initialView="dayGridMonth"
+          initialView="timeGridWeek"
           editable={true}
           selectable={true}
           selectMirror={true}
@@ -262,7 +271,9 @@ export default function CalendarWithSchedule() {
           eventOverlap={false}
           slotEventOverlap={false}
           eventDrop={handleEventDrop}
-          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          droppable={true}
+          eventsSet={handleEvents} 
+          // eventReceive={test}// called after events are initialized/added/changed/removed
           //eventContent={renderEventContent}
         />
       </div>

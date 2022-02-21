@@ -17,8 +17,7 @@ export const UploadButtonUsers = (props) => {
   //const Name = props.Name;
   const [file, setFile] = useState();
   const [progress, setProgress] = useState();
-  console.log(progress)
-  console.log(file);
+
 
 
   const handleSelect = (e) => {
