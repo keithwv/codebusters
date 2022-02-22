@@ -54,7 +54,8 @@ export default function EditDeleteEventForm(props) {
   const { removeEvents, method, services} = props
 
   console.log(services)
-
+  let selectedEventHourlyCost = services.hourly_cost
+  console.log(selectedEventHourlyCost)
   let selectedEventStartTime = removeEvents.data.event.startStr
   let selectedEvent = removeEvents.data.event
   let selectedEventTitle = removeEvents.data.event.title
