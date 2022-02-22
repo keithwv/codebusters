@@ -54,7 +54,7 @@ export default function EditDeleteEventForm(props) {
   const { removeEvents, method, services} = props
 
   console.log(services)
-  let selectedEventHourlyCost = services.hourly_cost
+  let selectedEventHourlyCost = removeEvents.data.event.extendedProps.hourly_cost
   console.log(selectedEventHourlyCost)
   let selectedEventStartTime = removeEvents.data.event.startStr
   let selectedEvent = removeEvents.data.event
@@ -71,6 +71,7 @@ export default function EditDeleteEventForm(props) {
 
   const [eventTitle, setEventTitle] = useState(selectedEventTitle);
   const [eventData, setEventData] = useState([]);
+  const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(selectedEventHourlyCost)
   const [selectedService, setSelectedService] = React.useState(selectedEventTitle);
   const [booking, setBooking] = React.useState(selectedEventBookingStatus);
   const [extendedForm, setExtendedForm] = React.useState(true);
@@ -123,6 +124,17 @@ export default function EditDeleteEventForm(props) {
     return unsubscribe;
   }, [selectedEvent]);
 
+  React.useEffect(() => {
+    // Find the array of values associated with the Selected Service in the services prop
+    const selectedServiceObject = services.find( ({service}) => service==selectedService)
+    console.log(selectedServiceObject)
+   
+    const HourlyCost = selectedServiceObject?.hourly_Cost
+    setSelectedServiceHourlyCost(HourlyCost)
+  
+    }, [selectedService])
+  
+    console.log(selectedServiceHourlyCost)
 
  
 
@@ -169,7 +181,8 @@ export default function EditDeleteEventForm(props) {
       customer_name: name || null,
       customer_phone_number: phoneNumber || null,
       customer_email: email || null,
-      notes: notes || null
+      notes: notes || null,
+      hourly_Cost: selectedServiceHourlyCost
    })
    method();
 
