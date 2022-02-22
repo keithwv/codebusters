@@ -30,11 +30,15 @@ export default function BookEventForm(props) {
   const { bookEvents, method, user } = props;
 
   let statusOfEvent = bookEvents.data.event.extendedProps.status
+  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
+  console.log("cost",serviceHourlyCost)
   let selectedService = bookEvents.data.event.title
   let eventStartTime =bookEvents.data.event.start
   let eventEndTime = bookEvents.data.event.end 
   // substraction below will give the time in milliseconds. Dividing by 3,600,000 (the amount of ms in an hour) will give duration in hours
-  let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000 
+  let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000
+  let total_cost = duration*serviceHourlyCost
+  console.log(total_cost) 
   
 
 
@@ -53,7 +57,9 @@ export default function BookEventForm(props) {
     cvv: "",
     duration: duration,
     service: selectedService,
-    status: statusOfEvent
+    status: statusOfEvent,
+    hourly_cost: serviceHourlyCost,
+    total_cost: total_cost
   });
  
 

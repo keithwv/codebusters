@@ -184,7 +184,8 @@ export default function CalendarWithScheduleCustomer() {
             status: doc.data().status,
             name: doc.data().customer_name,
             number: doc.data().customer_phone_number,
-            notes: doc.data().notes
+            notes: doc.data().notes,
+            hourly_cost: doc.data().hourly_Cost
           }));
           setEventsData(eventsData);
         }
