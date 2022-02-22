@@ -81,6 +81,8 @@ export default function PaymentForm(props) {
             value={formData.expDate}
             autoComplete="cc-exp"
             variant="standard"
+            error={!!formState.errors.expDate}
+            helperText={formState.errors.expDate?.message}
           />
             )}
             />
@@ -103,6 +105,8 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="cc-csc"
             variant="standard"
+            error={!!formState.errors.cvv}
+            helperText={formState.errors.cvv?.message}
           />
             )}
             />

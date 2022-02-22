@@ -24,11 +24,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const steps = ["Contact Information", "Payment details", "Review your order"];
 
 export default function BookEventForm(props) {
-
+ 
+  
 
   const { bookEvents, method, user } = props;
 
+  let statusOfEvent = bookEvents.data.event.extendedProps.status
+  let selectedService = bookEvents.data.event.title
+  let eventStartTime =bookEvents.data.event.start
+  let eventEndTime = bookEvents.data.event.end 
+  // substraction below will give the time in milliseconds. Dividing by 3,600,000 (the amount of ms in an hour) will give duration in hours
+  let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000 
   
+
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -43,6 +51,9 @@ export default function BookEventForm(props) {
     cardNumber: "",
     expDate: "",
     cvv: "",
+    duration: duration,
+    service: selectedService,
+    status: statusOfEvent
   });
  
 

@@ -57,6 +57,7 @@ export default function Review(props) {
     ]);
   
   }, []);
+  console.log(formData)
 
   console.log(contactInformation);
   return (
@@ -82,26 +83,24 @@ export default function Review(props) {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
+            Contact Information
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{contactInformation.join(", ")}</Typography>
+          <Typography gutterBottom>{`Name: ${formData.firstName} ${formData.lastName}`}</Typography>
+          <Typography gutterBottom>{`Phone Number: ${formData.phoneNumber}`}</Typography>
+          <Typography gutterBottom>{`Email: ${formData.email}`}</Typography>
+          <Typography gutterBottom>{`City: ${formData.city}`}</Typography>
+          <Typography gutterBottom>{`Province: ${formData.province}`}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details
           </Typography>
           <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
+            <Grid item xs={6}>
+              <Typography gutterBottom>{`Card Name: ${formData.cardName}`}</Typography>
+              <Typography gutterBottom>{`Card Number: ${formData.cardNumber}`}</Typography>
+              <Typography gutterBottom>{`Expiry Date: ${formData.expDate}`}</Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

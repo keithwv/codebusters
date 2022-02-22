@@ -40,7 +40,7 @@ export default function CalendarWithScheduleCustomer() {
   const [selectedBusiness, setSelectedBusiness] = useState([]);
   const [user, setUser] = useState(null)
 
-   
+  
   // Get customer information from users database of firestore to and use this information
   // to prepopulate contact informaion on Booking Form modal
   useEffect(() => {
