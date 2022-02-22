@@ -129,6 +129,10 @@ export default function BookEventForm(props) {
     setActiveStep(activeStep - 1);
   };
 
+  const handleOrder = () => {
+    console.log('success')
+  }
+
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Typography component="h1" variant="h4" align="center">
@@ -166,7 +170,7 @@ export default function BookEventForm(props) {
 
               <Button
                 variant="contained"
-                onClick={handleNext}
+                onClick={e => activeStep === steps.length - 1 ? handleOrder(e) : handleNext(e)}
                 sx={{ mt: 3, ml: 1 }}
               >
                 {activeStep === steps.length - 1 ? "Place order" : "Next"}
