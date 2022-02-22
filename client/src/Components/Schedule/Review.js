@@ -57,6 +57,7 @@ export default function Review(props) {
     ]);
   
   }, []);
+  console.log(formData)
 
   console.log(contactInformation);
   return (
@@ -65,43 +66,42 @@ export default function Review(props) {
         Order summary
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
+          <ListItem sx={{ py: 1, px: 0 }}>
+            <ListItemText primary="Purchase Service" secondary={formData.service} />
+            <Typography variant="body2">{`$${formData.hourly_cost}/hr`}</Typography>
           </ListItem>
-        ))}
-
+          <ListItem sx={{ py: 1, px: 0 }}>
+            <ListItemText primary="Duration"/>
+            <Typography variant="body2">{`${formData.duration} hr`}</Typography>
+          </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $34.06
+            {`$${formData.total_cost}`}
           </Typography>
         </ListItem>
       </List>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
+            Contact Information
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{contactInformation.join(", ")}</Typography>
+          <Typography gutterBottom>{`Name: ${formData.firstName} ${formData.lastName}`}</Typography>
+          <Typography gutterBottom>{`Phone Number: ${formData.phoneNumber}`}</Typography>
+          <Typography gutterBottom>{`Email: ${formData.email}`}</Typography>
+          <Typography gutterBottom>{`City: ${formData.city}`}</Typography>
+          <Typography gutterBottom>{`Province: ${formData.province}`}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Payment details
           </Typography>
           <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
+            <Grid item xs={6}>
+              <Typography gutterBottom>{`Card Name: ${formData.cardName}`}</Typography>
+              <Typography gutterBottom>{`Card Number: ${formData.cardNumber}`}</Typography>
+              <Typography gutterBottom>{`Expiry Date: ${formData.expDate}`}</Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

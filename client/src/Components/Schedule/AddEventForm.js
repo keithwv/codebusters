@@ -55,18 +55,36 @@ export default function AddEventForm(props) {
     },
   ];
 
+ 
+
   const [selectedService, setSelectedService] = React.useState("");
+  const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(null)
   const [booking, setBooking] = React.useState("");
   const [extendedForm, setExtendedForm] = React.useState(false);
 
   console.log(extendedForm)
-
-  const handleChange = (event) => {
+  console.log("This is your service" ,services)
+  const handleChange = (event, data) => {
+    
     console.log(event.target.value);
     setSelectedService(event.target.value);
    
   };
+  
 
+  // Find the hourly_Cost for the selected Service
+
+  React.useEffect(() => {
+  // Find the array of values associated with the Selected Service in the services prop
+  const selectedServiceObject = services.find( ({service}) => service==selectedService)
+  console.log(selectedServiceObject)
+ 
+  const HourlyCost = selectedServiceObject?.hourly_Cost
+  setSelectedServiceHourlyCost(HourlyCost)
+
+  }, [selectedService])
+
+  console.log(selectedServiceHourlyCost)
 
 
   const handleAvailability = (event) => {
@@ -110,6 +128,7 @@ export default function AddEventForm(props) {
           uid: currentUser.uid,
           status: booking,
           color: color,
+          hourly_Cost: selectedServiceHourlyCost,
           customer_name: data?.Name || null,
           customer_email: data?.Email || null,
           description: data?.Notes || null,
@@ -172,7 +191,7 @@ export default function AddEventForm(props) {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <Select
                         onChange={handleChange}
-                        value={services.service}
+                        value={services.hourly_Cost}
                         id="title"
                         displayEmpty={true}
                         defaultValue=""

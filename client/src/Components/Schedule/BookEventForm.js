@@ -24,11 +24,23 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const steps = ["Contact Information", "Payment details", "Review your order"];
 
 export default function BookEventForm(props) {
-
+ 
+  
 
   const { bookEvents, method, user } = props;
 
+  let statusOfEvent = bookEvents.data.event.extendedProps.status
+  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
+  console.log("cost",serviceHourlyCost)
+  let selectedService = bookEvents.data.event.title
+  let eventStartTime =bookEvents.data.event.start
+  let eventEndTime = bookEvents.data.event.end 
+  // substraction below will give the time in milliseconds. Dividing by 3,600,000 (the amount of ms in an hour) will give duration in hours
+  let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000
+  let total_cost = duration*serviceHourlyCost
+  console.log(total_cost) 
   
+
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -43,6 +55,11 @@ export default function BookEventForm(props) {
     cardNumber: "",
     expDate: "",
     cvv: "",
+    duration: duration,
+    service: selectedService,
+    status: statusOfEvent,
+    hourly_cost: serviceHourlyCost,
+    total_cost: total_cost
   });
  
 
@@ -112,6 +129,10 @@ export default function BookEventForm(props) {
     setActiveStep(activeStep - 1);
   };
 
+  const handleOrder = () => {
+    console.log('success')
+  }
+
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Typography component="h1" variant="h4" align="center">
@@ -149,7 +170,7 @@ export default function BookEventForm(props) {
 
               <Button
                 variant="contained"
-                onClick={handleNext}
+                onClick={e => activeStep === steps.length - 1 ? handleOrder(e) : handleNext(e)}
                 sx={{ mt: 3, ml: 1 }}
               >
                 {activeStep === steps.length - 1 ? "Place order" : "Next"}

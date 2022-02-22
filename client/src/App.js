@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterBusiness from "./Components/Register/RegisterBusiness";
 import { AuthProvider } from "./contexts/AuthContext";
 import SignIn from "./Components/log_in/loginBusiness";
-import AddressForm from "./Components/for_logged_in_users/Business fill in form";
+import AddressForm from "./Components/for_logged_in_users/Business_fill_in_form";
 import { ServicesForBusiness } from "./Pages/business_services_profile";
 import BasicModal from "./Components/Modals/Modal";
 import CalendarWithSchedule from "./Pages/calendarPage";
