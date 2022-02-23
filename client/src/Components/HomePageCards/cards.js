@@ -1,13 +1,13 @@
 const cards = [
   {
-    title: "Cars & Vehicles",
+    title: "Cars and Vehicles",
     text: " Businesses related to vehicle repairs, tunning and other services. ",
     imageSource: "https://i.ibb.co/MgbrXrM/image.jpg",
     id: 1,
     // description: " Your description here"
   },
   {
-    title: "Health & Beauty",
+    title: "Health and Beauty",
     text: " Businesses related to hairdressing, cosmetology, skin & body care. ",
     imageSource: "https://i.ibb.co/JxfD2tS/Webp-net-resizeimage.jpg",
     id: 2,
@@ -35,7 +35,7 @@ const cards = [
     // description: " Your description here"
   },
   {
-    title: "Home & Office",
+    title: "Home and Office",
     text: " Services for home and office care including delivery, moving, gardening etc. ",
     imageSource: "https://i.ibb.co/V29dvVv/Cool-office-desk.webp",
     id: 6,
