@@ -13,7 +13,7 @@ import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../Firebase/firebase-config";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -30,6 +30,8 @@ export default function BookEventForm(props) {
 
   const { bookEvents, method, user, servicesProvided } = props;
   console.log(servicesProvided)
+
+  let doc_id = bookEvents.data.event.id
   let statusOfEvent = bookEvents.data.event.extendedProps.status
   let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
   console.log("cost",serviceHourlyCost)
@@ -144,9 +146,27 @@ export default function BookEventForm(props) {
     setActiveStep(activeStep - 1);
   };
 
-  const handleOrder = () => {
-    setActiveStep(activeStep + 1);
-    console.log('success')
+  const handleOrder = async () => {
+    
+    //Add order to the events collection of the database
+      const EventDoc = doc(db, "events", doc_id);
+      console.log(EventDoc)
+      try {
+      await updateDoc(EventDoc ,{
+      title: formData.service,
+      status: "Booked",
+      color: "#ff0000",
+      customer_name: formData.firstName+formData.lastName,
+      customer_phone_number: formData.phoneNumber,
+      customer_email: formData.email,
+      notes: formData.notes || null,
+      hourly_Cost: formData.hourly_cost,
+      total_cost: formData.total_cost,
+   })
+  } catch (error) {
+    console.log(error)
+  }
+  setActiveStep(activeStep + 1);
   }
 
   return (

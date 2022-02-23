@@ -85,7 +85,8 @@ export default function AddEventForm(props) {
   }, [selectedService])
 
   console.log(selectedServiceHourlyCost)
-
+  
+  console.log(addEvent)
 
   const handleAvailability = (event) => {
     setBooking(event.target.value)
