@@ -28,12 +28,12 @@ export default function CalendarWithScheduleCustomer() {
 
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [eventsData, setEventsData] = useState([]); // Used when fetching the current events stored in firestore for a unique user
-
+  const [servicesProvided, setServicesProvided] = useState([])
   const [bookEvents, setBookEvents] = useState({
     check: false,
     data: ""
   })
-
+  console.log("This is the services", servicesProvided)
   console.log("State of BookEvent" , bookEvents)
 
   const [business, setBusiness] = useState([]);
@@ -90,33 +90,33 @@ export default function CalendarWithScheduleCustomer() {
     }
   }, [currentUser]);
 
-  // // Get all services associated with the selected business
-  // useEffect(() => {
-  //   let collectionRef = collection(db, "services");
-  //   if (currentUser?.uid && selectedBusiness?.DOC_ID) {
-  //     let queryRef = query(
-  //       collectionRef,
-  //       where("uid", "==", currentUser.uid),
-  //       where("Business_ID", "==", selectedBusiness.DOC_ID)
-  //     );
-  //     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-  //       if (querySnap.empty) {
-  //         console.log("No docs found");
-  //       } else {
-  //         let servicesData = querySnap.docs.map((doc) => {
-  //           return {
-  //             ...doc.data(),
-  //             DOC_ID: doc.id,
-  //           };
-  //         });
-  //         console.log(servicesData)
-  //         // console.log(typeof(servicesData))
-  //         setServicesProvided(servicesData);
-  //       }
-  //     });
-  //     return unsubscribe;
-  //   }
-  // }, [currentUser, selectedBusiness.DOC_ID]);
+  // Get all services associated with the selected business
+  useEffect(() => {
+    let collectionRef = collection(db, "services");
+    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+      let queryRef = query(
+        collectionRef,
+        where("uid", "==", currentUser.uid),
+        where("Business_ID", "==", selectedBusiness.DOC_ID)
+      );
+      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
+        if (querySnap.empty) {
+          console.log("No docs found");
+        } else {
+          let servicesData = querySnap.docs.map((doc) => {
+            return {
+              ...doc.data(),
+              DOC_ID: doc.id,
+            };
+          });
+          console.log(servicesData)
+          // console.log(typeof(servicesData))
+          setServicesProvided(servicesData);
+        }
+      });
+      return unsubscribe;
+    }
+  }, [currentUser, selectedBusiness.DOC_ID]);
  
 
   const renderSidebar = () => {
@@ -262,7 +262,7 @@ export default function CalendarWithScheduleCustomer() {
         />
       </div>
       {bookEvents.check && (
-        <BookingModal bookEvents={bookEvents} user={user} method={method} />
+        <BookingModal bookEvents={bookEvents} servicesProvided={servicesProvided} user={user} method={method} />
       )}
     </div>
     </>

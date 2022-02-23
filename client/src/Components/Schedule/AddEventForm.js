@@ -128,7 +128,7 @@ export default function AddEventForm(props) {
           uid: currentUser.uid,
           status: booking,
           color: color,
-          hourly_Cost: selectedServiceHourlyCost,
+          hourly_Cost: selectedServiceHourlyCost || null,
           customer_name: data?.Name || null,
           customer_email: data?.Email || null,
           description: data?.Notes || null,
@@ -191,12 +191,12 @@ export default function AddEventForm(props) {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <Select
                         onChange={handleChange}
-                        value={services.hourly_Cost}
+                        value={services.service}
                         id="title"
                         displayEmpty={true}
                         defaultValue=""
                       >
-                        <MenuItem value=""></MenuItem>
+                        <MenuItem value="All">All</MenuItem>
                         {services.map((service) => {
                           return (
                             <MenuItem

@@ -17,18 +17,19 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import SelectService from "./SelectService";
 
 
 
 
-const steps = ["Contact Information", "Payment details", "Review your order"];
+const steps = ["Service Selection","Contact Information", "Payment details", "Review your order"];
 
 export default function BookEventForm(props) {
  
   
 
-  const { bookEvents, method, user } = props;
-
+  const { bookEvents, method, user, servicesProvided } = props;
+  console.log(servicesProvided)
   let statusOfEvent = bookEvents.data.event.extendedProps.status
   let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
   console.log("cost",serviceHourlyCost)
@@ -39,6 +40,7 @@ export default function BookEventForm(props) {
   let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000
   let total_cost = duration*serviceHourlyCost
   console.log(total_cost) 
+  console.log(duration)
   
 
 
@@ -65,6 +67,9 @@ export default function BookEventForm(props) {
 
   const validationSchema = [
   //validation for first step
+  yup.object().shape({
+    service: yup.string().required("Service selection is required")
+  }),
   yup.object().shape({
         firstName : yup.string().required("Name is required"),
         lastName: yup .string().required("Last name is required"),
@@ -96,15 +101,25 @@ export default function BookEventForm(props) {
     switch (step) {
       case 0:
         return (
+          <SelectService
+            user={user}
+            formData={formData}
+            setFormData={setFormData}
+            servicesProvided={servicesProvided}
+            duration={duration}
+            />
+        )
+      case 1:
+        return (
           <AddressForm
             user={user}
             formData={formData}
             setFormData={setFormData}
           />
         );
-      case 1:
-        return <PaymentForm formData={formData} setFormData={setFormData} />;
       case 2:
+        return <PaymentForm formData={formData} setFormData={setFormData} />;
+      case 3:
         return <Review formData={formData} setFormData={setFormData} />;
       default:
         throw new Error("Unknown step");
@@ -130,6 +145,7 @@ export default function BookEventForm(props) {
   };
 
   const handleOrder = () => {
+    setActiveStep(activeStep + 1);
     console.log('success')
   }
 

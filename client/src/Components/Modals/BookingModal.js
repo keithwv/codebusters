@@ -19,7 +19,8 @@ export default function BookingModal(props) {
   const {
     bookEvents,
     method,
-    user
+    user,
+    servicesProvided
   } = props;
   console.log("Booking modal is Open")
   //     data.check = false
@@ -43,6 +44,7 @@ export default function BookingModal(props) {
             bookEvents={bookEvents}
             method={method}
             user={user}
+            servicesProvided={servicesProvided}
           />
         </Box>
       </Modal>
