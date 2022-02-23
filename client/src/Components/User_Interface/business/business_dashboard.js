@@ -69,7 +69,7 @@ export default function BusinessDashboard() {
        }}, [currentUser?.uid]);
   
        console.log(users)
-  if (currentUser) {
+  // if (currentUser) {
 
     return (
      
@@ -153,12 +153,12 @@ export default function BusinessDashboard() {
         {/* End footer */}
       </ThemeProvider>
     );
-  } else {
-    return (
-      <>
-        <Typography variant="h6" align="center" color="red"> You need to be logged in to view this page! </Typography>
-        <SignIn />
-      </>
-    )
-  }
+  // } else {
+  //   return (
+  //     <>
+  //       <Typography variant="h6" align="center" color="red"> You need to be logged in to view this page! </Typography>
+  //       <SignIn />
+  //     </>
+  //   )
+  // }
 }
