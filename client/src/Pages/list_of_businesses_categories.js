@@ -9,17 +9,17 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import Header from "../Components/User_Interface/Header";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 export default function ListOfBusinessesInCategory() {
   const [list, setList] = useState([]);
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   let myCategory = params.get("category");
-  // console.log(`myCategory is ${myCategory}`);
+  console.log(`myCategory is ${myCategory}`);
 
-  // console.log(`location is:`, location);
-  // console.log(`category is:`, location.search);
+  console.log(`location is:`, location);
+  console.log(`category is:`, location.search);
 
   useEffect(() => {
     if (myCategory) {
@@ -48,22 +48,27 @@ export default function ListOfBusinessesInCategory() {
       <Header />
       <List
         sx={{
-          width: "100%",
-          maxWidth: 360,
+          maxWidth: "100%",
           bgcolor: "background.paper",
           ml: "240px",
+          mr: "240px",
         }}
       >
         {list.map((item) => {
           return (
             <>
               <ul key={item.DOC_ID}></ul>
-              <ListItem alignItems="flex-start">
+              <ListItem
+                button
+                component={Link}
+                to="/business-details"
+                alignItems="flex-start"
+              >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.category}
+                  primary={item.service}
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -72,9 +77,9 @@ export default function ListOfBusinessesInCategory() {
                         variant="body2"
                         color="text.primary"
                       >
-                        {item.DOC_ID}
+                        {item.business}
                       </Typography>
-                      {" - this is ID of a document in firebase"}
+                      {" - Your description here"}
                     </React.Fragment>
                   }
                 />

@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -35,7 +34,9 @@ export default function HomePage() {
           <TextField fullWidth label="Search..." />
         </Box>
         {/* Hero unit */}
-        <Paper
+
+        {/* Logo */}
+        {/* <Paper
           align="center"
           sx={{
             pt: 6,
@@ -47,7 +48,7 @@ export default function HomePage() {
             position="center"
             src="https://i.ibb.co/BNhQDKk/Webp-net-resizeimage-2.png"
           />
-        </Paper>
+        </Paper> */}
         <Box
           sx={{
             bgcolor: "background.paper",
