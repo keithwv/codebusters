@@ -26,7 +26,7 @@ export default function AddressForm(props) {
         console.log(event)
         console.log(data)
     }
-
+   console.log(formData)
   return (
     <React.Fragment>
         <form>
@@ -43,13 +43,13 @@ export default function AddressForm(props) {
             required
             id="firstName"
             label="First name"
-            value={formData.name}
+            value={user.name}
             onBlur={onBlur}
             onChange={(e) => {
                 onChange(e)
                 setFormData({...formData, firstName: e.target.value})
             }}
-            defaultValue={customer_first_name}
+            //defaultValue={user.name}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -186,9 +186,6 @@ export default function AddressForm(props) {
             label="Use this address for payment details"
           />
         </Grid>
-        <Button type='submit'>
-           Click Me
-        </Button>
       </Grid>
       </form>
     </React.Fragment>

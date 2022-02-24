@@ -31,17 +31,23 @@ const UserProfile = () => {
     imageUrl: "",
     DOC_ID: "",
   });
-
+ console.log(users.name)
  
 
   const {
     handleSubmit,
     control,
     reset,
+    
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "all",
+    defaultValues : {
+      name: users.name,
+      last_name: users.last_name,
+      email: users.email
+    },
   });
 
   const onSubmit = (event) => {
@@ -136,7 +142,6 @@ const UserProfile = () => {
                       })
                     }}
                     value={users.name}
-                    // onBlur={onBlur}
                     autoComplete="given-name"
                     name="name"
                     label="first name"
@@ -191,7 +196,6 @@ const UserProfile = () => {
                     }}
                     
                     value={users.email}
-                    onBlur={onBlur}
                     label="email"
                     id="email"
                     variant="standard"

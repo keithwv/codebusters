@@ -1,93 +1,67 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Controller, useFormContext} from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
- 
-
-
+import UserSelectedServiceMode from "./UserSelectedServiceMode";
 
 const SelectService = (props) => {
+  const { control, formState } = useFormContext();
+  
 
-    const {control, formState} = useFormContext()
+  const { duration, formData, servicesProvided, setFormData } = props;
+  console.log(formData)
+  const [selectedService, setSelectedService] = React.useState(formData.service);
+  console.log(selectedService)
+  // Determine if time slot is a preselected or user-selected service
+  let userSelectedService = formData.service === "All";
+  console.log(userSelectedService);
 
-    const {duration, formData, servicesProvided, setFormData} = props
-
-    const [selectedService, setSelectedService] = React.useState(null);
-     console.log("SelectService")
-    
   React.useEffect(() => {
     //Find the array of values associated with the Selected Service in the services prop
-    const selectedServiceObject = servicesProvided.find( ({service}) => service==selectedService)
-    console.log(selectedServiceObject)
-   
-    const HourlyCost = selectedServiceObject?.hourly_Cost
-    console.log(HourlyCost)
-    console.log(duration)
-    const totalCost = HourlyCost*duration
-    console.log(totalCost)
-    setFormData({...formData, hourly_cost: HourlyCost, total_cost:totalCost})
-  
-    }, [selectedService])
-  
-   console.log(formData)
-    
+    const selectedServiceObject = servicesProvided.find(
+      ({ service }) => service == selectedService
+    );
+    console.log("why are you running")
+    const HourlyCost = selectedServiceObject?.hourly_Cost;
+
+    const totalCost = HourlyCost * duration;
+
+    setFormData({
+      ...formData,
+      hourly_cost: HourlyCost,
+      total_cost: totalCost,
+    });
+  }, [selectedService]);
+
+  console.log(formData);
+
   return (
     <React.Fragment>
       <form>
-        <Grid container direction='row' spacing={3}>
-        <Grid item xs={6} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{mt:2 }}>
-          Service Selection
+        <Grid container direction="row" spacing={3}>
+          <Grid item xs={6} sm={6}>
+            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+              Service Selection
             </Typography>
-        </Grid>
+          </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl
-              fullwidth="true"
-              sx={{
-                width: 200,
-                height: 75,
-              }}
-            >
-              <InputLabel id="title">
-                <em>Select a Service</em>
-              </InputLabel>
-              <Controller
-                name="service"
-                defaultValue=""
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Select
-                    onChange={(e) => {
-                        onChange(e)
-                        setSelectedService(e.target.value)
-                        setFormData({...formData, service: e.target.value})
-                    }}
-                    value={servicesProvided.service}
-                    id="service"
-                    displayEmpty={true}
-                    defaultValue=""
-                    error={!!formState.errors.service}
-                    helperText={formState.errors.service?.message}
-                  >
-                    <MenuItem value="All">All</MenuItem>
-                    {servicesProvided.map((service) => {
-                      return (
-                        <MenuItem key={service.DOC_ID} value={service.service}>
-                          {service.service}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                )}
+            {userSelectedService ? (
+              <UserSelectedServiceMode
+                formData={formData}
+                setFormData={setFormData}
+                setSelectedService={setSelectedService}
+                servicesProvided={servicesProvided}
               />
-            </FormControl>
+            ) : (
+              <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+                {formData.service}
+            </Typography>
+            )}
           </Grid>
         </Grid>
         <Grid container direction="row">
-            <Grid item xs={12} sm={6}>
-                
-            </Grid>
+          <Grid item xs={12} sm={6}></Grid>
         </Grid>
       </form>
     </React.Fragment>

@@ -12,11 +12,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller,} from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
 import {
   addDoc,
   collection,
@@ -28,7 +27,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
-import { date } from "yup";
+
 import { InputLabel } from "@mui/material";
 
 // Schema for register form
@@ -67,6 +66,14 @@ export default function EditDeleteEventForm(props) {
  
   console.log(removeEvents.data.event)
   console.log(selectedEventBookingStatus)
+  // Need to add All as option to the services array in order for it to be an option in menuSelect
+  let selectAll  = [{
+    service: "All",
+    DOC_ID: 1
+  }]
+  // selectableServices contains all the services array plus service: "All" option
+  let selectableServices = [...selectAll,...services]
+ 
 
 
   const [eventTitle, setEventTitle] = useState(selectedEventTitle);
@@ -82,7 +89,7 @@ export default function EditDeleteEventForm(props) {
  
 
   
- 
+  console.log(selectedEventTitle)
 
   console.log("you selected the following event", eventData)
   const {
@@ -92,6 +99,9 @@ export default function EditDeleteEventForm(props) {
     formState: { errors },
     formState,
   } = useForm({
+    defaultValues: {
+      "title" : selectedEventTitle
+    },
     resolver: yupResolver(schema),
     mode: "all",
   });
@@ -182,7 +192,7 @@ export default function EditDeleteEventForm(props) {
       customer_phone_number: phoneNumber || null,
       customer_email: email || null,
       notes: notes || null,
-      hourly_Cost: selectedServiceHourlyCost
+      hourly_Cost: selectedServiceHourlyCost || null
    })
    method();
 
@@ -204,12 +214,6 @@ export default function EditDeleteEventForm(props) {
       } else
       setExtendedForm(false)
       
-    }
-
-  const handleChange = (event) => {
-      console.log(event.target.value);
-      setSelectedService(event.target.value);
-     
     }
 
   const handleCancel = () => {
@@ -258,18 +262,20 @@ export default function EditDeleteEventForm(props) {
                   </InputLabel>
                   <Controller
                     name="title"
-                    // defaultValue="some value"
+                    defaultValue={selectedEventTitle}
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <Select
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          onChange(e)
+                          setSelectedService(e.target.value);
+                        }}
                         value={selectedService}
                         id="title"
-                        // displayEmpty
+                       
                         defaultValue={selectedEventTitle}
                       >
-                        <MenuItem value=""></MenuItem>
-                        {services.map((service) => {
+                        {selectableServices.map((service) => {
                           return (
                             <MenuItem
                               key={service.DOC_ID}
