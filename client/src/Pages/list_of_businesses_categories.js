@@ -42,7 +42,7 @@ export default function ListOfBusinessesInCategory() {
       return undo;
     }
   }, [myCategory]);
-
+  // console.log(list, "is list")
   return (
     <>
       <Header />
@@ -54,14 +54,14 @@ export default function ListOfBusinessesInCategory() {
           mr: "240px",
         }}
       >
-        {list.map((item) => {
+        {list.map((item, key) => {
           return (
-            <>
+            <div key={key}>
               <ul key={item.DOC_ID}></ul>
               <ListItem
                 button
                 component={Link}
-                to="/business-details"
+                to={"/business-details?DOC_ID=" + item.DOC_ID}
                 alignItems="flex-start"
               >
                 <ListItemAvatar>
@@ -85,7 +85,7 @@ export default function ListOfBusinessesInCategory() {
                 />
               </ListItem>
               <hr />
-            </>
+            </div>
           );
         })}
         <br />

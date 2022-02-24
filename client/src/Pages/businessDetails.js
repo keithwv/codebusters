@@ -3,9 +3,9 @@ import Typography from "@mui/material/Typography";
 import Header from "../Components/User_Interface/Header";
 import { ThemeProvider } from "@material-ui/styles";
 import { Button, Grid, List } from "@mui/material";
-import { Link } from "react-router-dom";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import { Link, useLocation } from "react-router-dom";
+// import ListItem from "@mui/material/ListItem";
+// import ListItemText from "@mui/material/ListItemText";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
@@ -14,29 +14,28 @@ import { createTheme } from "@mui/system";
 const theme = createTheme();
 
 function BusinessDetailsContent() {
-  const [details, setDetails] = useState([]);
+  let location = useLocation();
+  let params = new URLSearchParams(location.search);
+  let myDOC_ID = params.get("DOC_ID");
+  const [businessDetails, setBusinessDetails] = useState(null);
 
   useEffect(() => {
     let collectionRef = collection(db, "services");
-    let queryRef = query(
-      collectionRef,
-      where("category", "==", "Online Services")
-    );
+    let queryRef = query(collectionRef, where("DOC_ID", "==", myDOC_ID));
     const undo = onSnapshot(queryRef, (querySnap) => {
       if (querySnap.empty) {
         console.log("No docs found");
-      } else {
-        let businessesList = querySnap.docs.map((doc) => {
-          return {
-            ...doc.data(),
-            DOC_ID: doc.id,
-          };
-        });
-        setDetails(businessesList);
       }
+      querySnap.docs.forEach((doc) => {
+        const businessDetails = doc.data();
+        setBusinessDetails(businessDetails);
+        console.log(businessDetails, "IS OUR DOC");
+      });
     });
     return undo;
-  }, []);
+    // }
+  }, [myDOC_ID]);
+  // console.log("************", businessDetails);
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -56,32 +55,8 @@ function BusinessDetailsContent() {
           mr: "240px",
         }}
       >
-        {details.map((item) => {
-          return (
-            <>
-              <ul key={item.DOC_ID}></ul>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary={item.service}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        {item.business}
-                      </Typography>
-                      {" - Your description here"}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <hr />
-            </>
-          );
-        })}
+        {/* any field can be fetched here */}
+        {!!businessDetails && businessDetails.DOC_ID}
       </List>
       <Grid
         sx={{
