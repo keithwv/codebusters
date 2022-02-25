@@ -28,7 +28,7 @@ function BusinessDetailsContent() {
       if (querySnap.empty) {
         console.log("No docs found");
       }
-      querySnap.docs.forEach((doc) => {
+      querySnap.docs.map((doc) => {
         const businessDetails = doc.data();
         setBusinessDetails(businessDetails);
         console.log(businessDetails, "IS OUR DOC");
