@@ -45,7 +45,6 @@ export default function BookEventForm(props) {
   console.log(duration)
   
 
-
   const [activeStep, setActiveStep] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -65,7 +64,8 @@ export default function BookEventForm(props) {
     hourly_cost: serviceHourlyCost,
     total_cost: total_cost
   });
- 
+  
+  console.log(formData)
 
   const validationSchema = [
   //validation for first step
@@ -92,6 +92,11 @@ export default function BookEventForm(props) {
   const methods = useForm({
     shouldUnregister: false,
     resolver: yupResolver(currentValidationSchema),
+    defaultValues: {
+      firstName: user.name,
+      lastName: user.last_name,
+      email: user.email
+    },
     mode: "all",
   });
 

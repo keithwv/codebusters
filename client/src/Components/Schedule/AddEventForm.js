@@ -42,7 +42,11 @@ export default function AddEventForm(props) {
     reset,
     formState: { errors },
     formState,
-  } = useForm({ criteriaMode: "all" });
+  } = useForm({ 
+    defaultValue: {
+       "title": "All"
+    },
+    criteriaMode: "all" });
 
   const availability = [
     {
@@ -56,8 +60,8 @@ export default function AddEventForm(props) {
   ];
 
  
-
-  const [selectedService, setSelectedService] = React.useState("");
+  
+  const [selectedService, setSelectedService] = React.useState("All");
   const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(null)
   const [booking, setBooking] = React.useState("");
   const [extendedForm, setExtendedForm] = React.useState(false);
@@ -192,7 +196,7 @@ export default function AddEventForm(props) {
                     render={({ field: { onChange, onBlur, value } }) => (
                       <Select
                         onChange={handleChange}
-                        value={services.service}
+                        value={selectedService}
                         id="title"
                         displayEmpty={true}
                         defaultValue=""
