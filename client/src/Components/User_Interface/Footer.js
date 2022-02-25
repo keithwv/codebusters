@@ -26,19 +26,11 @@ const footers = [
   },
   {
     title: "Features",
-    description: [
-      "Cool stuff",
-      "Team feature",
-      "Developer stuff",
-    ],
+    description: ["Cool stuff", "Team feature", "Developer stuff"],
   },
   {
     title: "Resources",
-    description: [
-      "Base resources",
-      "Final resource",
-      "Site map",
-    ],
+    description: ["Base resources", "Final resource", "Site map"],
   },
   {
     title: "Legal",
@@ -77,10 +69,7 @@ const Footer = () => {
                 </Typography>
                 <ul>
                   {footer.description.map((item) => (
-                    <li
-                      key={item}
-
-                    >
+                    <li style={{ margin: 0 }} key={item}>
                       <Link href="#" variant="subtitle1" color="text.secondary">
                         {item}
                       </Link>

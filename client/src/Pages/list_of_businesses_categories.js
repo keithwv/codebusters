@@ -66,7 +66,8 @@ export default function ListOfBusinessesInCategory() {
                 alignItems="flex-start"
               >
                 <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  {/* item.business.imageUrl  */}
+                  <Avatar alt="Remy Sharp" src={item.business.imageUrl} />
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.service}
