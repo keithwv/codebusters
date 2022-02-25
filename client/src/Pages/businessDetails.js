@@ -16,9 +16,11 @@ const theme = createTheme();
 function BusinessDetailsContent() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
+  console.log(params)
   let myDOC_ID = params.get("DOC_ID");
+  console.log(myDOC_ID)
   const [businessDetails, setBusinessDetails] = useState(null);
-
+  console.log(businessDetails)
   useEffect(() => {
     let collectionRef = collection(db, "services");
     let queryRef = query(collectionRef, where("DOC_ID", "==", myDOC_ID));
@@ -68,7 +70,7 @@ function BusinessDetailsContent() {
       >
         <Button
           component={Link}
-          to="/customer_calendar"
+          to={`/customer_calendar?Business_ID=${businessDetails?.Business_ID}&service=${businessDetails?.service}`}
           type="submit"
           variant="contained"
           sx={{ mt: 3, mb: 2 }}

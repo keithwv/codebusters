@@ -14,6 +14,7 @@ import { useLocation, Link } from "react-router-dom";
 export default function ListOfBusinessesInCategory() {
   const [list, setList] = useState([]);
   let location = useLocation();
+
   let params = new URLSearchParams(location.search);
   let myCategory = params.get("category");
   console.log(`myCategory is ${myCategory}`);

@@ -11,9 +11,17 @@ import "../Components/Schedule/calendar.css";
 import BookingModal from "../Components/Modals/BookingModal"
 import SelectBusiness from "../Components/Schedule/SelectBusiness";
 import Header from "../Components/User_Interface/Header";
+import { useLocation } from "react-router-dom";
 
 
 export default function CalendarWithScheduleCustomer() {
+  let location = useLocation();
+  let params = new URLSearchParams(location.search);
+  console.log(params)
+  let myBusiness_ID = params.get("Business_ID");
+  let service = params.get("service")
+  console.log(service)
+  console.log(myBusiness_ID)
   // Set business hours
   const businessHours = {
     // days of week. an array of zero-based day of week integers (0=Sunday)
@@ -162,12 +170,13 @@ export default function CalendarWithScheduleCustomer() {
   // Initial fetch of all events from database for the logged in user
   useEffect(() => {
     let collectionRef = collection(db, "events");
-    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+    if (currentUser?.uid && myBusiness_ID) {
       let queryRef = query(
         collectionRef,
         where("uid", "==", currentUser.uid),
-        where("Business_ID", "==", selectedBusiness.DOC_ID),
-        where("status", "==", "Available")
+        where("Business_ID", "==", myBusiness_ID),
+        where("status", "==", "Available"),
+        where("title", "in", [service,"All"]),
       ); // logged in user has unique uid linked to events
       console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
