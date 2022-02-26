@@ -90,6 +90,7 @@ const tableIcons = {
 
 export default function ServicesTable(props) {
   const { business, selectedBusiness } = props;
+  let company_logo = selectedBusiness.imageUrl
 
   const [rows, setRows] = useState([]);
   console.log(rows);
@@ -152,6 +153,7 @@ export default function ServicesTable(props) {
         uid: currentUser.uid,
         Business_ID: selectedBusiness.DOC_ID,
         category: newData.category,
+        company_logo: company_logo
       });
       console.log("Service Submitted");
     } catch (error) {

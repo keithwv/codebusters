@@ -12,7 +12,7 @@ import Header from "../Components/User_Interface/Header";
 import { useLocation, Link } from "react-router-dom";
 
 export default function ListOfBusinessesInCategory() {
-  const [list, setList] = useState([]);
+  const [services, setServices] = useState([]);
   let location = useLocation();
 
   let params = new URLSearchParams(location.search);
@@ -31,13 +31,13 @@ export default function ListOfBusinessesInCategory() {
         if (querySnap.empty) {
           console.log("No docs found");
         } else {
-          let businessesList = querySnap.docs.map((doc) => {
+          let serviceList = querySnap.docs.map((doc) => {
             return {
               ...doc.data(),
               DOC_ID: doc.id,
             };
           });
-          setList(businessesList);
+          setServices(serviceList);
         }
       });
       return undo;
@@ -55,22 +55,22 @@ export default function ListOfBusinessesInCategory() {
           mr: "240px",
         }}
       >
-        {list.map((item, key) => {
+        {services.map((service, key) => {
           return (
             <div key={key}>
-              <ul key={item.DOC_ID}></ul>
+              <ul key={service.DOC_ID}></ul>
               <ListItem
                 button
                 component={Link}
-                to={"/business-details?DOC_ID=" + item.DOC_ID}
+                to={"/business-details?DOC_ID=" + service.DOC_ID}
                 alignItems="flex-start"
               >
                 <ListItemAvatar>
                   {/* item.business.imageUrl  */}
-                  <Avatar alt="Remy Sharp" src={item.business.imageUrl} />
+                  <Avatar alt="Remy Sharp" src={service.company_logo} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={item.service}
+                  primary={service.service}
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -79,7 +79,7 @@ export default function ListOfBusinessesInCategory() {
                         variant="body2"
                         color="text.primary"
                       >
-                        {item.business}
+                        {service.business}
                       </Typography>
                       {" - Your description here"}
                     </React.Fragment>

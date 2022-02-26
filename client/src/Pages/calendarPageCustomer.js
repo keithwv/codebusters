@@ -9,19 +9,17 @@ import { collection,onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
 import "../Components/Schedule/calendar.css";
 import BookingModal from "../Components/Modals/BookingModal"
-import SelectBusiness from "../Components/Schedule/SelectBusiness";
 import Header from "../Components/User_Interface/Header";
 import { useLocation } from "react-router-dom";
+import { Avatar, Typography } from "@mui/material";
 
 
 export default function CalendarWithScheduleCustomer() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
-  console.log(params)
   let myBusiness_ID = params.get("Business_ID");
   let service = params.get("service")
-  console.log(service)
-  console.log(myBusiness_ID)
+
   // Set business hours
   const businessHours = {
     // days of week. an array of zero-based day of week integers (0=Sunday)
@@ -41,14 +39,14 @@ export default function CalendarWithScheduleCustomer() {
     check: false,
     data: ""
   })
-  console.log("This is the services", servicesProvided)
-  console.log("State of BookEvent" , bookEvents)
 
-  const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState([]);
+  // Extract the company logo and place it on the sidebar
+  let company_logo=servicesProvided[0]?.company_logo
+  
   const [user, setUser] = useState(null)
 
-  
+
+
   // Get customer information from users database of firestore to and use this information
   // to prepopulate contact informaion on Booking Form modal
   useEffect(() => {
@@ -73,39 +71,15 @@ export default function CalendarWithScheduleCustomer() {
     }
   }, [currentUser?.uid]);
 
-
   
-  console.log(eventsData)
-  // Get all business for logged in user
-  useEffect(() => {
-    let collectionRef = collection(db, "business");
-    if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-      const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-        if (querySnap.empty) {
-          console.log("No docs found");
-        } else {
-          let businessData = querySnap.docs.map((doc) => {
-            return {
-              ...doc.data(),
-              DOC_ID: doc.id,
-            };
-          });
-          setBusiness(businessData);
-        }
-      });
-      return unsubscribe;
-    }
-  }, [currentUser]);
 
   // Get all services associated with the selected business
   useEffect(() => {
     let collectionRef = collection(db, "services");
-    if (currentUser?.uid && selectedBusiness?.DOC_ID) {
+    if (myBusiness_ID) {
       let queryRef = query(
         collectionRef,
-        where("uid", "==", currentUser.uid),
-        where("Business_ID", "==", selectedBusiness.DOC_ID)
+        where("Business_ID", "==", myBusiness_ID)
       );
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -118,40 +92,41 @@ export default function CalendarWithScheduleCustomer() {
             };
           });
           console.log(servicesData)
-          // console.log(typeof(servicesData))
           setServicesProvided(servicesData);
         }
       });
       return unsubscribe;
     }
-  }, [currentUser, selectedBusiness.DOC_ID]);
+  }, [myBusiness_ID]);
  
 
   const renderSidebar = () => {
     return (
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
-          <SelectBusiness
-            business={business}
-            selectedBusiness={selectedBusiness}
-            setSelectedBusiness={setSelectedBusiness}
-          />
-          <label>
-            <input
-              type="checkbox"
-              checked={weekendsVisible}
-              onChange={handleWeekendsToggle}
-            ></input>
-            Weekends
-          </label>
+          <Typography color="blue" variant="h6" color="white">
+            SELECTED BUSINESS
+            </Typography> 
+        <Avatar alt="" src={company_logo} sx={{ height: 100, width: 100, ml: "3rem", mt: "1rem" , mb:"2rem"}}/>
+         <label>
+           <b>Instructions:</b> Click on timeslot<br></br>
+           in the calendar or listview<br></br>
+           to book an appointment<br></br>
+         </label>
+         <br></br>
+         <label>
+          <b>Note:</b> "All" denotes that any <br></br>
+          of the company services are <br></br>
+          offered at this timeslot. <br></br>
+          Please select a service from the<br></br>
+          drop-down menu that appears <br></br>
+          after timeslop is selected
+         </label>
         </div>
       </div>
     );
   };
 
-  const handleWeekendsToggle = () => {
-    setWeekendsVisible(!weekendsVisible);
-  };
 
   const method = () => {
     // setAddEvent({ check: false });
@@ -167,18 +142,16 @@ export default function CalendarWithScheduleCustomer() {
   };
 
  
-  // Initial fetch of all events from database for the logged in user
+  // Initial fetch of all events from database for the selected business and service
   useEffect(() => {
     let collectionRef = collection(db, "events");
-    if (currentUser?.uid && myBusiness_ID) {
+    if (myBusiness_ID) {
       let queryRef = query(
         collectionRef,
-        where("uid", "==", currentUser.uid),
         where("Business_ID", "==", myBusiness_ID),
         where("status", "==", "Available"),
-        where("title", "in", [service,"All"]),
+        where("title", "in", [service,"All"]), // need both selected service and All (all can be any service offered)
       ); // logged in user has unique uid linked to events
-      console.log(currentUser.uid);
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("no docs found");
@@ -203,34 +176,10 @@ export default function CalendarWithScheduleCustomer() {
     } else {
       console.log("User not logged in");
     }
-  }, [currentUser, selectedBusiness]); // triggers when new user logins
+  }, []); // triggers when new user logins
 
 
 
-  // function renderEventContent(eventInfo) {
-  //   console.log(eventInfo)
-  //   return (
-  //     <>
-  //       <b>{eventInfo.timeText}</b>
-  //       <i>{eventInfo.event.title}</i>
-  //     </>
-  //   );
-  // }
-
-  // function renderSidebarEvent(event) {
-  //   return (
-  //     <li key={event.id}>
-  //       <b>
-  //         {formatDate(event.start, {
-  //           year: "numeric",
-  //           month: "short",
-  //           day: "numeric",
-  //         })}
-  //       </b>
-  //       <i>{event.title}</i>
-  //     </li>
-  //   );
-  // }
 
   
   return (
@@ -259,7 +208,6 @@ export default function CalendarWithScheduleCustomer() {
           businessHours={true}
           events={eventsData}
           weekends={weekendsVisible}
-          // select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
           eventOverlap={false}
