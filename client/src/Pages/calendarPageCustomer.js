@@ -40,12 +40,9 @@ export default function CalendarWithScheduleCustomer() {
     data: ""
   })
 
-
+  // Extract the company logo and place it on the sidebar
   let company_logo=servicesProvided[0]?.company_logo
   
-
-  const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState([]);
   const [user, setUser] = useState(null)
 
 
@@ -75,30 +72,6 @@ export default function CalendarWithScheduleCustomer() {
   }, [currentUser?.uid]);
 
   
-  console.log(servicesProvided[0].business)
-  
-
-  // Get all business for logged in user
-  // useEffect(() => {
-  //   let collectionRef = collection(db, "business");
-  //   if (currentUser?.uid) {
-  //     let queryRef = query(collectionRef, where("uid", "==", currentUser.uid));
-  //     const unsubscribe = onSnapshot(queryRef, (querySnap) => {
-  //       if (querySnap.empty) {
-  //         console.log("No docs found");
-  //       } else {
-  //         let businessData = querySnap.docs.map((doc) => {
-  //           return {
-  //             ...doc.data(),
-  //             DOC_ID: doc.id,
-  //           };
-  //         });
-  //         setBusiness(businessData);
-  //       }
-  //     });
-  //     return unsubscribe;
-  //   }
-  // }, [currentUser]);
 
   // Get all services associated with the selected business
   useEffect(() => {
@@ -154,9 +127,6 @@ export default function CalendarWithScheduleCustomer() {
     );
   };
 
-  const handleWeekendsToggle = () => {
-    setWeekendsVisible(!weekendsVisible);
-  };
 
   const method = () => {
     // setAddEvent({ check: false });
@@ -172,7 +142,7 @@ export default function CalendarWithScheduleCustomer() {
   };
 
  
-  // Initial fetch of all events from database for the logged in user
+  // Initial fetch of all events from database for the selected business and service
   useEffect(() => {
     let collectionRef = collection(db, "events");
     if (myBusiness_ID) {
@@ -180,7 +150,7 @@ export default function CalendarWithScheduleCustomer() {
         collectionRef,
         where("Business_ID", "==", myBusiness_ID),
         where("status", "==", "Available"),
-        where("title", "in", [service,"All"]),
+        where("title", "in", [service,"All"]), // need both selected service and All (all can be any service offered)
       ); // logged in user has unique uid linked to events
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -238,7 +208,6 @@ export default function CalendarWithScheduleCustomer() {
           businessHours={true}
           events={eventsData}
           weekends={weekendsVisible}
-          // select={handleDateSelect}
           selectConstraint={businessHours} // ensures user cannot create an event outside of defined business hours
           eventClick={handleEventClick}
           eventOverlap={false}
