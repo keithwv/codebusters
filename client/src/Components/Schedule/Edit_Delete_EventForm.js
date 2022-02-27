@@ -15,6 +15,7 @@ import Select from "@mui/material/Select";
 import { useForm, Controller,} from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   addDoc,
@@ -237,10 +238,10 @@ export default function EditDeleteEventForm(props) {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+            <EventAvailableIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Add Events
+            Update/Delete Event
           </Typography>
           <Box
             component="form"
@@ -252,13 +253,14 @@ export default function EditDeleteEventForm(props) {
               <Grid item xs={6} sm={6}>
                 <FormControl
                   fullwidth="true"
+                  variant="standard"
                   sx={{
                     width: 200,
                     height: 75,
                   }}
                 >
                   <InputLabel id="title">
-                    <em>Select a Service</em>
+                    Select a Service
                   </InputLabel>
                   <Controller
                     name="title"
@@ -293,13 +295,14 @@ export default function EditDeleteEventForm(props) {
                 <Grid item xs={6} sm={6}>
                 <FormControl
                   fullwidth="true"
+                  variant="standard"
                   sx={{
                     width: 200,
                     height: 75,
                   }}
                 >
                   <InputLabel id="title">
-                    <em>Select Availability</em>
+                    Select Availability
                   </InputLabel>
                   <Controller
                     name="title"
@@ -429,6 +432,15 @@ export default function EditDeleteEventForm(props) {
             </Grid>
             </>
             }
+             <Button
+              fullWidth
+              color="secondary"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={updateHandler}
+            >
+              Update
+            </Button>
             <Button
               //type="submit"
               fullWidth
@@ -447,15 +459,6 @@ export default function EditDeleteEventForm(props) {
               onClick={handleCancel}
             >
               Cancel
-            </Button>
-            <Button
-              fullWidth
-              color="secondary"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={updateHandler}
-            >
-              Update
             </Button>
           </Box>
         </Box>

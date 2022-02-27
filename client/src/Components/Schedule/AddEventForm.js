@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -66,8 +65,8 @@ export default function AddEventForm(props) {
   const [booking, setBooking] = React.useState("");
   const [extendedForm, setExtendedForm] = React.useState(false);
 
-  console.log(extendedForm)
   console.log("This is your service" ,services)
+
   const handleChange = (event, data) => {
     
     console.log(event.target.value);
@@ -168,7 +167,7 @@ export default function AddEventForm(props) {
             <EventAvailableIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Add Events
+            Add Event
           </Typography>
           </Box>
           <Box
@@ -181,13 +180,14 @@ export default function AddEventForm(props) {
               <Grid item xs={6} sm={6}>
                 <FormControl
                   fullwidth="true"
+                  variant="standard"
                   sx={{
                     width: 200,
                     height: 75,
                   }}
                 >
                   <InputLabel id="title">
-                    <em>Select a Service</em>
+                      Select a Service
                   </InputLabel>
                   <Controller
                     name="title"
@@ -219,6 +219,7 @@ export default function AddEventForm(props) {
               </Grid>
               <Grid item xs={6} sm={6}>
                 <FormControl
+                  variant="standard"
                   fullwidth="true"
                   sx={{
                     width: 200,
@@ -226,7 +227,7 @@ export default function AddEventForm(props) {
                   }}
                 >
                   <InputLabel id="title">
-                    <em>Select Availability</em>
+                    Select Availability
                   </InputLabel>
                   <Controller
                     name="title"

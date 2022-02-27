@@ -104,22 +104,23 @@ export default function CalendarWithScheduleCustomer() {
     return (
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
-          <Typography color="blue" variant="h6" color="white">
-            SELECTED BUSINESS
+          <Typography color="blue" variant="h7" color="white">
+            <strong>SELECTED BUSINESS</strong>
             </Typography> 
-        <Avatar alt="" src={company_logo} sx={{ height: 100, width: 100, ml: "3rem", mt: "1rem" , mb:"2rem"}}/>
+        <Avatar alt="" src={company_logo} sx={{ height: 100, width: 100, ml: "2rem", mt: "1rem" , mb:"2rem"}}/>
          <label>
-           <b>Instructions:</b> Click on timeslot<br></br>
-           in the calendar or listview<br></br>
-           to book an appointment<br></br>
+           <b>Instructions:</b> Click on timeslot
+           in the calendar or listview
+           to book an appointment
          </label>
          <br></br>
+         <br></br>
          <label>
-          <b>Note:</b> "All" denotes that any <br></br>
-          of the company services are <br></br>
-          offered at this timeslot. <br></br>
-          Please select a service from the<br></br>
-          drop-down menu that appears <br></br>
+          <b>Note:</b> "All" denotes that any
+          of the company services are
+          offered at this timeslot.
+          Please select a service from the
+          drop-down menu that appears
           after timeslop is selected
          </label>
         </div>
