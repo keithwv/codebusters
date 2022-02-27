@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { Grid, Container } from "@mui/material";
+import { Grid, Container, Divider } from "@mui/material";
 import { GlobalStyles } from "@mui/styled-engine";
 
 //add proper info to this block for deployement
@@ -42,29 +42,56 @@ const Footer = () => {
   return (
     <React.Fragment>
       <GlobalStyles
-        styles={{ ul: { margin: 0, padding: 0, listStyle: "none" } }}
+        styles={{
+          ul: {
+            margin: 0,
+            padding: 0,
+            listStyle: "none",
+            whiteSpace: "nowrap",
+          },
+        }}
       />
+      <Divider sx={{ pt: 16 }} />
 
-      <Box sx={{ bgcolor: "background.paper", p: 10 }} component="footer">
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          pr: 10,
+          pl: "296px",
+          pb: 4,
+        }}
+        component="footer"
+      >
         <Container
           maxWidth="md"
           component="footer"
           sx={{
-            borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-            mt: 8,
-            py: [3, 6],
+            pt: 4,
+            pb: 10,
           }}
         >
           <Grid
+            sx={{ minWidth: "100%" }}
             container
             spacing={4}
             justifyContent="space-evenly"
-
-            // height={'10px'}
           >
             {footers.map((footer) => (
-              <Grid item xs={6} sm={3} key={footer.title}>
-                <Typography variant="h6" color="text.primary" gutterBottom>
+              <Grid
+                nowrap={true}
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                key={footer.title}
+                sx={{ minWidth: "25%" }}
+              >
+                <Typography
+                  nowrap={true}
+                  variant="h6"
+                  color="text.primary"
+                  gutterBottom
+                >
                   {footer.title}
                 </Typography>
                 <ul>
@@ -80,14 +107,6 @@ const Footer = () => {
             ))}
           </Grid>
         </Container>
-        {/* <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography> */}
         <Copyright />
       </Box>
     </React.Fragment>

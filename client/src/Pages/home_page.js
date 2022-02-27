@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Link as RrdLink } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { TextField } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import { CardActionArea, Paper } from "@mui/material";
 import Header from "../Components/User_Interface/Header";
 import cards from "../Components/HomePageCards/cards";
@@ -22,39 +22,36 @@ export default function HomePage() {
       <Header />
       <CssBaseline />
       <main>
+        {/* Logo */}
+        <Divider />
+        <Paper
+          align="center"
+          variant="none"
+        >
+          <img src="https://i.ibb.co/LgFkyH5/Webp-net-resizeimage.png" />
+        </Paper>
+
+        <Divider />
+
         {/* Search bar component */}
         <Box
           sx={{
-            ml: "240px",
+            ml: "296px",
             mr: "240px",
             maxWidth: "100%",
             minWidth: "25%",
+            pt: 6,
           }}
         >
           <TextField fullWidth label="Search..." />
         </Box>
-        {/* Hero unit */}
 
-        {/* Logo */}
-        {/* <Paper
-          align="center"
-          sx={{
-            pt: 6,
-            ml: "240px",
-            mr: "240px",
-          }}
-        >
-          <img
-            position="center"
-            src="https://i.ibb.co/BNhQDKk/Webp-net-resizeimage-2.png"
-          />
-        </Paper> */}
         <Box
           sx={{
             bgcolor: "background.paper",
             pt: 6,
             pb: 8,
-            ml: "240px",
+            ml: "296px",
             mr: "240px",
             maxWidth: "100%",
           }}
@@ -62,13 +59,13 @@ export default function HomePage() {
           <Container maxWidth="100%">
             <Typography
               component="h1"
-              variant="h2"
+              variant="h3"
               align="center"
+              width={"100%"}
               color="text.primary"
               gutterBottom
-              width={"100%"}
             >
-              BUSINESS CATEGORY LIST
+              BROWSE CATEGORIES
             </Typography>
           </Container>
         </Box>
@@ -81,8 +78,8 @@ export default function HomePage() {
                   sx={{
                     height: "100%",
                     width: "100%",
-                    mr: "240px",
                     maxWidth: "100%",
+                    ml: "56px",
                   }}
                 >
                   {/* takes path from cards array */}
@@ -94,7 +91,6 @@ export default function HomePage() {
                       <CardMedia component="img" image={item.imageSource} />
                     </CardActionArea>
                   </RrdLink>
-                  {/* </CardActions> */}
                   <CardContent>
                     {/* takes title from cards array */}
                     <Typography gutterBottom variant="h5" component="h2">
