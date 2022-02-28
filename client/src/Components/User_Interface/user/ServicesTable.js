@@ -153,7 +153,7 @@ export default function ServicesTable(props) {
         uid: currentUser.uid,
         Business_ID: selectedBusiness.DOC_ID,
         category: newData.category,
-        company_logo: company_logo
+        company_logo: company_logo || null
       });
       console.log("Service Submitted");
     } catch (error) {
