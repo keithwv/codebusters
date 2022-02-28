@@ -193,11 +193,11 @@ export default function ServicesTable(props) {
       <Container>
         <Grid
           container
-          direction="column"
+          direction="row"
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item>
+          <Grid xs={8} item>
             <MaterialTable
               title="Services Provided"
               data={rows}
