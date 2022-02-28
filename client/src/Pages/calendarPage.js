@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { Draggable} from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list'
-// import { INITIAL_EVENTS, createEventId } from "./calendarUtilities";
 import { useAuth } from "../contexts/AuthContext";
 import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
@@ -93,15 +92,13 @@ export default function CalendarWithSchedule() {
               DOC_ID: doc.id,
             };
           });
-          console.log(servicesData)
-          // console.log(typeof(servicesData))
           setServicesProvided(servicesData);
         }
       });
       return unsubscribe;
     }
   }, [currentUser.uid, selectedBusiness.DOC_ID]);
-  console.log(services)
+
 
   const renderSidebar = () => {
     return (

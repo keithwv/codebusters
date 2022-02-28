@@ -22,12 +22,16 @@ const SelectBusiness = (props) => {
       <Grid container direction="column">
     <Grid item >
     <FormControl fullwidth="true"
+    variant="standard"
+    elevation={3}
     sx={{
-      width:200,
-      height:100
+      width:150,
+      height:100,
+      fontsize: 900,
     }}>
-      <InputLabel id="business-menu-id"><em>Select a Business</em></InputLabel>
+      <InputLabel id="business-menu-id" sx={{color: "white"}}><strong>Select a Business</strong></InputLabel>
     <Select
+      sx={{color:"white"}}
       id="business-menu"
       labelId="business-menu-id"
       value={selectedBusiness}

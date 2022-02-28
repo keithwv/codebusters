@@ -21,9 +21,9 @@ import Header from "../Components/User_Interface/Header";
 export const ServicesForBusiness = () => {
   
   const [business, setBusiness] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState([]);
-  
-  let businessLogo = selectedBusiness.imageUrl
+  const [selectedBusiness, setSelectedBusiness] = useState("");
+  console.log(selectedBusiness)
+  let businessLogo = selectedBusiness?.imageUrl
 
   const handleChange = (event) => {
     setSelectedBusiness(event.target.value)
@@ -70,7 +70,7 @@ export const ServicesForBusiness = () => {
               sx={{ width: 150, height: 150 }}
             />
           </Grid>
-          <Grid item xs="auto" sx={{mt: "3.75rem"}}>
+          <Grid item  sx={{mt: "3.75rem"}}>
             <UploadButtonBusiness docId = {selectedBusiness?.DOC_ID} />
           </Grid>
         </Grid>
@@ -90,6 +90,8 @@ export const ServicesForBusiness = () => {
          
           <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true"
+           
+            variant="standard"
             sx={{
               width:200,
               height:100
@@ -99,13 +101,11 @@ export const ServicesForBusiness = () => {
               id="business-menu"
               labelId="business-menu-id"
               value={selectedBusiness}
-              displayEmpty={true}
-              defaultValue={business[0]?.company_name}
+              // displayEmpty={true}
+              defaultValue="test"
               label="Business"
               onChange={handleChange}
             >
-              <MenuItem value="">
-              </MenuItem> // Provides initial value so that MUI doesn't give a warning in the console
             {business.map((business) => {
               return (
                 <MenuItem key={business.DOC_ID} value={business}>
