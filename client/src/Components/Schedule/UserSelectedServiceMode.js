@@ -11,13 +11,14 @@ const UserSelectedServiceMode = (props) => {
   return (
     <FormControl
     fullwidth="true"
+    variant="standard"
     sx={{
       width: 200,
       height: 75,
     }}
   >
     <InputLabel id="title">
-      <em>Select a Service</em>
+      Select a Service
     </InputLabel>
     <Controller
       name="service"
