@@ -78,7 +78,7 @@ const Footer = () => {
           >
             {footers.map((footer) => (
               <Grid
-                nowrap={true}
+                // noWrap={true}
                 item
                 xs={12}
                 sm={6}
@@ -87,7 +87,7 @@ const Footer = () => {
                 sx={{ minWidth: "25%" }}
               >
                 <Typography
-                  nowrap={true}
+                  // noWrap={true}
                   variant="h6"
                   color="text.primary"
                   gutterBottom

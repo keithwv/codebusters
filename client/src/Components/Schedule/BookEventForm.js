@@ -30,7 +30,7 @@ export default function BookEventForm(props) {
 
   const { bookEvents, method, user, servicesProvided } = props;
   console.log(servicesProvided)
-
+  console.log(bookEvents)
   let doc_id = bookEvents.data.event.id
   let statusOfEvent = bookEvents.data.event.extendedProps.status
   let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
@@ -167,6 +167,7 @@ export default function BookEventForm(props) {
       notes: formData.notes || null,
       hourly_Cost: formData.hourly_cost,
       total_cost: formData.total_cost,
+      paid: "Yes"
    })
   } catch (error) {
     console.log(error)

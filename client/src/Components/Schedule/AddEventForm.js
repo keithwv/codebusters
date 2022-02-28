@@ -58,7 +58,7 @@ export default function AddEventForm(props) {
     },
   ];
 
- 
+  
   
   const [selectedService, setSelectedService] = React.useState("All");
   const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(null)
@@ -66,15 +66,16 @@ export default function AddEventForm(props) {
   const [extendedForm, setExtendedForm] = React.useState(false);
 
   console.log("This is your service" ,services)
+  
 
-  const handleChange = (event, data) => {
+  const handleChange = (event) => {
     
     console.log(event.target.value);
     setSelectedService(event.target.value);
    
   };
   
-
+  console.log(selectedBusiness)
   // Find the hourly_Cost for the selected Service
 
   React.useEffect(() => {
@@ -136,7 +137,9 @@ export default function AddEventForm(props) {
           customer_name: data?.Name || null,
           customer_email: data?.Email || null,
           description: data?.Notes || null,
-          customer_phone_number: data?.Phone_Number || null
+          customer_phone_number: data?.Phone_Number || null,
+          company_name: selectedBusiness.company_name,
+          company_logo: selectedBusiness.imageUrl
           
         });
         console.log("Event Submitted");
