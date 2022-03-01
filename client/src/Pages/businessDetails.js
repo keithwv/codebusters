@@ -2,7 +2,7 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Header from "../Components/User_Interface/Header";
 import { ThemeProvider } from "@material-ui/styles";
-import { Button, Grid, List } from "@mui/material";
+import { Box, Button, Grid, List } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 // import ListItem from "@mui/material/ListItem";
 // import ListItemText from "@mui/material/ListItemText";
@@ -49,17 +49,17 @@ function BusinessDetailsContent() {
       >
         Business Details
       </Typography>
-      <List
+      <Box
         sx={{
-          maxWidth: "100%",
-          bgcolor: "background.paper",
+          // maxWidth: "100%",
+          // bgcolor: "background.paper",
           ml: "240px",
           mr: "240px",
         }}
       >
         {/* any field can be fetched here */}
-        {!!businessDetails && businessDetails.DOC_ID}
-      </List>
+        {!!businessDetails && businessDetails.description}
+      </Box>
       <Grid
         sx={{
           marginTop: 8,

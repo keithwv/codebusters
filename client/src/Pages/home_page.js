@@ -27,6 +27,8 @@ export default function HomePage() {
         <Paper
           align="center"
           variant="none"
+          minWidth= "550px"
+
         >
           <img src="https://i.ibb.co/LgFkyH5/Webp-net-resizeimage.png" />
         </Paper>
@@ -38,8 +40,7 @@ export default function HomePage() {
           sx={{
             ml: "296px",
             mr: "240px",
-            maxWidth: "100%",
-            minWidth: "25%",
+            minWidth: "550px",
             pt: 6,
           }}
         >
@@ -53,7 +54,7 @@ export default function HomePage() {
             pb: 8,
             ml: "296px",
             mr: "240px",
-            maxWidth: "100%",
+            minWidth: "550px",
           }}
         >
           <Container maxWidth="100%">
@@ -61,7 +62,6 @@ export default function HomePage() {
               component="h1"
               variant="h3"
               align="center"
-              width={"100%"}
               color="text.primary"
               gutterBottom
             >
@@ -70,7 +70,7 @@ export default function HomePage() {
           </Container>
         </Box>
         <Container maxWidth="md">
-          {/* End hero unit */}
+
           <Grid container spacing={4}>
             {cards.map((item, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>

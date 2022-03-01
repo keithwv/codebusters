@@ -163,7 +163,7 @@ export default function EditDeleteEventForm(props) {
   const eventDelete = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${selectedEventTitle}'`
+        `Are you sure you want to delete the event? '${selectedEventTitle}'`
       )
     ) {
       const id = eventData.DOC_ID;
