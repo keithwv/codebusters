@@ -108,20 +108,25 @@ export default function ServicesTable(props) {
     {
       title: "Service",
       field: "service",
-      width: "30%",
+      width: "25%",
       validate: (rowsData) =>
         rowsData.service === "" ? "service cannot be empty" : true,
     },
     {
       title: "Cost per Hour ($)",
       field: "hourly_Cost",
-      width: "30%",
+      width: "25%",
       type: "numeric",
+    },
+    {
+      title: "Description",
+      field: "description",
+      width: "5%",
     },
     {
       title: "Category",
       field: "category",
-      width: "30%",
+      width: "25%",
       editComponent: ({ onChange }) => (
         <Select
           id="category-menu"
@@ -153,7 +158,8 @@ export default function ServicesTable(props) {
         uid: currentUser.uid,
         Business_ID: selectedBusiness.DOC_ID,
         category: newData.category,
-        company_logo: company_logo || null
+        company_logo: company_logo || null,
+        description: newData.description
       });
       console.log("Service Submitted");
     } catch (error) {
