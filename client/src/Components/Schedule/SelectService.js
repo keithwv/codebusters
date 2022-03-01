@@ -14,7 +14,7 @@ const SelectService = (props) => {
   const [selectedService, setSelectedService] = React.useState(formData.service);
   console.log(selectedService)
   // Determine if time slot is a preselected or user-selected service
-  let userSelectedService = formData.service === "All";
+  let userSelectedService = formData.service === "All Services";
   console.log(userSelectedService);
 
   React.useEffect(() => {
