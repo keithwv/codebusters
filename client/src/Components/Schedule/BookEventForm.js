@@ -13,37 +13,43 @@ import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../Firebase/firebase-config";
-import { collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SelectService from "./SelectService";
+import moment from "moment";
 
-
-
-
-const steps = ["Service Selection","Contact Information", "Payment details", "Review your order"];
+const steps = [
+  "Service Selection",
+  "Contact Information",
+  "Payment details",
+  "Review your order",
+];
 
 export default function BookEventForm(props) {
- 
-  
-
   const { bookEvents, method, user, servicesProvided } = props;
-  console.log(servicesProvided)
+  console.log(servicesProvided);
 
-  let doc_id = bookEvents.data.event.id
-  let statusOfEvent = bookEvents.data.event.extendedProps.status
-  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
-  console.log("cost",serviceHourlyCost)
-  let selectedService = bookEvents.data.event.title
-  let eventStartTime =bookEvents.data.event.start
-  let eventEndTime = bookEvents.data.event.end 
+  let doc_id = bookEvents.data.event.id;
+  let statusOfEvent = bookEvents.data.event.extendedProps.status;
+  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost;
+  console.log("cost", serviceHourlyCost);
+  let selectedService = bookEvents.data.event.title;
+  let eventStartTime = bookEvents.data.event.start;
+  let eventEndTime = bookEvents.data.event.end;
   // substraction below will give the time in milliseconds. Dividing by 3,600,000 (the amount of ms in an hour) will give duration in hours
-  let duration = (eventEndTime.getTime()-eventStartTime.getTime())/3600000
-  let total_cost = duration*serviceHourlyCost
-  console.log(total_cost) 
-  console.log(duration)
-  
+  let duration = (eventEndTime.getTime() - eventStartTime.getTime()) / 3600000;
+  let total_cost = duration * serviceHourlyCost;
+  console.log(total_cost);
+  console.log(duration);
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -62,32 +68,46 @@ export default function BookEventForm(props) {
     service: selectedService,
     status: statusOfEvent,
     hourly_cost: serviceHourlyCost,
-    total_cost: total_cost
+    total_cost: total_cost,
   });
-  
-  console.log(formData)
+
+  console.log(formData);
+
+  const visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
 
   const validationSchema = [
-  //validation for first step
-  yup.object().shape({
-    service: yup.string().required("Service selection is required")
-  }),
-  yup.object().shape({
-        firstName : yup.string().required("Name is required"),
-        lastName: yup .string().required("Last name is required"),
-        email: yup.string().email().required("valid email is required"),
-        phone_number: yup.number().required("Phone Number is required"),
-        city: yup.string().required("City is required"),
-        province: yup.string().required("Province is required"),
-  }),
-  //Validation for second step
-  yup.object().shape({ 
-    cardName : yup.string().required("Name is required"),
-    cardNumber: yup.number().required("Card Number is required"),
-    expDate: yup.number().required("expiry date is required"),
-    cvv: yup.number().required("CVV is required")
-  })
-];
+    //validation for first step
+    yup.object().shape({
+      service: yup.string().required("Service selection is required"),
+    }),
+    yup.object().shape({
+      firstName: yup.string().required("Name is required"),
+      lastName: yup.string().required("Last name is required"),
+      email: yup.string().email().required("valid email is required"),
+      phone_number: yup.number().required("Phone Number is required"),
+      city: yup.string().required("City is required"),
+      province: yup.string().required("Province is required"),
+    }),
+    //Validation for second step
+    yup.object().shape({
+      cardName: yup.string().required("Name is required"),
+      cardNumber: yup
+        .string()
+        .required("Card Number is required")
+        .matches(visaRegEx, "valid card number required"),
+      expDate: yup
+        .string()
+        .nullable()
+        .required("expiry date is required"),
+      cvv: yup
+        .string()
+        .required("CVV is required")
+        .test(
+          "len",
+          (val) => val && val.length === 3
+        ),
+    }),
+  ];
   const currentValidationSchema = validationSchema[activeStep];
   const methods = useForm({
     shouldUnregister: false,
@@ -95,14 +115,12 @@ export default function BookEventForm(props) {
     defaultValues: {
       firstName: user.name,
       lastName: user.last_name,
-      email: user.email
+      email: user.email,
     },
     mode: "all",
   });
 
-  const { handleSubmit, reset, trigger} = methods
-  
-
+  const { handleSubmit, reset, trigger } = methods;
 
   function getStepContent(step) {
     switch (step) {
@@ -114,8 +132,8 @@ export default function BookEventForm(props) {
             setFormData={setFormData}
             servicesProvided={servicesProvided}
             duration={duration}
-            />
-        )
+          />
+        );
       case 1:
         return (
           <AddressForm
@@ -133,18 +151,25 @@ export default function BookEventForm(props) {
     }
   }
 
-
-
   const handleNext = async () => {
-    
-    let isStepValid = await trigger(["firstName", "lastName","email","phone_number","city", "province", "cardName", "cardNumber", "expDate", "cvv"])
+    let isStepValid = await trigger([
+      "firstName",
+      "lastName",
+      "email",
+      "phone_number",
+      "city",
+      "province",
+      "cardName",
+      "cardNumber",
+      "expDate",
+      "cvv",
+    ]);
     console.log("is trigggered");
-    console.log(isStepValid)
+    console.log(isStepValid);
 
     if (isStepValid) {
       setActiveStep(activeStep + 1);
     }
-
   };
 
   const handleBack = () => {
@@ -152,32 +177,31 @@ export default function BookEventForm(props) {
   };
 
   const handleOrder = async () => {
-    
     //Add order to the events collection of the database
-      const EventDoc = doc(db, "events", doc_id);
-      console.log(EventDoc)
-      try {
-      await updateDoc(EventDoc ,{
-      title: formData.service,
-      status: "Booked",
-      color: "#ff0000",
-      customer_name: formData.firstName+formData.lastName,
-      customer_phone_number: formData.phoneNumber,
-      customer_email: formData.email,
-      notes: formData.notes || null,
-      hourly_Cost: formData.hourly_cost,
-      total_cost: formData.total_cost,
-   })
-  } catch (error) {
-    console.log(error)
-  }
-  setActiveStep(activeStep + 1);
-  }
+    const EventDoc = doc(db, "events", doc_id);
+    console.log(EventDoc);
+    try {
+      await updateDoc(EventDoc, {
+        title: formData.service,
+        status: "Booked",
+        color: "#ff0000",
+        customer_name: formData.firstName + " " + formData.lastName,
+        customer_phone_number: formData.phoneNumber,
+        customer_email: formData.email,
+        notes: formData.notes || null,
+        hourly_Cost: formData.hourly_cost,
+        total_cost: formData.total_cost,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setActiveStep(activeStep + 1);
+  };
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
       <Typography component="h1" variant="h4" align="center">
-        Checkout
+        {steps[activeStep]}
       </Typography>
       <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
         {steps.map((label) => (
@@ -200,27 +224,29 @@ export default function BookEventForm(props) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-              <FormProvider {...methods}>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              {activeStep !== 0 && (
-                <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                  Back
-                </Button>
-              )}
+            <FormProvider {...methods}>
+              {getStepContent(activeStep)}
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                {activeStep !== 0 && (
+                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                    Back
+                  </Button>
+                )}
 
-              <Button
-                variant="contained"
-                onClick={e => activeStep === steps.length - 1 ? handleOrder(e) : handleNext(e)}
-                sx={{ mt: 3, ml: 1 }}
-              >
-                {activeStep === steps.length - 1 ? "Place order" : "Next"}
-              </Button>
-            </Box>
-            
-          </FormProvider>
+                <Button
+                  variant="contained"
+                  onClick={(e) =>
+                    activeStep === steps.length - 1
+                      ? handleOrder(e)
+                      : handleNext(e)
+                  }
+                  sx={{ mt: 3, ml: 1 }}
+                >
+                  {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                </Button>
+              </Box>
+            </FormProvider>
           </React.Fragment>
-         
         )}
       </React.Fragment>
     </Container>
