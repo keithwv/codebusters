@@ -36,15 +36,17 @@ const steps = [
 
 export default function BookEventForm(props) {
   const { bookEvents, method, user, servicesProvided } = props;
-  console.log(servicesProvided);
+  
+  console.log(servicesProvided)
+  console.log(bookEvents)
+  let doc_id = bookEvents.data.event.id
+  let statusOfEvent = bookEvents.data.event.extendedProps.status
+  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost
+  console.log("cost",serviceHourlyCost)
+  let selectedService = bookEvents.data.event.title
+  let eventStartTime =bookEvents.data.event.start
+  let eventEndTime = bookEvents.data.event.end 
 
-  let doc_id = bookEvents.data.event.id;
-  let statusOfEvent = bookEvents.data.event.extendedProps.status;
-  let serviceHourlyCost = bookEvents.data.event.extendedProps.hourly_cost;
-  console.log("cost", serviceHourlyCost);
-  let selectedService = bookEvents.data.event.title;
-  let eventStartTime = bookEvents.data.event.start;
-  let eventEndTime = bookEvents.data.event.end;
   // substraction below will give the time in milliseconds. Dividing by 3,600,000 (the amount of ms in an hour) will give duration in hours
   let duration = (eventEndTime.getTime() - eventStartTime.getTime()) / 3600000;
   let total_cost = duration * serviceHourlyCost;
@@ -178,25 +180,26 @@ export default function BookEventForm(props) {
 
   const handleOrder = async () => {
     //Add order to the events collection of the database
-    const EventDoc = doc(db, "events", doc_id);
-    console.log(EventDoc);
-    try {
-      await updateDoc(EventDoc, {
-        title: formData.service,
-        status: "Booked",
-        color: "#ff0000",
-        customer_name: formData.firstName + " " + formData.lastName,
-        customer_phone_number: formData.phoneNumber,
-        customer_email: formData.email,
-        notes: formData.notes || null,
-        hourly_Cost: formData.hourly_cost,
-        total_cost: formData.total_cost,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    setActiveStep(activeStep + 1);
-  };
+      const EventDoc = doc(db, "events", doc_id);
+      console.log(EventDoc)
+      try {
+      await updateDoc(EventDoc ,{
+      title: formData.service,
+      status: "Booked",
+      color: "#ff0000",
+      customer_name: formData.firstName+formData.lastName,
+      customer_phone_number: formData.phoneNumber,
+      customer_email: formData.email,
+      notes: formData.notes || null,
+      hourly_Cost: formData.hourly_cost,
+      total_cost: formData.total_cost,
+      paid: "Yes"
+   })
+  } catch (error) {
+    console.log(error)
+  }
+  setActiveStep(activeStep + 1);
+  }
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>

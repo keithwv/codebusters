@@ -23,6 +23,7 @@ import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
 import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer";
 import BookEventForm from "./Components/Schedule/BookEventForm";
 import BusinessDetailsContent from "./Pages/businessDetails";
+import AppointmentHistory from "./Pages/AppointmentHistory";
 
 function App(props) {
   return (
@@ -89,7 +90,11 @@ function App(props) {
               path="/business-category-list"
               element={<ListOfBusinessesInCategory />}
             />
-          </Routes>
+            <Route
+              path="/Appointment"
+              element={<AppointmentHistory />}
+             />
+             </Routes>
           <Footer />
         </ThemeProvider>
       </AuthProvider>

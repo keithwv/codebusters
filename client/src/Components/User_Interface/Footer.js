@@ -78,7 +78,9 @@ const Footer = () => {
           >
             {footers.map((footer) => (
               <Grid
+
                 nowrap={'true'}
+
                 item
                 xs={12}
                 sm={6}
