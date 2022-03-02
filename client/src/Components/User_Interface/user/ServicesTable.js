@@ -89,39 +89,43 @@ const tableIcons = {
 };
 
 export default function ServicesTable(props) {
-  const { business, selectedBusiness } = props;
-  let company_logo = selectedBusiness.imageUrl
-
+  const { selectedBusiness } = props;
   const [rows, setRows] = useState([]);
-  console.log(rows);
-  // const [business, setBusiness] = useState([]);
-  // const [selectedBusiness, setSelectedBusiness] = useState("");
-
-  // console.log(selectedBusiness.DOC_ID)
+  // console.log(rows);
   const { currentUser } = useAuth();
-  console.log(currentUser);
+  // console.log(currentUser);
+  const truncate = (input) =>
+  input?.length > 10 ? `${input.substring(0, 10)}...` : input
 
-  // const handleChange = (event) => {
-  //   setSelectedBusiness(event.target.value)
-  // }
+  let company_logo = selectedBusiness.imageUrl;
+
+
   const [columns] = useState([
     {
       title: "Service",
       field: "service",
-      width: "30%",
+      width: "25%",
       validate: (rowsData) =>
         rowsData.service === "" ? "service cannot be empty" : true,
     },
     {
       title: "Cost per Hour ($)",
       field: "hourly_Cost",
-      width: "30%",
+      width: "25%",
       type: "numeric",
+    },
+    {
+      title: "Description",
+      field: "description",
+      width: "5%",
+      render: rawData => {
+        return truncate(rawData.description)
+      }
     },
     {
       title: "Category",
       field: "category",
-      width: "30%",
+      width: "25%",
       editComponent: ({ onChange }) => (
         <Select
           id="category-menu"
@@ -153,7 +157,8 @@ export default function ServicesTable(props) {
         uid: currentUser.uid,
         Business_ID: selectedBusiness.DOC_ID,
         category: newData.category,
-        company_logo: company_logo
+        company_logo: company_logo || null,
+        description: newData.description,
       });
       console.log("Service Submitted");
     } catch (error) {

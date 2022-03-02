@@ -275,8 +275,8 @@ export default function BusinessTable(props) {
 
     try {
       await addDoc(collection(db, "business"), {
-        address1: newData.address1,
-        address2: newData.address2,
+        address1: newData.address1 || null,
+        address2: newData.address2 || null,
         city: newData.city,
         company_name: newData.company_name,
         postal_code: newData.postal_code,

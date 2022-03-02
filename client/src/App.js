@@ -62,9 +62,9 @@ function App(props) {
             <Route
               path="/customer_calendar"
               element={
-                // <ProtectedRoute>
+                <ProtectedRoute>
                   <CalendarWithScheduleCustomer />
-                // {/* </ProtectedRoute> */}
+                </ProtectedRoute>
               }
             />
             <Route path="/checkout" element={<BookEventForm />} />

@@ -10,22 +10,18 @@ import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import Header from "../Components/User_Interface/Header";
 import { useLocation, Link } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 export default function ListOfBusinessesInCategory() {
-  const [services, setServices] = useState([]);
+  const [services, setServices, mainHeader] = useState([]);
   let location = useLocation();
 
   let params = new URLSearchParams(location.search);
   let myCategory = params.get("category");
-  console.log(`myCategory is ${myCategory}`);
-
-  console.log(`location is:`, location);
-  console.log(`category is:`, location.search);
 
   useEffect(() => {
     if (myCategory) {
       let collectionRef = collection(db, "services");
-      console.log(`searching for services.category == ${myCategory}`);
       let queryRef = query(collectionRef, where("category", "==", myCategory));
       const undo = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
@@ -43,34 +39,48 @@ export default function ListOfBusinessesInCategory() {
       return undo;
     }
   }, [myCategory]);
-  // console.log(list, "is list")
+
   return (
     <>
       <Header />
+
+      {/* Main title fetched from related category */}
+      <Grid>
+        <Typography
+          variant="h4"
+          sx={{
+            width: "100%",
+            ml: "296px",
+          }}
+        >
+          {myCategory}
+        </Typography>
+      </Grid>
+
+      {/* List of all found services and other related information */}
       <List
         sx={{
-          maxWidth: "100%",
-          bgcolor: "background.paper",
-          ml: "240px",
-          mr: "240px",
+          ml: "296px",
+          mr: "50%",
+          minWidth: "500px",
         }}
       >
-        {services.map((service, key) => {
+        {services.map((serviceInfo, key) => {
           return (
             <div key={key}>
-              <ul key={service.DOC_ID}></ul>
+              <ul key={serviceInfo.DOC_ID}></ul>
+
               <ListItem
                 button
                 component={Link}
-                to={"/business-details?DOC_ID=" + service.DOC_ID}
+                to={`/business-details?DOC_ID=${serviceInfo.DOC_ID}`}
                 alignItems="flex-start"
               >
                 <ListItemAvatar>
-                  {/* item.business.imageUrl  */}
-                  <Avatar alt="Remy Sharp" src={service.company_logo} />
+                  <Avatar src={serviceInfo.company_logo} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={service.service}
+                  primary={serviceInfo.service}
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -79,9 +89,9 @@ export default function ListOfBusinessesInCategory() {
                         variant="body2"
                         color="text.primary"
                       >
-                        {service.business}
+                        {serviceInfo.business}
                       </Typography>
-                      {" - Your description here"}
+                      {" - Company name"}
                     </React.Fragment>
                   }
                 />

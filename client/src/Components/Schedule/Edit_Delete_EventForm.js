@@ -69,7 +69,7 @@ export default function EditDeleteEventForm(props) {
   console.log(selectedEventBookingStatus)
   // Need to add All as option to the services array in order for it to be an option in menuSelect
   let selectAll  = [{
-    service: "All",
+    service: "All Services",
     DOC_ID: 1
   }]
   // selectableServices contains all the services array plus service: "All" option
@@ -163,7 +163,7 @@ export default function EditDeleteEventForm(props) {
   const eventDelete = () => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${selectedEventTitle}'`
+        `Are you sure you want to delete the event? '${selectedEventTitle}'`
       )
     ) {
       const id = eventData.DOC_ID;

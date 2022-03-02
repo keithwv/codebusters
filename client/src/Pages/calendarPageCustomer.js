@@ -116,7 +116,7 @@ export default function CalendarWithScheduleCustomer() {
          <br></br>
          <br></br>
          <label>
-          <b>Note:</b> "All" denotes that any
+          <b>Note:</b> "All Services" denotes that any
           of the company services are
           offered at this timeslot.
           Please select a service from the
@@ -151,7 +151,7 @@ export default function CalendarWithScheduleCustomer() {
         collectionRef,
         where("Business_ID", "==", myBusiness_ID),
         where("status", "==", "Available"),
-        where("title", "in", [service,"All"]), // need both selected service and All (all can be any service offered)
+        where("title", "in", [service,"All Services"]), // need both selected service and All (all can be any service offered)
       ); // logged in user has unique uid linked to events
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {

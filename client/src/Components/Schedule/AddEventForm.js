@@ -43,7 +43,7 @@ export default function AddEventForm(props) {
     formState,
   } = useForm({ 
     defaultValue: {
-       "title": "All"
+       "title": "All Services"
     },
     criteriaMode: "all" });
 
@@ -204,7 +204,7 @@ export default function AddEventForm(props) {
                         displayEmpty={true}
                         defaultValue=""
                       >
-                        <MenuItem value="All">All</MenuItem>
+                        <MenuItem value="All Services">All Services</MenuItem>
                         {services.map((service) => {
                           return (
                             <MenuItem
