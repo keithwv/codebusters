@@ -89,21 +89,17 @@ const tableIcons = {
 };
 
 export default function ServicesTable(props) {
-  const { business, selectedBusiness } = props;
-  let company_logo = selectedBusiness.imageUrl
-
+  const { selectedBusiness } = props;
   const [rows, setRows] = useState([]);
-  console.log(rows);
-  // const [business, setBusiness] = useState([]);
-  // const [selectedBusiness, setSelectedBusiness] = useState("");
-
-  // console.log(selectedBusiness.DOC_ID)
+  // console.log(rows);
   const { currentUser } = useAuth();
-  console.log(currentUser);
+  // console.log(currentUser);
+  const truncate = (input) =>
+  input?.length > 10 ? `${input.substring(0, 10)}...` : input
 
-  // const handleChange = (event) => {
-  //   setSelectedBusiness(event.target.value)
-  // }
+  let company_logo = selectedBusiness.imageUrl;
+
+
   const [columns] = useState([
     {
       title: "Service",
@@ -122,6 +118,9 @@ export default function ServicesTable(props) {
       title: "Description",
       field: "description",
       width: "5%",
+      render: rawData => {
+        return truncate(rawData.description)
+      }
     },
     {
       title: "Category",
@@ -159,7 +158,7 @@ export default function ServicesTable(props) {
         Business_ID: selectedBusiness.DOC_ID,
         category: newData.category,
         company_logo: company_logo || null,
-        description: newData.description
+        description: newData.description,
       });
       console.log("Service Submitted");
     } catch (error) {

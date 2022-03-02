@@ -45,7 +45,7 @@ export default function ListOfBusinessesInCategory() {
       <Header />
 
       {/* Main title fetched from related category */}
-      <Grid xs={12} sm={6} md={4}>
+      <Grid>
         <Typography
           variant="h4"
           sx={{
