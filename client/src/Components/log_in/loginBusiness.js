@@ -38,17 +38,21 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { loginFirebase, currentUser, checkIfRedirected } = useAuth()
   const { state } = useLocation()
+  console.log(state, 'is our state')
   const handleRedirect = () => {
-    checkIfRedirected().then(() => {
-      navigate(state?.path || '/home')
-    })
+    // checkIfRedirected().then(() => {
+      let newPath = state?.path || '/home'
+      console.log(newPath, 'is the path')
+      navigate(newPath)
+    
   }
   
   const onSubmit = async (data) => {
     
     await loginFirebase(data.email, data.password)
+    handleRedirect()
     // navigate("/dashboard")
-    reset()
+    // reset()
   };
 
   return (
@@ -133,7 +137,6 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
-              onClick={handleRedirect}
               type="submit"
               fullWidth
               variant="contained"
