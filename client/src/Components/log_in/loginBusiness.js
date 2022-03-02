@@ -18,6 +18,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from 'react-router-dom';
 import Header from "../User_Interface/Header";
+import { useLocation } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -35,14 +36,18 @@ export default function SignIn() {
   });
 
   const navigate = useNavigate();
-  const { loginFirebase, currentUser } = useAuth()
-
+  const { loginFirebase, currentUser, checkIfRedirected } = useAuth()
+  const { state } = useLocation()
+  const handleRedirect = () => {
+    checkIfRedirected().then(() => {
+      navigate(state?.path || '/home')
+    })
+  }
+  
   const onSubmit = async (data) => {
     
     await loginFirebase(data.email, data.password)
-    navigate("/dashboard")
-    console.log(data, "submitted");
-    console.log(errors)
+    // navigate("/dashboard")
     reset()
   };
 
@@ -128,6 +133,7 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
+              onClick={handleRedirect}
               type="submit"
               fullWidth
               variant="contained"

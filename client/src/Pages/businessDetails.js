@@ -4,8 +4,6 @@ import Header from "../Components/User_Interface/Header";
 import { ThemeProvider } from "@material-ui/styles";
 import { Box, Button, Grid, List } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemText from "@mui/material/ListItemText";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";

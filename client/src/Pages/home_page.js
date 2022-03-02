@@ -27,8 +27,9 @@ export default function HomePage() {
         <Paper
           align="center"
           variant="none"
-          minWidth= "550px"
-
+          sx={{
+            minWidth: "550px",
+          }}
         >
           <img src="https://i.ibb.co/LgFkyH5/Webp-net-resizeimage.png" />
         </Paper>
@@ -70,7 +71,6 @@ export default function HomePage() {
           </Container>
         </Box>
         <Container maxWidth="md">
-
           <Grid container spacing={4}>
             {cards.map((item, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>
