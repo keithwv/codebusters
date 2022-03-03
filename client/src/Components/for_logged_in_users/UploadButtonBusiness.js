@@ -7,6 +7,14 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { Button, IconButton, Input, Stack } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { styled } from "@mui/styles";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+
 
 export const UploadButtonBusiness = (props) => {
   const { store } = useAuth();
@@ -49,9 +57,17 @@ export const UploadButtonBusiness = (props) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("User image available at:", downloadURL);
+  
+    
+          // console.log('is list of services',props.rows )
+          // console.log("User image available at:", downloadURL);
           const docRef = doc(db, `business/${docId}`);
           updateDoc(docRef, { imageUrl: downloadURL });
+          for (let item of props.rows) {
+            const docRefService = doc(db, `services/${item.DOC_ID}`);
+            // console.log("I AM DOC ID", docRefService)
+            updateDoc(docRefService, { company_logo: downloadURL });
+            }
         });
       }
     );

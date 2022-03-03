@@ -90,7 +90,7 @@ const tableIcons = {
 
 export default function ServicesTable(props) {
   const { selectedBusiness } = props;
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = [props.rows, props.setRows];
   // console.log(rows);
   const { currentUser } = useAuth();
   // console.log(currentUser);
