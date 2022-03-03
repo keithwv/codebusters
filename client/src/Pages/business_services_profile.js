@@ -19,7 +19,7 @@ import Header from "../Components/User_Interface/Header";
 
 
 export const ServicesForBusiness = () => {
-  
+  const [rows, setRows] = useState([])
   const [business, setBusiness] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState("");
   console.log(selectedBusiness)
@@ -71,7 +71,7 @@ export const ServicesForBusiness = () => {
             />
           </Grid>
           <Grid item  sx={{mt: "3.75rem"}}>
-            <UploadButtonBusiness docId = {selectedBusiness?.DOC_ID} />
+            <UploadButtonBusiness rows={rows}  docId = {selectedBusiness?.DOC_ID} />
           </Grid>
         </Grid>
         <Grid
@@ -119,7 +119,7 @@ export const ServicesForBusiness = () => {
             </Grid>
             </Grid>
         <Grid item sx={{ mt: "0.5rem"}} >
-          <ServicesTable business={business} selectedBusiness={selectedBusiness} />
+          <ServicesTable rows={rows} setRows={setRows} business={business} selectedBusiness={selectedBusiness} />
         </Grid>
         
       </Container>
