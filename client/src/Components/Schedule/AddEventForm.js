@@ -60,7 +60,7 @@ export default function AddEventForm(props) {
 
   
   
-  const [selectedService, setSelectedService] = React.useState("All");
+  const [selectedService, setSelectedService] = React.useState("All Services");
   const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(null)
   const [booking, setBooking] = React.useState("");
   const [extendedForm, setExtendedForm] = React.useState(false);

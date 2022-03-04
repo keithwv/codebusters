@@ -64,9 +64,12 @@ export const UploadButtonBusiness = (props) => {
           const docRef = doc(db, `business/${docId}`);
           updateDoc(docRef, { imageUrl: downloadURL });
           for (let item of props.rows) {
+            console.log(item.DOC_ID)
             const docRefService = doc(db, `services/${item.DOC_ID}`);
+            console.log(docRefService)
             // console.log("I AM DOC ID", docRefService)
             updateDoc(docRefService, { company_logo: downloadURL });
+           
             }
         });
       }

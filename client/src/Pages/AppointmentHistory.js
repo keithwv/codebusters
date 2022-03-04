@@ -106,7 +106,7 @@ const AppointmentHistory = (props) => {
   useEffect(() => {
     let collectionRef = collection(db, "events");
     if (currentUser?.uid) {
-      let queryRef = query(collectionRef, where("uid", "==", currentUser?.uid),
+      let queryRef = query(collectionRef, where("customer_uid", "==", currentUser?.uid),
       where("paid", "==", "Yes"));
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {

@@ -146,6 +146,7 @@ export default function CalendarWithScheduleCustomer() {
   // Initial fetch of all events from database for the selected business and service
   useEffect(() => {
     let collectionRef = collection(db, "events");
+    console.log("use effect is running")
     if (myBusiness_ID) {
       let queryRef = query(
         collectionRef,

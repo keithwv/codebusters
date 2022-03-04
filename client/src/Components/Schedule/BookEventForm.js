@@ -27,6 +27,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import SelectService from "./SelectService";
 import moment from "moment";
 
+
 const steps = [
   "Service Selection",
   "Contact Information",
@@ -36,6 +37,7 @@ const steps = [
 
 export default function BookEventForm(props) {
   const { bookEvents, method, user, servicesProvided } = props;
+  const { currentUser } = useAuth();
   
   console.log(servicesProvided)
   console.log(bookEvents)
@@ -193,7 +195,8 @@ export default function BookEventForm(props) {
       notes: formData.notes || null,
       hourly_Cost: formData.hourly_cost,
       total_cost: formData.total_cost,
-      paid: "Yes"
+      paid: "Yes", 
+      customer_uid: currentUser?.uid
    })
   } catch (error) {
     console.log(error)
