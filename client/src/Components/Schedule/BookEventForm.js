@@ -187,7 +187,7 @@ export default function BookEventForm(props) {
       title: formData.service,
       status: "Booked",
       color: "#ff0000",
-      customer_name: formData.firstName+formData.lastName,
+      customer_name: formData.firstName+""+formData.lastName,
       customer_phone_number: formData.phoneNumber,
       customer_email: formData.email,
       notes: formData.notes || null,
