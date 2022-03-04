@@ -44,15 +44,14 @@ const results = (props) => {
     >
       {purchasedServicesSearch.map((purchasedService) => {
       return (
-      <Grid item>
-        <Card xs={6}>
+      <Grid sx={{ml:2}} item xs={4}>
+        <Card>
           <CardHeader
             sx={{fontWeight: 'bold'}}
             avatar={
                 <Avatar alt="" src={purchasedService?.company_logo}>
                     </Avatar>
             }
-            // sx={{fontWeight: 'bold'}} 
             title ={purchasedService?.company_name}
             subheader= {moment(purchasedService?.end_time).format('MMMM Do YYYY')}
           />
@@ -130,14 +129,20 @@ const AppointmentHistory = (props) => {
     <>
       <Header />
       <InstantSearch indexName={'dev_EVENTS'} searchClient={searchClient}>
-        
+     
       <Container>
-        <Grid direction="row" container justifyContent="center">
+        <Grid direction="column" container alignContent="center" spacing={2}>
           <Grid item>
-           <SearchBox />
+          <Typography variant="h6" justifyContent='center'>Appointments</Typography>
+            </Grid>
+          <Grid item>
+          <SearchBox xs={12} />
+            </Grid>
+          </Grid>
+       
+        <Grid direction="row" container justifyContent="center">
            <CustomHits purchasedServices={purchasedServices} setPurchasedServices={setPurchasedServices} />
-           </Grid>
-           </Grid>
+        </Grid>
       </Container>
       </InstantSearch>
       </>
