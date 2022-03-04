@@ -8,7 +8,7 @@ import {
 import { auth } from "../Firebase/firebase-config";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase-config";
-import { store } from "../Firebase/firebase-config"
+import { store } from "../Firebase/firebase-config";
 
 const AuthContext = React.createContext();
 
@@ -18,7 +18,7 @@ export function useAuth() {
 
 export function AuthProvider(props) {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   const register = async (firstName, lastName, email, password) => {
     try {
       const userCred = await createUserWithEmailAndPassword(
@@ -49,7 +49,6 @@ export function AuthProvider(props) {
         loginPassword
       );
       console.log(user);
-      
     } catch (error) {
       console.log(error.message);
     }
@@ -69,6 +68,7 @@ export function AuthProvider(props) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setLoading(false);
       console.log("Current User Changed");
     });
     return unsubscribe;
@@ -83,6 +83,11 @@ export function AuthProvider(props) {
     loginFirebase,
     logout,
   };
+
+  if (loading) {
+    return "LOADING";
+  }
+
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
   );

@@ -9,7 +9,7 @@ const ProtectedRoute = (props) => {
   let output = currentUser ? (
     children
   ) : (
-    <Navigate to="/login" replace state={{ path: location.pathname }} />
+    <Navigate to="/login" replace state={{ path: location.pathname, search: location.search }} />
   );
 
   return output;

@@ -238,12 +238,12 @@ const UserProfile = () => {
           >
             <Grid item xs="auto" ml="10rem" mt="5rem">
               <Button variant="contained" component={Link} to="/profile">
-                VIEW EXISTING BUSINESS
+                YOUR BUSINESS
               </Button>
             </Grid>
             <Grid item xs="auto" mt="5rem">
               <Button variant="contained" component={Link} to="/services">
-                SEE AVAILABLE SERVICES
+                YOUR SERVICES
               </Button>
             </Grid>
           </Grid>
