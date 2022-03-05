@@ -42,8 +42,8 @@ export default function SignIn() {
   const handleRedirect = () => {
     // checkIfRedirected().then(() => {
       let newPath = state?.path || '/home'
-      console.log(newPath, 'is the path')
-      navigate(newPath)
+      let newSearch = state?.search || ''
+      navigate(newPath+newSearch)
     
   }
   

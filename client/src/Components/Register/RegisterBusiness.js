@@ -10,17 +10,17 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import StoreIcon from '@mui/icons-material/Store';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Header from "../User_Interface/Header";
+// import MenuItem from "@mui/material/MenuItem";
+// import FormControl from "@mui/material/FormControl";
+// import Select from "@mui/material/Select";
+// import StoreIcon from '@mui/icons-material/Store';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 // Schema for register form
@@ -213,7 +213,7 @@ export default function RegisterBusiness() {
                 />
               </Grid>
 
-              <Grid id="select-business" item xs={12}>
+              {/* <Grid id="select-business" item xs={12}>
                 Are you owning a business or looking for services?
                 <FormControl xs={12} fullWidth>
                   <Controller
@@ -231,12 +231,11 @@ export default function RegisterBusiness() {
                       >
                         <MenuItem ><ShoppingCartIcon></ShoppingCartIcon>I am looking for services</MenuItem>
                         <MenuItem ><StoreIcon ></StoreIcon>I am a business owner</MenuItem>
-                        {/* <MenuItem value="Cleaning Services">Cleaning Services</MenuItem> */}
                       </Select>
                     )}
                   />
                 </FormControl>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               // href="/Login-Business/Fill-form"
@@ -244,7 +243,7 @@ export default function RegisterBusiness() {
               fullWidth
               variant="contained"
               disabled={!formState.isValid}
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 6, mb: 4 }}
             >
               Register
             </Button>

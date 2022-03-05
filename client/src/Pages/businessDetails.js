@@ -8,17 +8,18 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import { createTheme } from "@mui/system";
+import { Avatar } from "@material-ui/core";
 
 const theme = createTheme();
 
 function BusinessDetailsContent() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
-  console.log(params)
+  // console.log(params);
   let myDOC_ID = params.get("DOC_ID");
-  console.log(myDOC_ID)
+  // console.log(myDOC_ID);
   const [businessDetails, setBusinessDetails] = useState(null);
-  console.log(businessDetails)
+  // console.log(businessDetails);
   useEffect(() => {
     let collectionRef = collection(db, "services");
     let queryRef = query(collectionRef, where("DOC_ID", "==", myDOC_ID));
@@ -29,13 +30,12 @@ function BusinessDetailsContent() {
       querySnap.docs.map((doc) => {
         const businessDetails = doc.data();
         setBusinessDetails(businessDetails);
-        console.log(businessDetails, "IS OUR DOC");
+        // console.log(businessDetails, "IS OUR DOC");
       });
     });
     return undo;
     // }
   }, [myDOC_ID]);
-  // console.log("************", businessDetails);
   return (
     <ThemeProvider theme={theme}>
       <Header />
@@ -47,16 +47,28 @@ function BusinessDetailsContent() {
       >
         Business Details
       </Typography>
+      {/* <Grid item xs="auto">
+        <Avatar
+          alt=""
+          src={!!businessDetails && businessDetails.company_logo}
+          sx={{
+            mt: "2rem",
+            width: 250,
+            height: 250,
+          }}
+        />
+      </Grid> */}
       <Box
         sx={{
-          // maxWidth: "100%",
-          // bgcolor: "background.paper",
           ml: "240px",
           mr: "240px",
         }}
       >
         {/* any field can be fetched here */}
+        {/* <Avatar src={businessDetails.company_logo} /> */}
+
         {!!businessDetails && businessDetails.description}
+        {!!businessDetails && businessDetails.company_logo}
       </Box>
       <Grid
         sx={{
