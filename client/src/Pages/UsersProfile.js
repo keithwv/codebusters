@@ -234,16 +234,6 @@ const UserProfile = () => {
             alignItems="center"
             spacing={10}
           >
-            <Grid item xs="auto" ml="10rem" mt="5rem">
-              <Button variant="contained" component={Link} to="/profile">
-                VIEW EXISTING BUSINESS
-              </Button>
-            </Grid>
-            <Grid item xs="auto" mt="5rem">
-              <Button variant="contained" component={Link} to="/services">
-                SEE AVAILABLE SERVICES
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       {/* </Box> */}
