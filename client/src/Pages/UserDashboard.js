@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react'
-import UserProfile from './UsersProfile';
-import AppointmentHistory from './AppointmentHistory';
+import UserProfile from '../Components/User_Interface/user/UsersProfile';
+import AppointmentHistory from '../Components/User_Interface/user/AppointmentHistory';
 import Header from '../Components/User_Interface/Header';
 
 
