@@ -16,14 +16,15 @@ import ServiceList from "./Components/for_logged_in_users/serviceList";
 //import BusinessDashboard from "./Components/User_Interface/business/business_dashboard";
 import BusinessLandingPage from "./Pages/BusinessLandingPage";
 import Profile from "./Components/User_Interface/user/profile";
-import UserProfile from "./Pages/UsersProfile";
+import UserProfile from "./Components/User_Interface/user/UsersProfile";
 import HomePage from "./Pages/home_page";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ListOfBusinessesInCategory from "./Pages/list_of_businesses_categories";
 import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer";
 import BookEventForm from "./Components/Schedule/BookEventForm";
 import BusinessDetailsContent from "./Pages/businessDetails";
-import AppointmentHistory from "./Pages/AppointmentHistory";
+import AppointmentHistory from "./Components/User_Interface/user/AppointmentHistory";
+import UserDashboard from "./Pages/UserDashboard";
 
 function App(props) {
   return (
@@ -73,7 +74,7 @@ function App(props) {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <UserProfile />
+                  <UserDashboard />
                 </ProtectedRoute>
               }
             />

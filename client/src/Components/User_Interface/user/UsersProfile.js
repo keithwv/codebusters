@@ -4,17 +4,16 @@ import { Typography } from "@mui/material";
 import { Button, Paper } from "@mui/material";
 import { TextField } from "@mui/material";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../Firebase/firebase-config";
-import { useAuth } from "../contexts/AuthContext";
+import { db } from "../../../Firebase/firebase-config";
+import { useAuth } from "../../../contexts/AuthContext";
 import { Avatar } from "@mui/material";
-import { UploadButtonUsers } from "../Components/for_logged_in_users/UploadButtonUsers";
+import { UploadButtonUsers } from "../../for_logged_in_users/UploadButtonUsers";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
 import { doc, updateDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import LoadingButton from '@mui/lab/LoadingButton';
-import Header from "../Components/User_Interface/Header";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -101,7 +100,6 @@ const UserProfile = () => {
 
   return (
     <>
-      <Header />
       <Box onSubmit={handleSubmit(onSubmit)} component="form" noValidate>
         <Typography color="blue" variant="h6" align="center">
           {`Welcome ${users?.name} ${users?.last_name}`}
@@ -236,16 +234,6 @@ const UserProfile = () => {
             alignItems="center"
             spacing={10}
           >
-            <Grid item xs="auto" ml="10rem" mt="5rem">
-              <Button variant="contained" component={Link} to="/profile">
-                VIEW EXISTING BUSINESS
-              </Button>
-            </Grid>
-            <Grid item xs="auto" mt="5rem">
-              <Button variant="contained" component={Link} to="/services">
-                SEE AVAILABLE SERVICES
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       {/* </Box> */}

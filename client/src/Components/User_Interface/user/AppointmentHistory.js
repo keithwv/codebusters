@@ -2,9 +2,8 @@ import { Card, CardHeader, CardContent, Container, Grid, Typography, Divider } f
 import Avatar from '@mui/material/Avatar';
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import Header from "../Components/User_Interface/Header";
-import { useAuth } from "../contexts/AuthContext";
-import { db } from "../Firebase/firebase-config";
+import { useAuth } from "../../../contexts/AuthContext";
+import { db } from "../../../Firebase/firebase-config";
 import * as moment from 'moment';
 import algoliasearch from 'algoliasearch/lite'
 import { InstantSearch, SearchBox, Hits, connectHits} from 'react-instantsearch-dom'
@@ -127,7 +126,6 @@ const AppointmentHistory = (props) => {
 
   return (
     <>
-      <Header />
       <InstantSearch indexName={'dev_EVENTS'} searchClient={searchClient}>
      
       <Container>
