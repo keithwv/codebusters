@@ -24,6 +24,7 @@ import CalendarWithScheduleCustomer from "./Pages/calendarPageCustomer";
 import BookEventForm from "./Components/Schedule/BookEventForm";
 import BusinessDetailsContent from "./Pages/businessDetails";
 import AppointmentHistory from "./Pages/AppointmentHistory";
+import UserDashboard from "./Pages/UserDashboard";
 
 function App(props) {
   return (
@@ -73,7 +74,7 @@ function App(props) {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <UserProfile />
+                  <UserDashboard />
                 </ProtectedRoute>
               }
             />
