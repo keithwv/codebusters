@@ -418,7 +418,6 @@ export default function EditDeleteEventForm(props) {
                       onBlur={onBlur}
                       defaultValue={selectedEventNotes}
                       name="Notes"
-                      required
                       multiline
                       fullWidth="true"
                       id="Notes"

@@ -173,6 +173,7 @@ export default function AddressForm(props) {
                 setFormData({...formData, province: e.target.value})
             }}
             fullWidth
+            required
             variant="standard"
             error={!!formState.errors.province}
             helperText={formState.errors.province?.message}
