@@ -31,11 +31,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 // Schema for register form
 const schema = yup.object().shape({
   title: yup.string().required("title is required"),
   //   service: yup.string().required("service is required"),
+});
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const availability = [
@@ -51,8 +57,27 @@ const availability = [
 
 export default function EditDeleteEventForm(props) {
   const { removeEvents, method, services } = props;
+
+  const [snackBarState, setSnackBarState] = useState({
+    openSnackBar: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+
+  const { vertical, horizontal, openSnackBar } = snackBarState;
+
+  // Open snackbar when update profile is clicked
+  const handleClick = () => {
+    console.log("handleClick invoked")
+    setSnackBarState({ openSnackBar: true, vertical: 'top', horizontal:"right"});
+  };
+  //Close update profile snackbar
+
+  const handleSnackBarClose = () => {
+    setSnackBarState({ ...snackBarState,  openSnackBar: false });
+  };
   // State for dialog box for delete events
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -178,13 +203,14 @@ export default function EditDeleteEventForm(props) {
 
 
   const updateHandler = async (e) => {
+     handleClick()
     let color = "";
-
+   
     // if booking is true i.e event is now booked change the color of event to red
     if (booking === "Booked") {
       color = "#ff0000";
     }
-
+  
     const id = eventData.DOC_ID;
     const EventDoc = doc(db, "events", id);
     console.log(EventDoc);
@@ -198,7 +224,7 @@ export default function EditDeleteEventForm(props) {
       notes: notes || null,
       hourly_Cost: selectedServiceHourlyCost || null,
     });
-    method();
+     method();
   };
 
   useEffect(() => {
@@ -240,6 +266,17 @@ export default function EditDeleteEventForm(props) {
         <Typography component="h1" variant="h5">
           Update/Delete Event
         </Typography>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openSnackBar}
+          autoHideDuration={5000}
+          onClose={handleSnackBarClose}
+          key={vertical + horizontal}
+        >
+          <Alert onClose={handleSnackBarClose} severity="success">
+            Event has been successfully updated!
+          </Alert>
+        </Snackbar>
         <Dialog
           open={open}
           onClose={handleClose}
