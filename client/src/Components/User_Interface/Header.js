@@ -26,7 +26,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import TodayIcon from "@mui/icons-material/Today";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import { Avatar, Menu, MenuItem } from "@mui/material";
+import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
 
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import {
@@ -191,22 +191,22 @@ const Header = (props) => {
   const drawerElements = [
     {
       text: "Dashboard",
-      iconName: <DashboardIcon />,
+      iconName: <Tooltip title="Dashboard"><DashboardIcon /></Tooltip>,
       path: "/dashboard",
     },
     {
       text: "Calendar/Schedule",
-      iconName: <TodayIcon />,
+      iconName:  <Tooltip title="Calendar"><TodayIcon /></Tooltip>,
       path: "/calendar",
     },
     {
       text: "Your Services",
-      iconName: <HomeRepairServiceIcon />,
+      iconName: <Tooltip title="Service List"><HomeRepairServiceIcon /></Tooltip>,
       path: "/services",
     },
     {
       text: "Add/Update Business",
-      iconName: <AddBusinessIcon />,
+      iconName: <Tooltip title="Business List"><AddBusinessIcon /></Tooltip>,
       path: "/profile",
     },
   ];
