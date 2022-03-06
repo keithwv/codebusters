@@ -5,10 +5,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -18,7 +16,6 @@ import * as yup from "yup";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -28,8 +25,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../Firebase/firebase-config";
-
 import { InputLabel } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -67,7 +64,7 @@ export default function EditDeleteEventForm(props) {
  
   console.log(removeEvents.data.event)
   console.log(selectedEventBookingStatus)
-  // Need to add All as option to the services array in order for it to be an option in menuSelect
+  // Need to add All Services as option to the services array in order for it to be an option in menuSelect
   let selectAll  = [{
     service: "All Services",
     DOC_ID: 1
@@ -76,8 +73,6 @@ export default function EditDeleteEventForm(props) {
   let selectableServices = [...selectAll,...services]
  
 
-
-  const [eventTitle, setEventTitle] = useState(selectedEventTitle);
   const [eventData, setEventData] = useState([]);
   const [selectedServiceHourlyCost, setSelectedServiceHourlyCost] = React.useState(selectedEventHourlyCost)
   const [selectedService, setSelectedService] = React.useState(selectedEventTitle);
@@ -89,16 +84,12 @@ export default function EditDeleteEventForm(props) {
   const [notes, setNotes] = React.useState(selectedEventNotes)
  
 
-  
-  console.log(selectedEventTitle)
-
   console.log("you selected the following event", eventData)
   const {
     handleSubmit,
     control,
     reset,
     formState: { errors },
-    formState,
   } = useForm({
     defaultValues: {
       "title" : selectedEventTitle
@@ -159,6 +150,8 @@ export default function EditDeleteEventForm(props) {
     console.log(data);
     reset()
   };
+  
+ 
 
   const eventDelete = () => {
     if (
@@ -174,9 +167,12 @@ export default function EditDeleteEventForm(props) {
     method();
   };
 
+  const UpdateEventNotify = () => {toast("Event has been updated") 
+  console.log("toast")}
+
   const updateHandler = async (e) => {
       let color = ""
-
+     
       // if booking is true i.e event is now booked change the color of event to red
       if (booking === "Booked") {
         color = "#ff0000"
@@ -195,8 +191,9 @@ export default function EditDeleteEventForm(props) {
       notes: notes || null,
       hourly_Cost: selectedServiceHourlyCost || null
    })
+  
    method();
-
+   UpdateEventNotify();
     }
   
 
@@ -228,6 +225,7 @@ export default function EditDeleteEventForm(props) {
  
   return (
       <Container component="main" maxWidth="xs">
+         <ToastContainer position="top-right" />
         <CssBaseline />
         <Box
           sx={{
@@ -440,6 +438,7 @@ export default function EditDeleteEventForm(props) {
             >
               Update
             </Button>
+            <ToastContainer position="top-center" />
             <Button
               //type="submit"
               fullWidth
