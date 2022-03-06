@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../Firebase/firebase-config";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Button, IconButton, Input, Stack } from "@mui/material";
+import { Button, IconButton, Input, Stack, Tooltip } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { styled } from "@mui/styles";
 import LinearProgressWithLabel from '../../Components/User_Interface/business/LinearProgressIndicator'
@@ -72,12 +72,14 @@ export const UploadButtonUsers = (props) => {
           type="file"
           onChange={handleSelect}
           />
+        <Tooltip title="Upload profile photo">
         <Button
           variant="contained"
           component="span"
         >
           Upload
         </Button>
+        </Tooltip>
         {progress<100 && <CircularProgress />}
       </label>
       <label htmlFor="icon-button-file">
@@ -87,6 +89,7 @@ export const UploadButtonUsers = (props) => {
           onChange={handleSelect}
           type="file"
         />
+        <Tooltip title="Upload profile photo">
         <IconButton
           color="primary"
           aria-label="upload picture"
@@ -94,6 +97,7 @@ export const UploadButtonUsers = (props) => {
         >
           <PhotoCamera />
         </IconButton>
+        </Tooltip>
       </label>
     </Stack>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Box, Stack } from "@mui/material";
+import { Grid, Box, Stack, Tooltip } from "@mui/material";
 import { Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
@@ -247,6 +247,7 @@ const UserProfile = () => {
           <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name} />
         </Grid>
         <Grid item xs="auto" mt="1.5rem">
+          <Tooltip title="Update Profile">
           <Button
             type="submit"
             color="primary"
@@ -255,6 +256,7 @@ const UserProfile = () => {
           >
             Update Profile
           </Button>
+          </Tooltip>
         </Grid>
         <Grid
           container
