@@ -67,6 +67,7 @@ export default function CalendarWithSchedule() {
             };
           });
           setBusiness(businessData);
+          setSelectedBusiness(businessData[0])
         }
       });
       return unsubscribe;

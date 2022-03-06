@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, Grid, Box, Stack } from "@mui/material";
+import { Grid, Box, Stack, Tooltip } from "@mui/material";
 import { Typography } from "@mui/material";
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase-config";
@@ -12,8 +12,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, set } from "react-hook-form";
 import * as yup from "yup";
 import { doc, updateDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
-import LoadingButton from '@mui/lab/LoadingButton';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 // Schema for register form
 const schema = yup.object().shape({
@@ -22,7 +22,29 @@ const schema = yup.object().shape({
   email: yup.string().email().required("valid email is required"),
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const UserProfile = () => {
+  const [snackBarState, setSnackBarState] = useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "right",
+  });
+
+  const { vertical, horizontal, open } = snackBarState;
+
+  // Open snackbar when update profile is clicked
+  const handleClick = () => {
+    setSnackBarState({ open: true, vertical: 'bottom', horizontal:"right"});
+  };
+  //Close update profile snackbar
+
+  const handleClose = () => {
+    setSnackBarState({ ...snackBarState, open: false });
+  };
+
   const [users, setUsers] = useState({
     name: "",
     last_name: "",
@@ -30,29 +52,26 @@ const UserProfile = () => {
     imageUrl: "",
     DOC_ID: "",
   });
- console.log(users.name)
- 
+  console.log(users.name);
 
   const {
     handleSubmit,
     control,
     reset,
-    
+
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "all",
-    defaultValues : {
+    defaultValues: {
       name: users.name,
       last_name: users.last_name,
-      email: users.email
+      email: users.email,
     },
   });
 
   const onSubmit = (event) => {
-    // event.preventDefault()
-    console.log("clicked")
-    // console.log(data);
+    console.log("clicked");
     reset();
   };
 
@@ -91,7 +110,7 @@ const UserProfile = () => {
         last_name: users.last_name,
         email: users.email,
       });
-      alert("User profile has been updated");
+      handleClick();
     } catch (err) {
       console.log(err.message);
     }
@@ -104,6 +123,17 @@ const UserProfile = () => {
         <Typography color="blue" variant="h6" align="center">
           {`Welcome ${users?.name} ${users?.last_name}`}
         </Typography>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+          key={vertical + horizontal}
+        >
+          <Alert onClose={handleClose} severity="success">
+            Profile has been successfully updated!
+          </Alert>
+        </Snackbar>
         <Grid
           container
           direction="row"
@@ -130,14 +160,14 @@ const UserProfile = () => {
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextField
                     onChange={(e) => {
-                      onChange(e)
+                      onChange(e);
                       setUsers({
                         name: e.target.value,
                         last_name: users.last_name,
                         email: users.email,
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
-                      })
+                      });
                     }}
                     value={users.name}
                     autoComplete="given-name"
@@ -155,17 +185,17 @@ const UserProfile = () => {
                 name="last_name"
                 defaultValue=""
                 control={control}
-                render={({ field: { onChange , onBlur, value } }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <TextField
                     onChange={(e) => {
-                      onChange(e)
+                      onChange(e);
                       setUsers({
                         name: users.name,
                         last_name: e.target.value,
                         email: users.email,
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
-                      })
+                      });
                     }}
                     value={users.last_name}
                     label="last name"
@@ -180,19 +210,18 @@ const UserProfile = () => {
               <Controller
                 name="email"
                 control={control}
-                render={({ field: {onChange, onBlur, value } }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                   <TextField
                     onChange={(e) => {
-                      onChange(e)
+                      onChange(e);
                       setUsers({
                         name: users.name,
                         last_name: users.last_name,
                         email: e.target.value,
                         imageUrl: users.imageUrl,
                         DOC_ID: users.DOC_ID,
-                      })
+                      });
                     }}
-                    
                     value={users.email}
                     label="email"
                     id="email"
@@ -206,36 +235,37 @@ const UserProfile = () => {
             </Stack>
           </Grid>
         </Grid>
-        </Box>
+      </Box>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={15}
+      >
+        <Grid item xs="auto" mt="1.5rem">
+          <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name} />
+        </Grid>
+        <Grid item xs="auto" mt="1.5rem">
+          <Tooltip title="Update Profile">
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            onClick={handleUpdate}
+          >
+            Update Profile
+          </Button>
+          </Tooltip>
+        </Grid>
         <Grid
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
-          spacing={15}
-        >
-          <Grid item xs="auto" mt="1.5rem">
-            <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name}/>
-          </Grid>
-          <Grid item xs="auto" mt="1.5rem">
-            <Button
-              type="submit"
-              color="primary"
-              variant="contained"
-              onClick={handleUpdate}
-            >
-              Update Profile
-            </Button>
-          </Grid>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={10}
-          >
-          </Grid>
-        </Grid>
+          spacing={10}
+        ></Grid>
+      </Grid>
       {/* </Box> */}
     </>
   );

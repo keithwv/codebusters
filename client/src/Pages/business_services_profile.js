@@ -23,6 +23,7 @@ export const ServicesForBusiness = () => {
   const [business, setBusiness] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState("");
   console.log(selectedBusiness)
+  console.log(business)
   let businessLogo = selectedBusiness?.imageUrl
 
   const handleChange = (event) => {
@@ -48,6 +49,7 @@ export const ServicesForBusiness = () => {
             };
           });
           setBusiness(businessData);
+          setSelectedBusiness(businessData[0])
           
         }
       });
@@ -90,7 +92,6 @@ export const ServicesForBusiness = () => {
          
           <Grid item sx={{mt:"2rem"}}>
             <FormControl fullwidth="true"
-           
             variant="standard"
             sx={{
               width:200,
@@ -102,7 +103,6 @@ export const ServicesForBusiness = () => {
               labelId="business-menu-id"
               value={selectedBusiness}
               // displayEmpty={true}
-              defaultValue="test"
               label="Business"
               onChange={handleChange}
             >
