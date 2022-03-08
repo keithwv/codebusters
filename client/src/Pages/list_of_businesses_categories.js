@@ -91,7 +91,6 @@ export default function ListOfBusinessesInCategory() {
                       >
                         {serviceInfo.business}
                       </Typography>
-                      {" - Company name"}
                     </React.Fragment>
                   }
                 />
