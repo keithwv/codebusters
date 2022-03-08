@@ -159,6 +159,7 @@ export default function ServicesTable(props) {
         category: newData.category,
         company_logo: company_logo || null,
         description: newData.description,
+        // DOC_ID: newData.DOC_ID
       });
       console.log("Service Submitted");
     } catch (error) {
@@ -204,7 +205,7 @@ export default function ServicesTable(props) {
         >
           <Grid xs={8} item>
             <MaterialTable
-              title="Services Provided!!!!!"
+              title="Services Provided"
               data={rows}
               user={currentUser}
               columns={columns}
