@@ -91,6 +91,7 @@ const tableIcons = {
 export default function ServicesTable(props) {
   const { selectedBusiness } = props;
   const [rows, setRows] = [props.rows, props.setRows];
+  console.log(rows)
   // console.log(rows);
   const { currentUser } = useAuth();
   // console.log(currentUser);
@@ -179,6 +180,7 @@ export default function ServicesTable(props) {
       const unsubscribe = onSnapshot(queryRef, (querySnap) => {
         if (querySnap.empty) {
           console.log("No docs found");
+          setRows([])
         } else {
           let servicesData = querySnap.docs.map((doc) => {
             return {
