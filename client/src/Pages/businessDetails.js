@@ -8,7 +8,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { db } from "../Firebase/firebase-config";
 import { createTheme } from "@mui/system";
-import { Avatar } from "@material-ui/core";
+import Avatar from "@mui/material/Avatar";
 
 const theme = createTheme();
 
@@ -17,9 +17,9 @@ function BusinessDetailsContent() {
   let params = new URLSearchParams(location.search);
   // console.log(params);
   let myDOC_ID = params.get("DOC_ID");
-  // console.log(myDOC_ID);
+  console.log(myDOC_ID, "+++++++++++++++++++++++");
   const [businessDetails, setBusinessDetails] = useState(null);
-  // console.log(businessDetails);
+  console.log(businessDetails?.company_logo, "is company logo!!!!!!!!!!!");
   useEffect(() => {
     let collectionRef = collection(db, "services");
     let queryRef = query(collectionRef, where("DOC_ID", "==", myDOC_ID));
@@ -47,17 +47,18 @@ function BusinessDetailsContent() {
       >
         Business Details
       </Typography>
-      {/* <Grid item xs="auto">
+      <Grid align="center">
         <Avatar
           alt=""
-          src={!!businessDetails && businessDetails.company_logo}
+          src={businessDetails?.company_logo}
           sx={{
-            mt: "2rem",
+            mb: 4,
+            mt: 4,
             width: 250,
             height: 250,
           }}
         />
-      </Grid> */}
+      </Grid>
       <Box
         sx={{
           ml: "240px",
@@ -65,10 +66,8 @@ function BusinessDetailsContent() {
         }}
       >
         {/* any field can be fetched here */}
-        {/* <Avatar src={businessDetails.company_logo} /> */}
-
         {!!businessDetails && businessDetails.description}
-        {!!businessDetails && businessDetails.company_logo}
+        {/* {!!businessDetails && businessDetails.company_logo} */}
       </Box>
       <Grid
         sx={{

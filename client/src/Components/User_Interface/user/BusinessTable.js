@@ -6,6 +6,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase-config";
 import {
@@ -36,78 +37,6 @@ import {
 } from "@mui/material";
 import cards from "../../HomePageCards/cards";
 
-// const categories = ["Vehicle Services", "Personal Care", 'Indoor Services/Repairs', "Outdoor Services/Repairs",
-// "Online Services"]
-
-// const columns = [
-
-//   {
-//     title: "Company Logo",
-//     field: "imageUrl",
-//     render: (rowData) => <Avatar src={rowData.imageUrl} style={{ width: 50, borderRadius: "50%" }} />
-//   },
-//   {
-//     title: "Company Name",
-//     field: "company_name",
-//     width: '20%',
-//     cellStyle: {
-//         width: 100,
-//         minWidth: 100
-//   }
-//   },
-//   {
-//     title: "Address 1",
-//     field: "address1",
-//     cellStyle: {
-//         width: 150,
-//         minWidth: 150
-//   }
-// },
-//   {
-//     title: "Address 2",
-//     field: "address2",
-//     cellStyle: {
-//         width: 100,
-//         minWidth: 100
-//   }
-// },
-//   {
-//     title: "City",
-//     field: "city",
-//     cellStyle: {
-//         width: 100,
-//         minWidth: 100
-//   }
-//   },
-//   {
-//     title: "Postal Code",
-//     field: "postal_code",
-//     width: '20%',
-//     cellStyle: {
-//         width: 100,
-//         minWidth: 100
-//   }
-
-//   },
-//   {
-//     title: "Province",
-//     field: "province",
-//     width: '20%',
-//     cellStyle: {
-//         width: 100,
-//         minWidth: 100
-//   }
-// },
-//   {
-//   title: "Category",
-//   field: "category",
-//   width: '20%',
-//   cellStyle: {
-//       width: 100,
-//       minWidth: 100
-//   },
-//   }
-// ];
 
 const deleteBusiness = (id) => {
   const businessDoc = doc(db, "business", id);
@@ -162,22 +91,6 @@ export default function BusinessTable(props) {
 
   const { currentUser } = useAuth();
 
-  // const categories = [
-  //   { category: cards.title, id: 1 },
-  //   {
-  //     category: "Personal Care",
-  //     id: 2,
-  //   },
-  //   {
-  //     category: "Indoor Services/Repairs",
-  //     id: 3,
-  //   },
-  //   {
-  //     category: "Outdoor Services/Repairs",
-  //     id: 4,
-  //   },
-  //   { category: "Online Services", id: 5 },
-  // ];
 
   const [columns, setColumns] = useState([
     {
@@ -271,8 +184,9 @@ export default function BusinessTable(props) {
   ]);
 
   const handleRowAdd = async (newData, resolve) => {
-    console.log(newData);
-
+    console.log(newData, '111111111111111111111111111111111111');
+    // const newDocument = doc(db, 'business', "DOC_ID")
+    // console.log(newDocument, 'newDoc here!!!')
     try {
       await addDoc(collection(db, "business"), {
         address1: newData.address1 || null,
@@ -282,6 +196,7 @@ export default function BusinessTable(props) {
         postal_code: newData.postal_code,
         province: newData.province,
         category: newData.category,
+        // DOC_ID: setDoc.DOC_ID,
         uid: currentUser.uid,
       });
       console.log("Business Submitted");

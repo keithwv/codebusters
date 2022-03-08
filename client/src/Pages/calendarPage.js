@@ -249,12 +249,12 @@ export default function CalendarWithSchedule() {
           headerToolbar={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay, listDay,listWeek,listMonth",
+            right: "dayGridMonth,timeGridWeek,timeGridDay, listMonth,listWeek,listDay"
           }}
           views= {{
-            listDay: { buttonText: 'List Day' },
-            listWeek: { buttonText: 'List Week' },
-            listMonth: { buttonText: 'List Month' }
+            listMonth: { buttonText: 'list month' },
+            listWeek: { buttonText: 'list week' },
+            listDay: { buttonText: 'list day' },
           }}
           initialView="timeGridWeek"
           editable={true}
