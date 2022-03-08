@@ -9,6 +9,7 @@ import {
   deleteDoc,
   updateDoc,
   where,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/firebase-config";
 import {
@@ -149,9 +150,10 @@ export default function ServicesTable(props) {
   ]);
   const handleRowAdd = async (newData, resolve) => {
     console.log(newData);
-
+    const newDocRef = doc(collection(db, 'services'));
     try {
-      await addDoc(collection(db, "services"), {
+      await setDoc(
+        newDocRef, {
         service: newData.service,
         hourly_Cost: newData.hourly_Cost,
         business: selectedBusiness.company_name,
@@ -160,7 +162,7 @@ export default function ServicesTable(props) {
         category: newData.category,
         company_logo: company_logo || null,
         description: newData.description,
-        // DOC_ID: newData.DOC_ID
+        DOC_ID: newDocRef.id
       });
       console.log("Service Submitted");
     } catch (error) {

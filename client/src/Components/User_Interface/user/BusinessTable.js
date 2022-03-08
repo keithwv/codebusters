@@ -184,11 +184,11 @@ export default function BusinessTable(props) {
   ]);
 
   const handleRowAdd = async (newData, resolve) => {
-    console.log(newData, '111111111111111111111111111111111111');
-    // const newDocument = doc(db, 'business', "DOC_ID")
+  
+    const newDocRef = doc(collection(db, "business"));
     // console.log(newDocument, 'newDoc here!!!')
     try {
-      await addDoc(collection(db, "business"), {
+      await setDoc(newDocRef,  {
         address1: newData.address1 || null,
         address2: newData.address2 || null,
         city: newData.city,
@@ -196,7 +196,7 @@ export default function BusinessTable(props) {
         postal_code: newData.postal_code,
         province: newData.province,
         category: newData.category,
-        // DOC_ID: setDoc.DOC_ID,
+        DOC_ID: newDocRef.id,
         uid: currentUser.uid,
       });
       console.log("Business Submitted");
