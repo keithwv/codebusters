@@ -17,7 +17,7 @@ function BusinessDetailsContent() {
   let params = new URLSearchParams(location.search);
   // console.log(params);
   let myDOC_ID = params.get("DOC_ID");
-  // console.log(myDOC_ID);
+  console.log(myDOC_ID, "+++++++++++++++++++++++");
   const [businessDetails, setBusinessDetails] = useState(null);
   console.log(businessDetails?.company_logo, "is company logo!!!!!!!!!!!");
   useEffect(() => {
@@ -47,8 +47,7 @@ function BusinessDetailsContent() {
       >
         Business Details
       </Typography>
-      <Grid         align="center"
->
+      <Grid align="center">
         <Avatar
           alt=""
           src={businessDetails?.company_logo}

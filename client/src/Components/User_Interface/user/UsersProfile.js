@@ -120,7 +120,7 @@ const UserProfile = () => {
   return (
     <>
       <Box onSubmit={handleSubmit(onSubmit)} component="form" noValidate>
-        <Typography color="blue" variant="h6" align="center">
+        <Typography color="text.primary" variant="h6" align="center">
           {`Welcome ${users?.name} ${users?.last_name}`}
         </Typography>
         <Snackbar

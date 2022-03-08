@@ -69,7 +69,7 @@ export default function BusinessLandingPage() {
           component="h1"
           variant="h5"
           align="center"
-          color="blue"
+          color="text.primary"
           gutterBottom
         >
           Business List
