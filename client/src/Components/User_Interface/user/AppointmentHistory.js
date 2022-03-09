@@ -140,7 +140,7 @@ const AppointmentHistory = (props) => {
           variant="h6"
           color="text.primary"
           align="center"
-          sx={{ mb: 3 }}
+          sx={{ pb: 4 }}
         >
           Booked Appointments
         </Typography>

@@ -28,7 +28,9 @@ export default function HomePage() {
           align="center"
           variant="none"
           sx={{
-            minWidth: "550px",
+            display: "block",
+            ml: "auto",
+            mr: "auto",
           }}
         >
           <img src="https://i.ibb.co/LgFkyH5/Webp-net-resizeimage.png" />
@@ -36,25 +38,26 @@ export default function HomePage() {
 
         <Divider />
 
-        {/* Search bar component */}
+        {/* Search bar component: */}
         <Box
           sx={{
-            ml: "296px",
-            mr: "240px",
-            minWidth: "550px",
+            position: "relative",
+            width: "45%",
+            m: "auto",
+            mr: "27.5%",
+            ml: "27.5%",
             pt: 6,
           }}
         >
           <TextField fullWidth label="Search..." />
         </Box>
-
+        {/* Title: */}
         <Box
           sx={{
             bgcolor: "background.paper",
             pt: 6,
             pb: 8,
-            ml: "296px",
-            mr: "240px",
+            m: "auto",
             minWidth: "550px",
           }}
         >
@@ -79,7 +82,8 @@ export default function HomePage() {
                     height: "100%",
                     width: "100%",
                     maxWidth: "100%",
-                    ml: "56px",
+                    m: "auto",
+                    // ml: 8,
                   }}
                 >
                   {/* takes path from cards array */}
