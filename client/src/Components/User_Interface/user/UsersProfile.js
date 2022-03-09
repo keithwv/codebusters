@@ -247,7 +247,7 @@ const UserProfile = () => {
           <UploadButtonUsers docId={users?.DOC_ID} Name={users?.name} />
         </Grid>
         <Grid item xs="auto" mt="1.5rem">
-          <Tooltip title="Update Profile">
+          <Tooltip title="Update Profile" position='top'>
           <Button
             type="submit"
             color="primary"

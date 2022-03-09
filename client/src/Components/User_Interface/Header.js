@@ -26,13 +26,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import TodayIcon from "@mui/icons-material/Today";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import { Avatar, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Avatar, Menu, MenuItem } from "@mui/material";
 
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import {
   collection,
   onSnapshot,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
@@ -191,22 +190,23 @@ const Header = (props) => {
   const drawerElements = [
     {
       text: "Dashboard",
-      iconName: <Tooltip title="Dashboard"><DashboardIcon /></Tooltip>,
+      iconName: <DashboardIcon />,
       path: "/dashboard",
     },
+    
     {
       text: "Calendar/Schedule",
-      iconName:  <Tooltip title="Calendar"><TodayIcon /></Tooltip>,
+      iconName: <TodayIcon />,
       path: "/calendar",
     },
     {
       text: "Your Services",
-      iconName: <Tooltip title="Service List"><HomeRepairServiceIcon /></Tooltip>,
+      iconName:<HomeRepairServiceIcon />,
       path: "/services",
     },
     {
       text: "Add/Update Business",
-      iconName: <Tooltip title="Business List"><AddBusinessIcon /></Tooltip>,
+      iconName:<AddBusinessIcon />,
       path: "/profile",
     },
   ];
