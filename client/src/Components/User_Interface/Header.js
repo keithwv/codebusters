@@ -253,7 +253,7 @@ const Header = (props) => {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h3" color={"white"} sx={{ mr: "36px" }}>
+              <Typography fontFamily='-apple-system' variant="h3" color={"white"} sx={{ mr: "36px" }}>
                 bookMe!
               </Typography>
               <Tabs
