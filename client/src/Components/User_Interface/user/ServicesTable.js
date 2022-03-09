@@ -32,7 +32,7 @@ import {
 } from "@material-ui/icons";
 import { useAuth } from "../../../contexts/AuthContext";
 import { Grid, Container } from "@material-ui/core";
-import { MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select } from "@mui/material";
 import cards from "../../HomePageCards/cards";
 
 const deleteBusiness = (id) => {
@@ -129,6 +129,7 @@ export default function ServicesTable(props) {
       field: "category",
       width: "25%",
       editComponent: ({ onChange }) => (
+        <FormControl fullWidth>
         <Select
           id="category-menu"
           labelId="category-menu-id"
@@ -145,6 +146,7 @@ export default function ServicesTable(props) {
             );
           })}
         </Select>
+        </FormControl>
       ),
     },
   ]);

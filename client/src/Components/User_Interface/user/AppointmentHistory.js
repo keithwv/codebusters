@@ -49,8 +49,9 @@ const results = (props) => {
         spacing={2}
         container
         direction="row"
-        alignItems="center"
-        justifyContent="center"
+        // alignItems="left"
+        justifyContent="left"
+        marginLeft={'240px'}
       >
         {purchasedServicesSearch.map((purchasedService) => {
           return (
@@ -135,17 +136,18 @@ const AppointmentHistory = (props) => {
   return (
     <>
       <InstantSearch indexName={"dev_EVENTS"} searchClient={searchClient}>
-      <Typography variant="h6" color="blue" align="center" sx={{mb: 3}}>
-                Booked Appointments
-              </Typography>
+        <Typography
+          variant="h6"
+          color="text.primary"
+          align="center"
+          sx={{ mb: 3 }}
+        >
+          Booked Appointments
+        </Typography>
         <Container>
           <Grid direction="column" container alignContent="center" spacing={2}>
-          <SearchBox
-                autoFocus={true}
-                showLoadingIndicator
-              />
-            <Grid item>
-            </Grid>
+            <SearchBox autoFocus={true} showLoadingIndicator />
+            <Grid item></Grid>
           </Grid>
 
           <Grid direction="row" container justifyContent="center">
