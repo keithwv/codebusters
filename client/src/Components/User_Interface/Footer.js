@@ -56,8 +56,10 @@ const Footer = () => {
       <Box
         sx={{
           bgcolor: "background.paper",
-          pr: 10,
-          pl: "296px",
+          position:'relative',
+          width: "50%",
+          mr: "27.5%",
+          ml: "27.5%",
           pb: 4,
         }}
         component="footer"
@@ -78,18 +80,16 @@ const Footer = () => {
           >
             {footers.map((footer) => (
               <Grid
-
-                nowrap={'true'}
-
+                nowrap={"true"}
                 item
                 xs={12}
                 sm={6}
                 md={3}
                 key={footer.title}
-                sx={{ minWidth: "25%" }}
+                sx={{ minWidth: "10%" }}
               >
                 <Typography
-                  nowrap={'true'}
+                  nowrap={"true"}
                   variant="h6"
                   color="text.primary"
                   gutterBottom
